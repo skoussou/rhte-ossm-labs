@@ -20,9 +20,9 @@ The script will
 ./run-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
 ----
 
-== Reset
+=== Reset Scenario-1
 
-The script will reset the whole of the setup
+The script will reset the whole of the setup for Scenario-1
 
 ----
 ./reset-setup-scenario-1.sh.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
