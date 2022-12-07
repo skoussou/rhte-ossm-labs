@@ -1,0 +1,6 @@
+.idea
+*.crt
+*.srl
+*.key
+*.csr
+*.htpasswd
