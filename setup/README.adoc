@@ -31,7 +31,28 @@ The script will reset the whole of the setup for Scenario-1
 4. No. of lab participants
 5. OCP `httpaswd` secret name (`oc get secret  -n openshift-config |grep htpasswd`)
 ----
-./reset-setup-scenario-1.sh.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
+./reset-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
 ----
 
-== Setup Scenario-2
+== Setup Scenario-3
+
+The script will reset the whole of the setup for Scenario-2
+
+* Script Parameters
+1. cluster admin username
+2. cluster admin password
+3. OCP cluster API URL
+4. No. of lab participants
+5. OCP `httpaswd` secret name (`oc get secret  -n openshift-config |grep htpasswd`)
+----
+./run-setup-scenario-2.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
+----
+
+=== Reset Scenario-1
+
+The script will reset the whole of the setup for Scenario-1
+
+
+
+
+

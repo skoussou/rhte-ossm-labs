@@ -29,10 +29,10 @@ echo
 oc login -u $USERNAME -p $PASSWORD $CLUSTER_API
 echo
 
-VAR="no"
-if [[ "$VAR" == "yes" ]]
-then
-
+#VAR="no"
+#if [[ "$VAR" == "yes" ]]
+#then
+#fi
 
 #sleep 3
 #echo "==============================================================="
@@ -93,14 +93,6 @@ ls ./scripts/users/add-prod-environment-htpasswd-users.sh
 ./scripts/users/add-prod-environment-htpasswd-users.sh $HTTPASSWD_SECRET
 sleep 2
 
-# USING TO TEST WHERE THIS FILE IS SO AS TO DEFINE IT IN THE reset-setup-scenario-1.sh ls  ./scripts/users/orig.htpasswd
-#ls  orig.htpasswd
-# USING TO TEST WHERE THIS FILE IS SO AS TO DEFINE IT IN THE reset-setup-scenario-1.sh cat ./scripts/users/orig.htpasswd
-#cat orig.htpasswd
-#sleep 3
-
-fi
-
 echo
 echo "Creating Service Mesh Persona User to Cluster Role Bindings"
 echo "------------------------------------------------------------"
@@ -127,67 +119,4 @@ do
   echo
   echo
 done
-
-#echo
-#echo "Creating Control Plane for each SM tenant"
-#echo "------------------------------------------------------------"
-#echo
-#
-#for id in $( seq 1 $LABPARTICIPANTS )
-#do
-#  echo
-#  echo "Creating SMCP tenant for user-$id"
-#  echo "------------------------------------------------------------------"
-#  echo
-#
-#  echo ./scripts/dev/create-dev-smcp.sh user-$id-dev-istio-system user-$id-dev-basic
-#  ./scripts/dev/create-dev-smcp.sh user-$id-dev-istio-system user-$id-dev-basic
-#
-#  sleep 5
-#  #sleep 2
-#done
-
-#echo
-#echo "Creating SMM resources to each tenant"
-#echo "------------------------------------------------------------"
-#echo
-#for id in $( seq 1 $LABPARTICIPANTS )
-#do
-#  echo
-#  echo ./scripts/create-membership.sh user-$id-dev-istio-system user-$id-dev-basic user-$id-dev-travel-agency
-#  ./scripts/create-membership.sh user-$id-dev-istio-system user-$id-dev-basic user-$id-dev-travel-agency
-#  sleep 1
-#  echo ./scripts/create-membership.sh user-$id-dev-istio-system user-$id-dev-basic user-$id-dev-travel-control
-#  ./scripts/create-membership.sh user-$id-dev-istio-system user-$id-dev-basic user-$id-dev-travel-control
-#  sleep 1
-#  echo ./scripts/create-membership.sh user-$id-dev-istio-system user-$id-dev-basic user-$id-dev-travel-portal
-#  ./scripts/create-membership.sh user-$id-dev-istio-system user-$id-dev-basic user-$id-dev-travel-portal
-#  sleep 2
-#done
-
-#echo "Deploy applications into DEV namespaces"
-#echo "------------------------------------------------------------"
-#echo
-#for id in $( seq 1 $LABPARTICIPANTS )
-#do
-#  echo
-#  ./scripts/dev/deploy-travel-services-domain.sh dev dev-istio-system $id
-#  ./scripts/dev/deploy-travel-portal-domain.sh dev dev-istio-system $id
-#  sleep 2
-#done
-
-#echo
-#echo "Expose Travel Agency UI externally via Istio Gateway"
-#echo "------------------------------------------------------------"
-#echo
-#for id in $( seq 1 $LABPARTICIPANTS )
-#do
-#  ./scripts/dev/create-ingress-gateway.sh user-$id-dev-istio-system
-#  sleep 1
-#  echo
-#  echo '------------------------------------------------------------------------------------------------------------------------'
-#  echo "user-$id tenant Travel Agency UI URL: http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n user-$id-dev-istio-system)"
-#  echo '------------------------------------------------------------------------------------------------------------------------'
-#  echo
-#done
 
