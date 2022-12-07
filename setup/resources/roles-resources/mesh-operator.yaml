@@ -138,5 +138,6 @@ rules:
   - apps
   resources:
   - deployments/scale
+  - deployments
   verbs:
   - '*'
