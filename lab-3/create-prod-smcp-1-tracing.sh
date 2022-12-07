@@ -31,7 +31,7 @@ spec:
           cpu: 200m
           memory: 1Gi
         limits:
-          memory: 1Gi
+          memory: 1500Mi
       redundancyPolicy: ZeroRedundancy              // Index redundancy"
 
 echo "apiVersion: jaegertracing.io/v1
@@ -55,7 +55,7 @@ spec:
           cpu: 200m
           memory: 1Gi
         limits:
-          memory: 1Gi
+          memory: 1500Mi
       redundancyPolicy: ZeroRedundancy"| oc apply -n $SM_CP_NS -f -
 
 
@@ -141,7 +141,7 @@ spec:
       enabled: true
     prometheus:
       enabled: true
-  version: v2.2
+  version: v2.3
   telemetry:
     type: Istiod"
     
@@ -187,7 +187,7 @@ spec:
       enabled: true
     prometheus:
       enabled: true
-  version: v2.2
+  version: v2.3
   telemetry:
     type: Istiod"| oc apply -n $SM_CP_NS -f -
 
