@@ -1,0 +1,31 @@
+= Pre-Lab Preparation Setup
+:toc:
+
+This describes the setup required in a cluster in order to host `X` number of concurrent users working on the `Heading to Production with RH OSSM` labs.
+
+== Setup Scenario-1
+
+The script will
+
+* Step 1: Install all the DEV namespaces, `SMCP`/`SMM` resources, mesh roles and create the users based on the number of participants defined
+** Parameters
+1. cluster admin username
+2. cluster admin password
+3. OCP cluster API URL
+4. No. of lab participants
+5. OCP `httpaswd` secret name (`oc get secret  -n openshift-config |grep htpasswd`)
+** Script
++
+----
+./run-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
+----
+
+== Reset
+
+The script will reset the whole of the setup
+
+----
+./reset-setup-scenario-1.sh.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
+----
+
+== Setup Scenario-2
