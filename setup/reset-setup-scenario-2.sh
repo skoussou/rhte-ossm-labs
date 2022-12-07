@@ -6,6 +6,8 @@ CLUSTER_API=$3
 LABPARTICIPANTS=$4
 HTTPASSWD_SECRET=$5 #oc get secret  -n openshift-config |grep htpasswd
 
+ENV=prod
+
 set -e
 
 echo ""
@@ -28,12 +30,12 @@ oc login -u $USERNAME -p $PASSWORD $CLUSTER_API
 echo
 
 echo "==============================================================="
-echo " Delete DEV Environment and Users/Roles"
+echo " Delete PROD Environment and Users/Roles"
 echo "==============================================================="
 echo
-ENV=dev
 
-echo "Delete Dev Namespaces"
+
+echo "Delete $ENV Namespaces"
 echo "-------------------------------------------------"
 echo
 
@@ -65,18 +67,18 @@ ls ./resources/roles-resources
 #oc apply -f ./resources/roles-resources/mesh-app-viewer.yaml
 #oc get ClusterRole |grep servicemesh
 
-echo oc delete ClusterRole servicemesh-app-viewer
-echo oc delete ClusterRole servicemesh-developer
-echo oc delete ClusterRole servicemesh-operator-controlplane
-sleep 2
+#echo oc delete ClusterRole servicemesh-app-viewer
+#echo oc delete ClusterRole servicemesh-developer
+#echo oc delete ClusterRole servicemesh-operator-controlplane
+#sleep 2
 
-echo
-echo "Deleting Service Mesh Persona Users"
-echo "-------------------------------------------------"
+#echo
+#echo "Deleting Service Mesh Persona Users"
+#echo "-------------------------------------------------"
 #ls  ./scripts/users/orig.htpasswd
 #cat ./scripts/users/orig.htpasswd
-echo 'oc create secret generic $HTTPASSWD_SECRET --from-file=htpasswd=orig.htpasswd --dry-run=client -o yaml -n openshift-config | oc replace -f -'
-echo
+#echo 'oc create secret generic $HTTPASSWD_SECRET --from-file=htpasswd=orig.htpasswd --dry-run=client -o yaml -n openshift-config | oc replace -f -'
+#echo
 
 # Maybe not required since namespaces will be deleted
 #echo
