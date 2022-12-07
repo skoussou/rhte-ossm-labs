@@ -94,9 +94,9 @@ echo ./scripts/users/add-dev-environment-htpasswd-users.sh $HTTPASSWD_SECRET
 ./scripts/users/add-dev-environment-htpasswd-users.sh $HTTPASSWD_SECRET
 sleep 2
 
-# USING TO TEST WHERE THIS FILE IS SO AS TO DEFINE IT IN THE reset-setup.sh ls  ./scripts/users/orig.htpasswd
+# USING TO TEST WHERE THIS FILE IS SO AS TO DEFINE IT IN THE reset-setup-scenario-1.sh ls  ./scripts/users/orig.htpasswd
 ls  orig.htpasswd
-# USING TO TEST WHERE THIS FILE IS SO AS TO DEFINE IT IN THE reset-setup.sh cat ./scripts/users/orig.htpasswd
+# USING TO TEST WHERE THIS FILE IS SO AS TO DEFINE IT IN THE reset-setup-scenario-1.sh cat ./scripts/users/orig.htpasswd
 cat orig.htpasswd
 sleep 3
 

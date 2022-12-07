@@ -55,6 +55,12 @@ rules:
   - create
   - delete
 - apiGroups:
+  - jaegertracing.io
+  resources:
+  - jaegers
+  verbs:
+    - '*'
+- apiGroups:
   - authentication.istio.io
   - config.istio.io
   - networking.istio.io
