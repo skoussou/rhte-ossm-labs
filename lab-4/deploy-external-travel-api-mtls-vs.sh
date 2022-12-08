@@ -2,13 +2,21 @@
 
 ENV=$1
 SM_CP_NS=$2
-PREFIX=gto-external
+PARTICIPANTID=$3
+
+PREFIX=gto-user-$PARTICIPANTID
 
 
 https_mutual_route=$(oc get route $PREFIX -o jsonpath='{.spec.host}' -n $SM_CP_NS)
-echo https_mutual_route:  $https_mutual_route
-echo
-sleep 3
+#echo https_mutual_route:  $https_mutual_route
+echo '---------------------------------------------------------------------------'
+echo 'ServiceMesh Control Plane Namespace        : '$SM_CP_NS
+echo 'ENV                                        : '$ENV
+echo 'PREFIX                                     : '$PREFIX
+echo 'Remote SMCP GTO Route Name                 : 'https://$https_mutual_route
+echo '---------------------------------------------------------------------------'
+
+sleep 10
 echo
 echo
 echo "Apply Istio Virtual Service Config to Route external GTO Traffic via Service Mesh Ingress to Travel Services"

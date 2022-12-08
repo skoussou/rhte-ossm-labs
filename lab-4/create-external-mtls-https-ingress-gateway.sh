@@ -1,17 +1,20 @@
 #!/bin/bash
 
-SM_CP_NS=$1
+SM_CP_NS_ORIGINAL=$1
 DOMAIN_NAME=$2
-PREFIX=gto-external
+PARTICIPANTID=$3
+
+PREFIX=gto-user-$PARTICIPANTID
+SM_CP_NS=user-$PARTICIPANTID-$SM_CP_NS_ORIGINAL
 
 echo '---------------------------------------------------------------------------'
 echo 'ServiceMesh Control Plane Namespace        : '$SM_CP_NS
 echo 'CLUSTER DOMAIN Name                        : '$DOMAIN_NAME
 echo 'PREFIX                                     : '$PREFIX
-echo 'Remote SMCP Route Name (when NO DNS)       : 'https://$PREFIX-$SM_CP_NS.$DOMAIN_NAME
+echo 'Remote SMCP Route Name (when NO DNS)       : 'https://$PREFIX.$DOMAIN_NAME
 echo '---------------------------------------------------------------------------'
 
-sleep 5
+sleep 10
 echo
 echo "================================================================================="
 echo "Create CA ROOT and Gateway Self-Signed Certificates for ($PREFIX)"
@@ -31,7 +34,7 @@ prompt = no
 [ dn ]
 C = UK
 O = RH
-CN = $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+CN = $PREFIX.$DOMAIN_NAME
 ST = Baker Street
 L = London
 OU=RedHat
@@ -40,11 +43,11 @@ countryName = UK
 stateOrProvinceName = London
 localityName = London
 organizationName = RedHat
-commonName = $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+commonName = $PREFIX.$DOMAIN_NAME
 [ req_ext ]
 subjectAltName = @alt_names
 [alt_names]
-DNS.1 = $PREFIX-$SM_CP_NS.$DOMAIN_NAME"
+DNS.1 = $PREFIX.$DOMAIN_NAME"
 
 echo "[ req ]
 default_bits = 2048
@@ -53,7 +56,7 @@ prompt = no
 [ dn ]
 C = UK
 O = RH
-CN = $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+CN = $PREFIX.$DOMAIN_NAME
 ST = Baker Street
 L = London
 OU=RedHat
@@ -62,11 +65,11 @@ countryName = UK
 stateOrProvinceName = London
 localityName = London
 organizationName = RedHat
-commonName = $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+commonName = $PREFIX.$DOMAIN_NAME
 [ req_ext ]
 subjectAltName = @alt_names
 [alt_names]
-DNS.1 = $PREFIX-$SM_CP_NS.$DOMAIN_NAME" > $PREFIX.conf
+DNS.1 = $PREFIX.$DOMAIN_NAME" > $PREFIX.conf
 
 sleep 5
 echo
@@ -74,13 +77,15 @@ echo
 echo "Create Certificate Signing Request, TLS Certificate for hosted service for the app (self-signed)"
 echo "---------------------------------------------------------------------------------"
 echo
-echo "../common-scripts/create-app-csr-certs-keys.sh $PREFIX.conf $PREFIX"
-../common-scripts/create-app-csr-certs-keys.sh $PREFIX.conf $PREFIX
+echo "create-app-csr-certs-keys.sh $PREFIX.conf $PREFIX"
+create-app-csr-certs-keys.sh $PREFIX.conf $PREFIX
 sleep 5
 echo
 
 echo "Create OCP secret to store the certificate in $SM_CP_NS"
 echo "-----------------------------------------------------------------------------"
+echo "Removing first secret/$PREFIX-secret if already in the namespace ..."
+sleep 1
 oc -n $SM_CP_NS delete secret/$PREFIX-secret
 
 echo "oc create secret generic $PREFIX-secret
@@ -104,7 +109,7 @@ echo "==========================================================================
 echo "Apply initial Istio Configs to Route external Traffic via Service Mesh Ingress"
 echo
 echo "Service Mesh Ingress Gateway Route"
-echo "Ingress Route [$PREFIX-$SM_CP_NS.$DOMAIN_NAME]"
+echo "Ingress Route [$PREFIX.$DOMAIN_NAME]"
 echo "================================================================================="
 echo
 sleep 3
@@ -117,7 +122,7 @@ metadata:
   name: $PREFIX
   namespace: $SM_CP_NS
 spec:
-  host: $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+  host: $PREFIX.$DOMAIN_NAME
   to:
     kind: Service
     name: $PREFIX-ingressgateway
@@ -134,7 +139,7 @@ metadata:
   name: $PREFIX
   namespace: $SM_CP_NS
 spec:
-  host: $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+  host: $PREFIX.$DOMAIN_NAME
   to:
     kind: Service
     name: $PREFIX-ingressgateway
@@ -160,7 +165,7 @@ metadata:
 spec:
   servers:
     - hosts:
-        - $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+        - $PREFIX.$DOMAIN_NAME
       port:
         name: https
         number: 443
@@ -179,7 +184,7 @@ metadata:
 spec:
   servers:
     - hosts:
-        - $PREFIX-$SM_CP_NS.$DOMAIN_NAME
+        - $PREFIX.$DOMAIN_NAME
       port:
         name: https
         number: 443
@@ -196,7 +201,7 @@ echo
 sleep 5
 echo "===================================================================================="
 echo "Create client certificates based on the same CA Root for mTLS communications towards"
-echo "Ingress Route [$PREFIX-$SM_CP_NS.$DOMAIN_NAME]"
+echo "Ingress Route [$PREFIX.$DOMAIN_NAME]"
 echo "===================================================================================="
 echo
 echo create-client-certs-keys.sh curl
