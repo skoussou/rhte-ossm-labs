@@ -4,5 +4,30 @@ RHTE 2023 Red Hat OSSM Lab Instructions
 
 ---
 
+Before labs are initiated participants will be required to set the following variables in the terminal of choice
+
+----
+export CLUSTER_API=https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/
+export LAB_PARTICIPANT_ID=<FROM 3rd column of THE TABLE below>
+export OCP_DOMAIN=apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com
+----
+
+[cols="1,1,1"]
+|===
+|Name |Participant Lab Namespaces prefix |Participant Lab Id
+
+|John Smith
+|user-1
+|1
+
+|Jane Smith
+|user-2
+|2
+
+|Jim Smith
+|user-x
+|x
+|===
+
 1. link:README-lab-1.adoc[Lab 1 - Development Environment with RH OSSM]
 2. link:README-lab-2.adoc[Lab 2 - Production Environment Setup with RH OSSM]
