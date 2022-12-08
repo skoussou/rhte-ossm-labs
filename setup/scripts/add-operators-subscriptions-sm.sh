@@ -45,7 +45,7 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace | oc apply -f -  '
 
-echo 'sleeping 20s'
+echo 'waiting 20s for operator to be installed'
 sleep 20
 
 
@@ -90,7 +90,7 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace" | oc apply -f -    
 
-echo 'sleeping 20s'
+echo 'waiting 20s for operator to be installed'
 sleep 20
 
 echo
@@ -133,7 +133,7 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace" | oc apply -f -   
 
-#echo 'sleeping 20s'
+echo 'waiting 20s for operator to be installed'
 sleep 20
 
 echo

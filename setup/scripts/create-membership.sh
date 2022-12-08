@@ -10,7 +10,6 @@ echo 'Istio Namespace         : '$ISTIO_NAMESPACE
 echo 'Istio SMCP Name         : '$ISTIO_TENANT_NAME
 echo 'App Namespace           : '$APP_NAMESPACE
 echo 'SMR Resource Name       : '$SERVICE_MESH_MEMBER_RESOURCE_NAME
-
 echo '-------------------------------------------------------------------------'
 
 
