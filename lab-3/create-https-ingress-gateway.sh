@@ -86,6 +86,10 @@ echo
 
 echo "Create OCP secret to store the certificate in $SM_CP_NS"
 echo "-----------------------------------------------------------------------------"
+echo "Removing first secret/$PREFIX-secret if already in the namespace ..."
+sleep 1
+oc -n $SM_CP_NS delete secret/$PREFIX-secret
+echo
 echo "oc create secret generic $PREFIX-secret
         --from-file=tls.key=$PREFIX-app.key \
         --from-file=tls.crt=$PREFIX-app.crt \
