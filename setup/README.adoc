@@ -17,7 +17,7 @@ export $BASEDOMAIN=opentlc.com
 * *Scenario-1:* `./run-setup-scenario-1.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
 * *Scenario-3:* `./run-setup-scenario-2.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
 * *Scenario-4:* `./run-setup-scenario-4.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN $LAB_PARTICIPANTS`
-* *Scenario-4b-once-per-participant:* SEE BELOW
+* *Scenario-4b-once-per-participant:* SEE BELOW (to be done once per participant)
 * *Scenario-5:* ``
 
 == Setup Scenario-1
