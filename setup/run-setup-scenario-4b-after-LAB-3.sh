@@ -5,7 +5,7 @@ PASSWORD=$2
 CLUSTER_API=$3
 CLUSTERNAME=$4
 BASEDOMAIN=$5
-LABPARTICIPANTS=$6
+LABPARTICIPANT=$6
 
 
 set -e
@@ -14,9 +14,9 @@ echo '-------------------------------------------------------------------------'
 echo 'CLUSTER_API                   : '$CLUSTER_API
 echo 'CLUSTER NAME                  : '$CLUSTERNAME
 echo 'BASE DOMAIN                   : '$BASEDOMAIN
-echo 'No. of LAB PARTICIPANTS       : '$LABPARTICIPANTS
+echo 'LAB PARTICIPANT               : '$LABPARTICIPANT
 echo '-------------------------------------------------------------------------'
-sleep 10
+sleep 5
 echo ""
 
 echo "==============================================================="
@@ -42,19 +42,11 @@ echo
 #fi
 
 echo
-
-sleep 3
-echo "==============================================================="
-echo " Setup Red Hat Single Sign-On Server (RHSSO)"
-echo "==============================================================="
+echo "=============================================================================="
+echo " Create a secret from the OCP Ingress cert in each user-$LABPARTICIPANT-prod-istio-system"
+echo "=============================================================================="
 echo
+sleep 1
 
-echo './scripts/rhsso/prerequisites-setup.sh <CLUSTERNAME> <BASEDOMAIN> (eg.for apps.ocp4.example.com  prerequisites-setup.sh ocp4 example.com)'
-echo './scripts/rhsso/prerequisites-setup.sh <CLUSTERNAME> <BASEDOMAIN> (eg.for apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com  prerequisites-setup.sh cluster-f4fbs.f4fbs.sandbox354 opentlc.com)'
-echo
-sleep 3
-#echo ./scripts/rhsso/prerequisites-setup.sh cluster-f4fbs.f4fbs.sandbox354 opentlc.com 5
-#./scripts/rhsso/prerequisites-setup.sh cluster-f4fbs.f4fbs.sandbox354 opentlc.com 5
-echo './scripts/rhsso/prerequisites-setup.sh $CLUSTERNAME $BASEDOMAIN $LABPARTICIPANTS'
-./scripts/rhsso/prerequisites-setup.sh $CLUSTERNAME $BASEDOMAIN $LABPARTICIPANTS
-
+echo "./scripts/rhsso/mount-rhsso-cert-to-istiod.sh user-$LABPARTICIPANT-prod-istio-system user-$LABPARTICIPANT-production $CLUSTERNAME $BASEDOMAIN"
+./scripts/rhsso/mount-rhsso-cert-to-istiod.sh user-$LABPARTICIPANT-prod-istio-system user-$LABPARTICIPANT-production $CLUSTERNAME $BASEDOMAIN
