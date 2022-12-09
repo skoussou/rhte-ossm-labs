@@ -95,6 +95,11 @@ The second step will extract and create a secret from the OCP Ingress certs in e
 [NOTE]
 ====
 This needs to be done ONCE for each participant at the end of Lab-3
-./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 5
+
+- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 1
+- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 2
+- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 3
+- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 4
+- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 5
 ====
 
