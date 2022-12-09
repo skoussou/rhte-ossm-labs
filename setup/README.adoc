@@ -6,17 +6,18 @@ This describes the setup required in a cluster in order to host `X` number of co
 == Setup Commands Summary
 
 ----
-export CLUSTER_API=https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/
+export CLUSTER_API=https://api.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com:6443/
 export LAB_PARTICIPANTS=5
-export OCP_DOMAIN=apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com
-export OCP_DOMAIN=apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com
-export $CLUSTERNAME=apps.cluster-f4fbs.f4fbs.sandbox354
-export $BASEDOMAIN=opentlc.com
+export OCP_DOMAIN=apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com
+export CLUSTERNAME=cluster-vjzhs.vjzhs.sandbox1672
+export BASEDOMAIN=opentlc.com
+export CLUSTER_ADMIN=
+export CLUSTER_ADMIN_PASS=
 ----
 
-* *Scenario-1:* `./run-setup-scenario-1.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
-* *Scenario-3:* `./run-setup-scenario-2.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
-* *Scenario-4:* `./run-setup-scenario-4.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN $LAB_PARTICIPANTS`
+* *Scenario-1:* `./run-setup-scenario-1.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
+* *Scenario-3:* `./run-setup-scenario-2.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
+* *Scenario-4:* `./run-setup-scenario-4.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN $LAB_PARTICIPANTS`
 * *Scenario-4b-once-per-participant:* SEE BELOW (to be done once per participant)
 * *Scenario-5:* ``
 
@@ -100,10 +101,10 @@ The second step will extract and create a secret from the OCP Ingress certs in e
 ====
 This needs to be done ONCE for each participant at the end of Lab-3
 
-- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 1
-- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 2
-- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 3
-- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 4
-- ./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 5
+- ./run-setup-scenario-4b-after-LAB-3.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 1
+- ./run-setup-scenario-4b-after-LAB-3.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 2
+- ./run-setup-scenario-4b-after-LAB-3.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 3
+- ./run-setup-scenario-4b-after-LAB-3.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 4
+- ./run-setup-scenario-4b-after-LAB-3.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 5
 ====
 

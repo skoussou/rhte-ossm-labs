@@ -7,9 +7,10 @@ RHTE 2023 Red Hat OSSM Lab Instructions
 Before labs are initiated participants will be required to set the following variables in the terminal of choice
 
 ----
-export CLUSTER_API=https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/
+export CLUSTER_API=https://api.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com:6443/
 export LAB_PARTICIPANT_ID=<FROM 3rd column of THE TABLE below>
-export OCP_DOMAIN=apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com
+export OCP_DOMAIN=apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com
+export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
 ----
 
 [cols="1,1,1"]
