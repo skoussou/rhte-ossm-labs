@@ -14,7 +14,7 @@ export $CLUSTERNAME=apps.cluster-f4fbs.f4fbs.sandbox354
 export $BASEDOMAIN=opentlc.com
 ----
 
-* *Scenario-1:* `./run-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ $LAB_PARTICIPANTS htpasswd-secret`
+* *Scenario-1:* `./run-setup-scenario-1.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
 * *Scenario-3:* `./run-setup-scenario-2.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
 * *Scenario-4:* `./run-setup-scenario-4.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN $LAB_PARTICIPANTS`
 * *Scenario-4b-once-per-participant:* SEE BELOW
