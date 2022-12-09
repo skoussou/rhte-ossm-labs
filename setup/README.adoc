@@ -76,7 +76,9 @@ TODO
 
 == Setup Scenario-4
 
-*Step 1:* First setup RHSSO namespace, RHSSO operator, KeycloakRealm resource, KeycloakClient (1 per participant) resource, KeycloakUser
+=== Step 1: Setup `RHSSO` and Keycloak resources.
+
+First setup RHSSO namespace, RHSSO operator, KeycloakRealm resource, KeycloakClient (1 per participant) resource, KeycloakUser
 
 * The script will perform the setup for Scenario-4
 1. cluster admin username
@@ -90,7 +92,9 @@ TODO
 ./run-setup-scenario-4.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 5
 ----
 
-*Step 2:* The second step will extract and create a secret from the OCP Ingress certs in each `*user-x*-prod-istio-system` namespace and mount via a volume into each _IstioD_ to be used when sending a validation of the `JWT` request to RHSSO.
+=== Step 2: Add RHSSO TLS certs to `Istiod`
+
+The second step will extract and create a secret from the OCP Ingress certs in each `*user-x*-prod-istio-system` namespace and mount via a volume into each _IstioD_ to be used when sending a validation of the `JWT` request to RHSSO.
 
 [NOTE]
 ====
