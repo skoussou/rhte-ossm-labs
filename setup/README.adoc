@@ -3,6 +3,23 @@
 
 This describes the setup required in a cluster in order to host `X` number of concurrent users working on the link:../README.adoc[`Heading to Production with RH OSSM`] labs.
 
+== Setup Commands Summary
+
+----
+export CLUSTER_API=https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/
+export LAB_PARTICIPANTS=5
+export OCP_DOMAIN=apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com
+export OCP_DOMAIN=apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com
+export $CLUSTERNAME=apps.cluster-f4fbs.f4fbs.sandbox354
+export $BASEDOMAIN=opentlc.com
+----
+
+* *Scenario-1:* `./run-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ $LAB_PARTICIPANTS htpasswd-secret`
+* *Scenario-3:* `./run-setup-scenario-2.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
+* *Scenario-4:* `./run-setup-scenario-4.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN $LAB_PARTICIPANTS`
+* *Scenario-4b-once-per-participant:* SEE BELOW
+* *Scenario-5:* ``
+
 == Setup Scenario-1
 
 The script will
@@ -31,12 +48,12 @@ The script will reset the whole of the setup for Scenario-1
 4. No. of lab participants
 5. OCP `httpaswd` secret name (`oc get secret  -n openshift-config |grep htpasswd`)
 ----
-./reset-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
+./reset-setup-scenario-1.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ 5 htpasswd-secret
 ----
 
 == Setup Scenario-3
 
-The script will reset the whole of the setup for Scenario-2
+The script will do the setup for Scenario-3 including creation of PROD Users & their rolebindings, the PROD CP Namespace and all Prod Mesh member namespaces.
 
 * Script Parameters
 1. cluster admin username
@@ -45,14 +62,39 @@ The script will reset the whole of the setup for Scenario-2
 4. No. of lab participants
 5. OCP `httpaswd` secret name (`oc get secret  -n openshift-config |grep htpasswd`)
 ----
-./run-setup-scenario-2.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
+./run-setup-scenario-2.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ 5 htpasswd-secret
 ----
 
-=== Reset Scenario-1
+=== Reset Scenario-3
 
-The script will reset the whole of the setup for Scenario-1
+The script will reset the whole of the setup for Scenario-3
 
+[WARNING]
+====
+TODO
+====
 
+== Setup Scenario-4
 
+First setup RHSSO namespace, RHSSO operator, KeycloakRealm resource, KeycloakClient (1 per participant) resource, KeycloakUser
 
+* The script will perform the setup for Scenario-4
+1. cluster admin username
+2. cluster admin password
+3. OCP cluster API URL
+4. Cluster Name (eg. cluster-f4fbs.f4fbs.sandbox354)
+5. Cluster Domain (eg. opentlc.com)
+6. No. of lab participants
+
+----
+./run-setup-scenario-4.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 5
+----
+
+The second step will extract and create a secret from the OCP Ingress certs in each `*user-x*-prod-istio-system` namespace.
+
+[NOTE]
+====
+This needs to be done ONCE for each participant at the end of Lab-3
+./run-setup-scenario-4b-after-LAB-3.sh <cluster-admin> <cluster-admin-password> https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN 5
+====
 
