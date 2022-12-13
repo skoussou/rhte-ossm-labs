@@ -6,10 +6,10 @@ This describes the setup required in a cluster in order to host `X` number of co
 == Setup Commands Summary
 
 ----
-export CLUSTER_API=https://api.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com:6443/
+export CLUSTER_API=https://api.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443/
 export LAB_PARTICIPANTS=5
-export OCP_DOMAIN=apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com
-export CLUSTERNAME=cluster-vjzhs.vjzhs.sandbox1672
+export OCP_DOMAIN=apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443
+export CLUSTERNAME=cluster-w4h2j.w4h2j.sandbox2385
 export BASEDOMAIN=opentlc.com
 export CLUSTER_ADMIN=
 export CLUSTER_ADMIN_PASS=
@@ -35,7 +35,7 @@ The script will
 ** Script
 +
 ----
-./run-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/ 5 htpasswd-secret
+./run-setup-scenario-1.sh opentlc-mgr r3dh4t1! https://api.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443/ 5 htpasswd-secret
 ----
 
 === Reset Scenario-1
