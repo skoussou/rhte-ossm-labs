@@ -1,0 +1,69 @@
+= OpenShift Service Mesh - Heading to Production Lab Instructions
+:toc:
+
+== Lab Prerequisites
+
+You will need in this Lab: +
+The following *CLI tools* are required for running the scenarios in this Lab. Please have them installed and configured before you get started with any of the chapters.
+
+OpenShift CLI: https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli[https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli]
+
+Git: https://git-scm.com/downloads[https://git-scm.com/downloads]
+
+curl: https://curl.se/download.html[https://curl.se/download.html]
+
+OpenSSL: https://www.openssl.org/source/[https://www.openssl.org/source/]
+
+== Download the Lab Sources
+
+Before we start, let’s clone the Lab sources and set the LAB_HOME environment variable to point to the root directory of this Lab:
+
+
+[source,shell]
+----
+git clone https://github.com/skoussou/rhte-ossm-labs rhte-ossm-labs
+
+export LAB_HOME="$(pwd)/rhte-ossm-labs"
+
+cd rhte-ossm-labs
+----
+
+== Introduction
+
+In this Lab we’ll walk through a Fictive Use Case of a Travel Agency company introducing a Service Mesh for their existing applications and heading to production.
+
+== Understanding the existing application
+
+(Note: The sample application we use in this Lab is the_ Kiali Travel Demo Tutorial_: https://kiali.io/docs/tutorials/travels/[https://kiali.io/docs/tutorials/travels/])
+
+=== Travel Portal namespace
+
+The Travel Demo application simulates two business domains organized in different namespaces. +
+In a first namespace called _travel-portal_ there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance. The shop applications can behave differently based on request characteristics like channel (web or mobile) or user (new or existing). +
+These workloads may generate different types of traffic to imitate different real scenarios. All the portals consume a service called _travels_ deployed in the _travel-agency_ namespace.
+
+=== Travel Agency namespace
+
+A second namespace called _travel-agency_ will host a set of services created to provide quotes for travel. +
+A main _travels_ service will be the business entry point for the travel agency. It receives a destination city and a user as parameters and it calculates all elements that compose a travel budget: airfare, lodging, car reservation and travel insurance. +
+Each service can provide an independent quote and the _travels_ service must then aggregate them into a single response. Additionally, some users, like _registered_ users, can have access to special discounts, managed as well by an external service. +
+Service relations between namespaces can be described in the following diagram:
+
+image::assets/01-travels-demo-design.png[]
+
+=== Travel Portal and Travel Agency flow
+
+A typical flow consists of the following steps: +
+A portal queries the _travels_ service for available destinations. . _Travels_ service queries the available hotels and returns to the portal shop. . A user selects a destination and a type of travel, which may include a _flight_ and/or a _car_, _hotel_ and _insurance_. . _Cars_, _Hotels_ and _Flights_ may have available discounts depending on user type.
+
+=== Travel Control namespace
+
+The _travel-control_ namespace runs a _business dashboard_ with two key features:
+
+* Allow setting changes for every travel shop simulator (traffic ratio, device, user and type of travel).
+* Provide a _business_ view of the total requests generated from the _travel-portal_ namespace to the _travel-agency_ services, organized by business criteria as grouped per shop, per type of traffic and per city.
+
+image::assets/01-travels-dashboard.png[]
+
+== Next Steps
+link:scenario-1.adoc[Getting started with Scenario 1]
