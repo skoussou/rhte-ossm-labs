@@ -1,0 +1,173 @@
+= Scenario 2
+:toc:
+
+The Travel Agency company has decided to setup a development and staging environment as well as the production system. The first part of the scenario is setting up the development environmant, creating the users, roles and rolebindings as well as installing the Service Mesh in the DEV environment. The second part of the scenario is about verifying that everything is correctly installed and all roles/permissions are working as expected.
+
+== Installing the Development environment
+
+[NOTE]
+====
+For this Lab we have *pre created all the required assets for the Travel Agency development environment*, including users, roles, namespaces, apps, service mesh etc. You will create the PROD environment step-by-step in the next scenario.
+====
+
+[NOTE]
+====
+You can verify the installation of the development environment by exploring the link:../setup/run-setup-scenario-1.sh[Install Script]
+====
+
+We just briefly describe the steps in order to install the development environment:
+
+=== Actions with role Cluster Admin
+
+
+1. As *phillip* (`Cluster Admin`) add the `Service Mesh` operators in the OCP Cluster
+
+2. As *phillip* (`Cluster Admin`) once the operators have been successfully installed, create the necessary _Travel Agency_ Namespaces
+
+3. As *phillip* (`Cluster Admin`) create the `Service Mesh Roles`
+
+4. As *phillip* (`Cluster Admin`) create the Service Mesh Users and assign Roles
+
+=== Actions with role Mesh Operator
+
+1. As *emma* (`Mesh Operator`) create the `Service Mesh` controlplane namespaces and the SMCP resource.
+
+
+=== Actions with role Mesh Developer
+
+1. As *farid* (`Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_ deploy the applications to the `dev-travel-agency` namespaces
+
+2. Add `SMM` with `dev-travel-agency` namespace to `dev-basic` `ServiceMeshControlPlane` service mesh in `dev-istio-system`
+
+3. Deploy the Applications in `dev-travel-agency` namespaces
+
+4. As *cristina* (`Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_ add the `ServiceMeshMember` (`SMM`) (service mesh membership) resource for `dev-travel-control`, `dev-travel-portal` namespaces
+
+5. Add `SMM` with namespaces to `dev-basic` `ServiceMeshControlPlane` service mesh in `dev-istio-system`
+
+6. Deploy the Applications in `dev-travel-control`, `dev-travel-portal` namespaces and `Istio` configs to expose Service Mesh services
+
+=== Final Actions with role Mesh Operator
+
+1. As *emma* (`Mesh Operator`) create the Istio `Gateway` resource
+
+== Development Environment Verification & Observability Usage
+
+=== Task 1: Access the Travel Control Dashboard
+* Log in (as one of `phillip`, `emma`, `cristina`, `farid`) and verify that you can reach the  *Travel Control Dashboard* in your Browser.
+
+[NOTE]
+====
+Please substitute <user-x> with your Lab User Id.
+====
+
+[source, shell]
+----
+./../lab-3/login-as.sh emma
+echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
+----
+
+=== Task 2: Access the Observability Stack
+
+* Logged in (as one of `phillip`, `emma`, `cristina`, `farid`) execute the following to retrieve the URLs of the `OSSM` Observability Stack (`Kiali`, `Jaeger`, `Prometheus`, `Grafana`) components.
+
+[NOTE]
+====
+Please substitute <user-x> with your Lab User Id.
+====
+
+[source, shell]
+----
+./login-as.sh <choose>
+echo "http://$(oc get route kiali -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
+echo "https://$(oc get route jaeger -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
+echo "https://$(oc get route prometheus -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
+echo "https://$(oc get route grafana -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
+----
+
+* Alternatively, if you have logged into `Kiali`, you can access the `Grafana` and `Jaeger` URLs by clicking on *?* next to your name (top-right KIALI corner), then *About* and you should have the URLs presented.
+
+image::./assets/02-about.png[200,200]
+
+=== Task 3: Test the Observability stack as Product Owner for the Travel-Agency Solution
+
+
+1. Access the `Kiali` URL and login as 'mus/mus' (role `Application Viewer`)
+
+As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace. You are allowed to:
+
+
+1. See traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials (mus/mus) to view the tracing console
+2. See metrics for the overall solution. Go to `Workloads` in `Kiali` and select one application workload. Use the `inbound` or `outbound` metrics.
+3. Alternatively, go to the `Prometheus` URL (identified above) and login with your credentials (mus/mus). Apply on the `Graph` view 
+*** `istio_requests_total{destination_workload="discounts-v1", app="discounts"}` to visualize requests towards `discounts-v1`
+*** `istio_request_duration_milliseconds_count{app="discounts"}`
+*** `istio_response_bytes_bucket`
+4. See dashboards in grafana for the solution. Access the `Grafana` URL as 'mus/mus' (role `Application Viewer`, See above on how to find the URL)
+*** Check the 'status' of the overall Travel Agency solution *Dashboards -> Manage -> Istio -> Istio Mesh Dashboard*
+
+image::./assets/02-grafana-istio-mesh-dashboard.png[400,1000]
+
+*** Check the 'performance' of the overall Travel Agency solution *Dashboards -> Manage -> Istio -> Istio Mesh Dashboard*
+
+image::./assets/02-grafana-performance.png[400,1000]
+
+==== Verifying that RBAC restrictions for the `Product Owner` are in place
+[WARNING]
+====
+As `Product Owner` You are not allowed to view or modify the Istio Configurations or the Istio logs
+====
+
+* You should not be able see configs in the `Kiali`. If you select in the menu to the left `Istio Config` and then try to see a config, it fails to access one of the configs.
+* You cannot access logs in the `Kiali`. If you select in the menu to the left go to `Workloads` and access one of the workloads, it has no logs if you try to see them
+
+=== Task 4: Test the Observability stack as a App/Domain Owner for the Travel-Portal or Travel-Services Domain
+
+1. Access `Kiali` URL as 'farid/farid' or 'cristina/cristina' (role `Mesh Developer`)
+
+* As the `Domain Owner` of one of the _Travel Portal_ or _Travel Services_ domains you have *view* access to 
+** *Travel Portal* Domain: 2 _data plane_ namespaces (`dev-travel-control`, `dev-travel-portal`) and the _control plane_ namespace.
+** *Travel Services* Domain: 1 _data plane_ namespace (`dev-travel-agency`) and the _control plane_ namespace. 
+* You are also allowed to:
+2. See traces for the overall solution. From `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials to view the tracing console
+3. See metrics. Go to `Prometheus` URL (identified above) and login with your credentials. Apply on the `Graph` view the appropriate metrics views required
+4. See logs for the workloads in your domain. From the `Kiali` menu on the left go to `Workloads` and access one of the workloads, the tab `Logs` has both proxy and pod logs available
+5. See and modify Istio Configs for your domain. From the `Kiali` menu on the lef to go to `Istio Config`. You should be able to access the configs as *cristina* for the control `VirtualService` and `DestinationRule`
+6. See Grafana Dashboards (See above on how to find the URL)
+*** Check the 'status' of the services and workloads in the `dev-travel-portal` or `dev-travel-agency` by viewing
+*** *Dashboards -> Manage-> Istio -> Istio Service Dashboard* dashboard
+*** *Dashboards -> Manage-> Istio -> Istio Workloads Dashboard*  dashboards
+
+=== Task 5: Test the Observability stack as Developer for the Travel-Portal or Travel-Services Domain
+
+1. Access `Kiali` URL as 'mia/mia' (role `Application Viewer`)
+
+* As a `Developer` for the _Travel Services_ domain *mia* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-agency`. Therefore, access is given to that service mesh namespace while the _Travel Portal_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
+* *mia* is allowed as an `Application Viewer` to check the `traces` of the worloads, `metrics` for the same workloads and `dashboards` for the overall solution.
+
+2. Access `Kiali` URL as 'john/john' (role `Application Viewer`)
+
+* As a `Developer` for the _Travel Portal_ domain *john* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-portal` and to a lesser extent the `dev-travel-control` simulator. Therefore, access is allowed to those service mesh namespaces while the _Travel Services_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
+
+==== Verifying that the RBAC restrictions for the Application Viewer are in place
+
+* *john* is allowed as an `Application Viewer` to check the `traces` of the worloads, `metrics` for the same workloads and `dashboards` for the overall solution.
+* *john* is allowed to view via the `Istio Config` section that there are configs for the `dev-travel-control` namespace but he is not allowed to view details or modify them.
+
+=== Task 6: Test the Observability stack as Mesh Operator
+
+1. Access `Kiali` URL as 'emma/emma' (role `Mesh Operator`)
+
+* As the `Mesh Operator` you have *full* access to all 3 _data plane_ namespaces and the _control plane_. 
+** In `Kiali` go to *Graphs -> App Graph*, select from *Display* `Request Distribution`, `Namespace Boxes`, `Traffic Animation`, `Security` and see the Mesh Operator view
+** In addition from the `Kiali` menu on the left to go to `Istio Config`. You should be able to access or modify any config as the administrator of this mesh
+** You can in addition access logs of the workloads. From the `Kiali` menu on the left go to `Workloads` and access one of the workloads, it has both proxy and pod logs available
+** Finally, you can like the previous users access `prometheus`, `jaeger` and `grafana`. On the latter there is a dashboard to visualize the state of the service mesh _control plane_
+*** *Dashboards -> Manage-> Istio -> Istio Control Plane Dashboard*  dashboards
+
+== Next Steps
+
+Congratulations! You have completed Scenario 2.
+Now that we have verified the Development environment with the different users and roles, we'll proceed to install the production environment.
+
+link:scenario-3.adoc[Getting started with Scenario 3]
