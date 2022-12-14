@@ -1,0 +1,167 @@
+= Scenario 3
+:toc:
+
+In this first scenario we’ll have a look at the requirements and consideration for introducing a Service Mesh and the involved personas from the fictive Travel Agency company.
+
+[NOTE]
+====
+Please run the setup script for all users before starting with Scenario 3
+====
+
+== User/Roles Mapping for the Production environment
+
+== Task 1: Export your variables
+
+1. First export the `CLUSTER_API`, the `OCP_DOMAIN` and your Lab User Id `LAB_PARTICIPANT_ID`:
+
+[source,shell]
+----
+export CLUSTER_API=https://api.cluster-f4fbs.f4fbs.sandbox354.opentlc.com:6443/
+export LAB_PARTICIPANT_ID=5
+export OCP_DOMAIN=apps.cluster-f4fbs.f4fbs.sandbox354.opentlc.com
+----
+
+== Task 2: Install a basic Service Mesh Control Plane with an external Jaeger configuration
+
+Create basic SMCP & External Jaeger
+They need to inspect the create-prod-smcp-1-tracing.sh see Configure Jaeger & Elastic Search and  Configure ServiceMeshControlPlane Tracing for production for relevant instructions
+
+1. Login as emma/emma and run the `create-prod-smcp-1-tracing.sh` script. This deploys the production SMCP in your user control namespace.
+
+[source,shell]
+----
+cd lab-3
+./login-as.sh emma 
+./create-prod-smcp-1-tracing.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
+----
+
+You can also login in to the OpenShift console with `emma/emma` and navigate to your `user-$LAB_PARTICIPANT_ID-prod-istio-system` namespace and verify all pods are running.
+
+== Task 3: Create the Application Namespaces and Deployments in the Production Mesh
+
+TASK 2:(10m)  Create SMM for each PROD Mesh namespace
+Go through the PROD Setup activities of
+Do deployments (with extra jaeger sidecar) link in gitlab
+Setup PROD tracing configs (link in gitlab with just explanation as scripts do the job)
+
+* Login as Farid and check the Labels for the `user-$LAB_PARTICIPANT_ID-prod-travel-agency` namespace
+
+[source,shell]
+----
+./login-as.sh farid 
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
+----
+
+The result of this command should look like this:
+[source,shell]
+----
+{
+  "kubernetes.io/metadata.name": "user-5-prod-travel-agency"
+}
+----
+
+* Next we add the application namespaces to our Service Mesh Tenant and check the Labels again
+
+[source,shell]
+----
+./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-agency
+
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
+----
+
+The result of this command should look like this:
+
+[source,shell]
+----
+{
+  "kiali.io/member-of": "user-5-prod-istio-system",
+  "kubernetes.io/metadata.name": "user-5-prod-travel-agency",
+  "maistra.io/member-of": "user-5-prod-istio-system"
+}
+----
+
+* Now we deploy the Travel Agency Services
+
+[source,shell]
+----
+./deploy-travel-services-domain.sh prod prod-istio-system $LAB_PARTICIPANT_ID
+----
+
+* Login with farid/farid in the Openshift Console in your user-$LAB_PARTICIPANT_ID-prod-travel-agency namespace and check the PODs deployed
+
+* Login with cristina/cristina and verify the project Labels
+
+[source,shell]
+----
+./login-as.sh cristina 
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control 
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-portal
+----
+
+* Create Project MemberShip and verify Project Labels
+
+[source,shell]
+----
+./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-control 
+
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control 
+----
+
+* Create Project MemberShip and verify Project Labels
+
+[source,shell]
+----
+./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-portal 
+
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-portal
+----
+
+* Deploy the Travel Portal Domain
+
+[source,shell]
+----
+./deploy-travel-portal-domain.sh prod prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID 
+----
+
+* Login as cristina/cristina in the Openshift Console in user-$LAB_PARTICIPANT_ID-prod-travel-control and  user-$LAB_PARTICIPANT_ID-prod-travel-portal PODs deployed and have 3 containers
+
+== Task 4: Expose the Travel Portal Dashboard via TLS
+
+Expose portal UI via TLS (point out on the script creating self-signed certificates to be inspected by labs participant)
+This is this section in gitlab Setup TLS Secured Istio Gateway to access Travel Agency UI
+Creation of CA Route and self-signed certs for travel-user-X.$OCP_DOMAIN host
+Secret to hold the certs in user-X-prod-istio-system
+Passthrough route for https://travel-user-X.$OCP_DOMAIN
+Control-gateway for host travel-user-X.$OCP_DOMAIN
+
+
+* Right now if you login as emma/emma in KIALI there is an issue in VirtualService control and an error on KIALI as no Gateway exists yet
+
+[source,shell]
+----
+./login-as.sh emma
+./create-https-ingress-gateway.sh prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID
+----
+
+Afterwards they should expect KIALI to no longer show any issue as Gateway is created and traffic can flow to the PORTAL UI URL which is shown in the terminal at the end of the script eg. https://travel-user-4.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com
+
+
+== Task 5: Configure Prometheus for Production
+
+Do prometheus PROD setup which is Option 1 from gitlab
+
+Default storage of metrics is 6h participants will not have this much time to see the effect of this in prometheus UI
+However the script shows the application of the extension of time and PVC addition
+
+[source,shell]
+----
+./login-as.sh emma 
+./update-prod-smcp-2-prometheus.sh user-$LAB_PARTICIPANT_ID-prod-istio-system
+----
+
+
+
+
+
+== Next Steps
+link:scenario-4.adoc[Getting started with Scenario 4]
