@@ -68,8 +68,8 @@ For the purpose of the provided scenarios the Travel Agency has selected the fol
 The following enterprise personas that will interact with the Service Mesh (OSSM) have been identified:
 
 |===
+|*Persona*|*Responsibilty*
 |Platform Admin|Owner of multiple OpenShift clusters, sets organizational policies. 
-
 |Mesh Operator|Operates parts of the cluster and the domain based service mesh for the hosted services. Creates and operates Service Mesh tenants.
 |Domain Owner (Tech Lead)|Responsible for an Application Domain. Onboards developers in the team and understands inter/intra service dependencies. Creates and configures Service Mesh resources (Virtual Services, Destination Rules etc.) in his domain
 |Developer|Develops services in his Application Domain. Needs to be kept aware of the health, performance and functional correctness of the solution.
@@ -79,7 +79,7 @@ The following enterprise personas that will interact with the Service Mesh (OSSM
 
 == User Roles
 
-Upstream Istio as well as OpenShift Serverless do not define standard or default user roles, so it is up to each project/implementation to define the appropriate permissions and roles for the required personas in order to access the necessary Service Mesh resources. 
+Upstream Istio as well as OpenShift Service Mesh do not define standard or default user roles, so it is up to each project/implementation to define the appropriate permissions and roles for the required personas in order to access the necessary Service Mesh resources. 
 
 In the following table you’ll see the Persona / Role mappings for the Travel Agency personas:
 

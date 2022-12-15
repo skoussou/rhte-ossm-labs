@@ -1,6 +1,6 @@
 = Heading to Production with Red Hat Openshift Service Mesh Labs
 
-RHTE 2023 Red Hat OSSM Lab Instructions
+link:lab-instructions/Readme.adoc[RHTE 2023 Red Hat OSSM Lab Instructions]
 
 ---
 
