@@ -267,7 +267,7 @@ You can also login with `farid/farid` in the Openshift Console and verify the ap
 ./deploy-travel-portal-domain.sh prod prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID 
 ----
 
-* We can login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces user-$LAB_PARTICIPANT_ID-prod-travel-control and  user-$LAB_PARTICIPANT_ID-prod-travel-portal 
+* We can login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces `user-$LAB_PARTICIPANT_ID-prod-travel-control` (link:./assets/03-travel-control-expected-3-container-pods.png[control POD should have 3 containers]) and  `user-$LAB_PARTICIPANT_ID-prod-travel-portal` (link:./assets/03-travel-portal-expected-3-container-pods.png[all PODs should have 3 containers]).
 
 == Task 4: Expose the Travel Portal Dashboard via TLS
 
