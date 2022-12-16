@@ -212,7 +212,7 @@ The result of this command should look similar to this:
 ./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
 ----
 
-The result of this command should look similar to this:
+The result of this command should look similar to this (may need to retry a few times until all labels are applied):
 
 [source,shell]
 ----
@@ -230,7 +230,7 @@ The result of this command should look similar to this:
 ./deploy-travel-services-domain.sh prod prod-istio-system $LAB_PARTICIPANT_ID
 ----
 
-We can also login with `farid/farid` in the Openshift Console and verify the applications created in your user-$LAB_PARTICIPANT_ID-prod-travel-agency namespace.
+You can also login with `farid/farid` in the Openshift Console and verify the applications created in your `user-$LAB_PARTICIPANT_ID-prod-travel-agency` namespace and link:./assets/03-travel-agency-expected-3-container-pods.png[each POD has 3 containers].
 
 * In the next step we install the second part of our applications, the Travel Control and Travel Portal apps, with the responsible user `cristina/cristina`
 
