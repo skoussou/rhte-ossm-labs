@@ -15,7 +15,7 @@ For this Lab we have *pre created all the required assets for the Travel Agency 
 You can verify the installation of the development environment by exploring the link:../setup/run-setup-scenario-1.sh[Install Script]
 ====
 
-We just briefly describe the steps in order to install the development environment:
+We just briefly describe the steps in order to install the development environment to give a sense of what the link:https://github.com/skoussou/rhte-ossm-labs/blob/main/lab-instructions/scenario-1.adoc#userrolepersona-mapping-for-the-dev-environment[_Travel Agency Enterprise Personas_] would be responsible for:
 
 === Actions with role Cluster Admin
 
@@ -30,14 +30,14 @@ We just briefly describe the steps in order to install the development environme
 
 === Actions with role Mesh Operator
 
-1. As *emma* (`Mesh Operator`) create the `Service Mesh` controlplane namespaces and the SMCP resource.
+1. As *emma* (`Mesh Operator`) create the `Service Mesh` controlplane namespaces and the `ServiceMeshControlPlane (SMCP)` resource.
 
 
 === Actions with role Mesh Developer
 
 1. As *farid* (`Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_ deploy the applications to the `dev-travel-agency` namespaces
 
-2. Add `SMM` with `dev-travel-agency` namespace to `dev-basic` `ServiceMeshControlPlane` service mesh in `dev-istio-system`
+2. Add (`SMM`) (service mesh membership) with `dev-travel-agency` namespace to `dev-basic` `ServiceMeshControlPlane` service mesh in `dev-istio-system`
 
 3. Deploy the Applications in `dev-travel-agency` namespaces
 
@@ -49,7 +49,7 @@ We just briefly describe the steps in order to install the development environme
 
 === Final Actions with role Mesh Operator
 
-1. As *emma* (`Mesh Operator`) create the Istio `Gateway` resource
+1. As *emma* (`Mesh Operator`) create the Istio `Gateway` resource (*Important:* `OSSM` -like Istio- now offers the ability for the deployment of an  *_ingress Gateway_* in the dataplane however for the Travel Agency use case we have selected a *_Self-Service(Restricted)_*  link:https://github.com/skoussou/rhte-ossm-labs/blob/main/lab-instructions/scenario-1.adoc#user-governance-model[Model of Operation] where the `Mesh Operator` will be responsible for ingress/egress resource configurations.
 
 == Development Environment Verification & Observability Usage
 
@@ -58,13 +58,13 @@ We just briefly describe the steps in order to install the development environme
 
 [NOTE]
 ====
-Please substitute <user-x> with your Lab User Id.
+Please ensure you set Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
 ====
 
 [source, shell]
 ----
 ./../lab-3/login-as.sh emma
-echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
+echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
 ----
 
 === Task 2: Access the Observability Stack
@@ -73,16 +73,16 @@ echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n <
 
 [NOTE]
 ====
-Please substitute <user-x> with your Lab User Id.
+Please ensure you set Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
 ====
 
 [source, shell]
 ----
 ./login-as.sh <choose>
-echo "http://$(oc get route kiali -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
-echo "https://$(oc get route jaeger -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
-echo "https://$(oc get route prometheus -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
-echo "https://$(oc get route grafana -o jsonpath='{.spec.host}' -n <user-x>-dev-istio-system)"
+echo "http://$(oc get route kiali -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route jaeger -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route prometheus -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route grafana -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
 ----
 
 * Alternatively, if you have logged into `Kiali`, you can access the `Grafana` and `Jaeger` URLs by clicking on *?* next to your name (top-right KIALI corner), then *About* and you should have the URLs presented.
@@ -92,12 +92,12 @@ image::./assets/02-about.png[200,200]
 === Task 3: Test the Observability stack as Product Owner for the Travel-Agency Solution
 
 
-1. Access the `Kiali` URL and login as 'mus/mus' (role `Application Viewer`)
+1. Access the `Kiali` URL and login with username/password *`mus`*/*`mus`* (role `Application Viewer`)
 
 As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace. You are allowed to:
 
 
-1. See traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials (mus/mus) to view the tracing console
+1. See traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials (`mus/mus`) to view the tracing console
 2. See metrics for the overall solution. Go to `Workloads` in `Kiali` and select one application workload. Use the `inbound` or `outbound` metrics.
 3. Alternatively, go to the `Prometheus` URL (identified above) and login with your credentials (mus/mus). Apply on the `Graph` view 
 *** `istio_requests_total{destination_workload="discounts-v1", app="discounts"}` to visualize requests towards `discounts-v1`
@@ -123,7 +123,7 @@ As `Product Owner` You are not allowed to view or modify the Istio Configuration
 
 === Task 4: Test the Observability stack as a App/Domain Owner for the Travel-Portal or Travel-Services Domain
 
-1. Access `Kiali` URL as 'farid/farid' or 'cristina/cristina' (role `Mesh Developer`)
+1. Access `Kiali` URL with username/password *`farid`*/*`farid`* or *`cristina`*/*`cristina`* (role `Mesh Developer`)
 
 * As the `Domain Owner` of one of the _Travel Portal_ or _Travel Services_ domains you have *view* access to 
 ** *Travel Portal* Domain: 2 _data plane_ namespaces (`dev-travel-control`, `dev-travel-portal`) and the _control plane_ namespace.
@@ -140,12 +140,12 @@ As `Product Owner` You are not allowed to view or modify the Istio Configuration
 
 === Task 5: Test the Observability stack as Developer for the Travel-Portal or Travel-Services Domain
 
-1. Access `Kiali` URL as 'mia/mia' (role `Application Viewer`)
+1. Access `Kiali` URL with username/password *`mia`*/*`mia`* (role `Application Viewer`)
 
 * As a `Developer` for the _Travel Services_ domain *mia* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-agency`. Therefore, access is given to that service mesh namespace while the _Travel Portal_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
 * *mia* is allowed as an `Application Viewer` to check the `traces` of the worloads, `metrics` for the same workloads and `dashboards` for the overall solution.
 
-2. Access `Kiali` URL as 'john/john' (role `Application Viewer`)
+2. Access `Kiali` URL as with username/password `*john*`/`*john`* (role `Application Viewer`)
 
 * As a `Developer` for the _Travel Portal_ domain *john* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-portal` and to a lesser extent the `dev-travel-control` simulator. Therefore, access is allowed to those service mesh namespaces while the _Travel Services_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
 
@@ -156,7 +156,7 @@ As `Product Owner` You are not allowed to view or modify the Istio Configuration
 
 === Task 6: Test the Observability stack as Mesh Operator
 
-1. Access `Kiali` URL as 'emma/emma' (role `Mesh Operator`)
+1. Access `Kiali` URL as with username/password *`emma`*/*`emma`* (role `Mesh Operator`)
 
 * As the `Mesh Operator` you have *full* access to all 3 _data plane_ namespaces and the _control plane_. 
 ** In `Kiali` go to *Graphs -> App Graph*, select from *Display* `Request Distribution`, `Namespace Boxes`, `Traffic Animation`, `Security` and see the Mesh Operator view
