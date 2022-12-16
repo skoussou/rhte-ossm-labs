@@ -284,7 +284,7 @@ In order to achieve that,
 Please take a look at the link:../lab3/create-https-ingress-gateway.sh[create-https-ingress-gateway.sh] script to see the resources and instructions.
 ====
 
-* Right now if you login to the Kiali Dashboard with the user `emma/emma`, there is an issue in the `VirtualService` control and link:./assets/link:03-no-gw-for-travel-control-ui-vs.png[an error on Kiali] as no `Gateway` exists yet.
+* Right now if you login to the Kiali Dashboard with the user `emma/emma`, there is an issue in the `VirtualService` control and link:./assets/03-no-gw-for-travel-control-ui-vs.png[an error on Kiali] as no `Gateway` exists yet.
 
 Now let's login as Mesh Operator with `emma/emma` and execute the described steps.
 
@@ -295,7 +295,7 @@ Now let's login as Mesh Operator with `emma/emma` and execute the described step
 ----
 
 After finishing the script you'll get the exposed Route and the `Travel Control Dashboard` should be accessable i.e.:
-https://travel-user-5.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the Kiali error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs[`VirtualService` should also show as resolved].
+https://travel-user-5.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the Kiali error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs.png[`VirtualService` should also show as resolved].
 
 image::assets/03-Travel-Control-Dashboard-https.png[Travel Control Dashboard]
 
