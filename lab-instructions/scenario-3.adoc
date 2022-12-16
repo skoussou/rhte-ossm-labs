@@ -271,7 +271,7 @@ You can also login with `farid/farid` in the Openshift Console and verify the ap
 
 == Task 4: Expose the Travel Portal Dashboard via TLS
 
-Now after the deployment of the applications, we want to make them accessable outside of the cluster for the Travel Agency customers.
+Now after the deployment of the applications, we want to make them accessible outside of the cluster for the Travel Agency customers.
 We also want to expose the services with a custom TLS cert.
 In order to achieve that, 
 
@@ -282,7 +282,7 @@ In order to achieve that,
 
 [NOTE]
 ====
-Please take a look at the link:../lab3/create-https-ingress-gateway.sh[create-https-ingress-gateway.sh] script to see the resources and instructions.
+Please take a look at the link:../lab-3/create-https-ingress-gateway.sh[create-https-ingress-gateway.sh] script to see the resources and instructions.
 ====
 
 * Right now if you login to the Kiali Dashboard with the user `emma/emma`, there is an issue in the `VirtualService` control and link:./assets/03-no-gw-for-travel-control-ui-vs.png[an error on Kiali] as no `Gateway` exists yet.
