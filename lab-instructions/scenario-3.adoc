@@ -295,7 +295,7 @@ Now let's login as Mesh Operator with `emma/emma` and execute the described step
 ./create-https-ingress-gateway.sh prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID
 ----
 
-After finishing the script you'll get the exposed Route and the `Travel Control Dashboard` should be accessable i.e.:
+After finishing the script you'll get the exposed Route and the `Travel Control Dashboard` should be accessible (look at the end of the script log for the URL) i.e.:
 https://travel-user-5.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the Kiali error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs.png[`VirtualService` should also show as resolved].
 
 image::assets/03-Travel-Control-Dashboard-https.png[Travel Control Dashboard]
@@ -362,7 +362,7 @@ Therefore, based on these rules and guidelines we will apply to the final `PROD`
 Please have a look at the link:assets/update-prod-smcp-3-final.sh[update-prod-smcp-3-final.sh] script
 ====
 
-We login as Mesh operator with 'emma/emma' and execute the final update script.
+We login as Mesh operator with 'emma/emma' and execute the final update script (on a separate command prompt execute `oc get pods -w -n user-$LAB_PARTICIPANT_ID-prod-istio-system` to follow the POD scalings).
 
 [source,shell]
 ----
