@@ -49,7 +49,9 @@ We just briefly describe the steps in order to install the development environme
 
 === Final Actions with role Mesh Operator
 
-1. As *emma* (`Mesh Operator`) create the Istio `Gateway` resource (*Important:* `OSSM` -like Istio- now offers the ability for the deployment of an  *_ingress Gateway_* in the dataplane however for the Travel Agency use case we have selected a *_Self-Service(Restricted)_*  link:https://github.com/skoussou/rhte-ossm-labs/blob/main/lab-instructions/scenario-1.adoc#user-governance-model[Model of Operation] where the `Mesh Operator` will be responsible for ingress/egress resource configurations.
+1. As *emma* (`Mesh Operator`) create the Istio `Gateway` resource
+
+IMPORTANT: `OSSM` -like Istio- now offers the ability for the injection of an  *_ingress Gateway_* in the dataplane however for the _Travel Agency_ use case the Architects have selected a *_Self-Service(Restricted)_*  link:https://github.com/skoussou/rhte-ossm-labs/blob/main/lab-instructions/scenario-1.adoc#user-governance-model[Model of Operation] where the `Mesh Operator` will be responsible for ingress/egress resource configurations.
 
 == Development Environment Verification & Observability Usage
 
