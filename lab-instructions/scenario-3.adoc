@@ -188,14 +188,15 @@ oc patch deployment/voyages -p '{"spec":{"template":{"metadata":{"annotations":{
 Now let's get started.
 
 * First we login as Mesh Developer with `farid/farid` who is responsible for the Travel Agency services and we check the Labels for the `user-$LAB_PARTICIPANT_ID-prod-travel-agency` appliction namespace
-
++
 [source,shell]
 ----
 ./login-as.sh farid 
 ./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
 ----
-
++
 The result of this command should look similar to this:
++
 [source,shell]
 ----
 {
@@ -204,16 +205,16 @@ The result of this command should look similar to this:
 ----
 
 * Next we add the application namespaces to our Production Service Mesh Tenant and check the Labels again
-
++
 [source,shell]
 ----
 ./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-agency
 
 ./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
 ----
-
++
 The result of this command should look similar to this (may need to retry a few times until all labels are applied):
-
++
 [source,shell]
 ----
 {
@@ -224,16 +225,16 @@ The result of this command should look similar to this (may need to retry a few 
 ----
 
 * Now we deploy the Travel Agency Services applications and inject the sidecar containers.
-
++
 [source,shell]
 ----
 ./deploy-travel-services-domain.sh prod prod-istio-system $LAB_PARTICIPANT_ID
 ----
-
++
 You can also login with `farid/farid` in the Openshift Console and verify the applications created in your `user-$LAB_PARTICIPANT_ID-prod-travel-agency` namespace and link:./assets/03-travel-agency-expected-3-container-pods.png[each POD has 3 containers].
 
 * In the next step we install the second part of our applications, the Travel Control and Travel Portal apps, with the responsible user `cristina/cristina`
-
++
 [source,shell]
 ----
 ./login-as.sh cristina 
@@ -242,7 +243,7 @@ You can also login with `farid/farid` in the Openshift Console and verify the ap
 ----
 
 * Now we add the `user-$LAB_PARTICIPANT_ID-prod-travel-control` application namespace to the Mesh
-
++
 [source,shell]
 ----
 ./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-control 
@@ -251,7 +252,7 @@ You can also login with `farid/farid` in the Openshift Console and verify the ap
 ----
 
 * Now we add the `user-$LAB_PARTICIPANT_ID-prod-travel-portal` application namespace to the Mesh
-
++
 [source,shell]
 ----
 ./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-portal 
@@ -260,7 +261,7 @@ You can also login with `farid/farid` in the Openshift Console and verify the ap
 ----
 
 * In the next step we are deploying the Travel Portal and Travel Control applications and injecting the sidecars.
-
++
 [source,shell]
 ----
 ./deploy-travel-portal-domain.sh prod prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID 
