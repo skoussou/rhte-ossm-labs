@@ -10,6 +10,7 @@ link:lab-instructions/Readme.adoc[RHTE 2023 Red Hat OSSM Lab Instructions]
 
 ---
 
+== Lab Information
 
 ----
 export CLUSTER_CONSOLE=https://console-openshift-console.apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com/
