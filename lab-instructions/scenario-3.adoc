@@ -371,4 +371,9 @@ We login as Mesh operator with 'emma/emma' and execute the final update script (
 ----
 
 == Next Steps
+
+IMPORTANT: As soon as you are done with this Lab Scenario inform the instructors who will need to prepare the environment for the next lab.
+
+Contratulations! You have helped the Travel Agency setup the production environment. You deserver a *5 minute break*!
+
 link:scenario-4.adoc[Getting started with Scenario 4]

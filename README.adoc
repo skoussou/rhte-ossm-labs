@@ -1,12 +1,18 @@
 = Heading to Production with Red Hat Openshift Service Mesh Labs
 
+
+
+Before labs are initiated participants will be required to set the following variables in the terminal of choice
+
+---
+
 link:lab-instructions/Readme.adoc[RHTE 2023 Red Hat OSSM Lab Instructions]
 
 ---
 
-Before labs are initiated participants will be required to set the following variables in the terminal of choice
 
 ----
+export CLUSTER_CONSOLE=https://console-openshift-console.apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com/
 export CLUSTER_API=https://api.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443
 export LAB_PARTICIPANT_ID=<FROM 3rd column of THE TABLE below>
 export OCP_DOMAIN=apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com
@@ -30,5 +36,3 @@ export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
 |x
 |===
 
-1. link:README-lab-1.adoc[Lab 1 - Development Environment with RH OSSM]
-2. link:README-lab-2.adoc[Lab 2 - Production Environment Setup with RH OSSM]
