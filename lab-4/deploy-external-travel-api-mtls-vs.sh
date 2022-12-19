@@ -151,11 +151,11 @@ echo
 
 place="Warsaw"
 echo "----- External (GTO) Travel Search for [$place] ------------------------------------------------------------------"
-call-via-mtls-travel-agency-api.sh https://$https_mutual_route $place
+./call-via-mtls-travel-agency-api.sh https://$https_mutual_route $place
 echo
 place="Brussels"
 echo "----- External (GTO) Travel Search for [$place] ------------------------------------------------------------------"
-call-via-mtls-travel-agency-api.sh https://$https_mutual_route $place
+./call-via-mtls-travel-agency-api.sh https://$https_mutual_route $place
 echo
 #place="Tallinn"
 #echo "----- External (GTO) Travel Search for [$place] ------------------------------------------------------------------"
