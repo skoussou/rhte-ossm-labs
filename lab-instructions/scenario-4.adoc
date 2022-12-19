@@ -10,7 +10,7 @@ The Lab Instructor should run the link:../setup/run-setup-scenario-4.sh[run-setu
 
 [IMPORTANT]
 ====
-The Lab Instructor should also run the second link:../setup/run-setup-scenario-4b-after-LAB-3[run-setup-scenario-4b-after-LAB-3] script for *EACH* Lab user after completing scenario 3. This script retrieves the OpenShift Ingress certificate and mounts it in the users istiod pod. This is necessary because Istio is accessing RH-SSO in order to validate tokens etc., and RH-SSO is exposed through an OCP TLS route.
+The Lab Instructor should also run the second link:../setup/run-setup-scenario-4b-after-LAB-3.sh[run-setup-scenario-4b-after-LAB-3.sh] script for *EACH* Lab user after completing scenario 3. This script retrieves the OpenShift Ingress certificate and mounts it in the users istiod pod. This is necessary because Istio is accessing RH-SSO in order to validate tokens etc., and RH-SSO is exposed through an OCP TLS route.
 ====
 
 == Requirements and constraints on integrating the new Business Partner
@@ -23,7 +23,7 @@ image::assets/04-gto.png[300,700]
 
 == Task 1: Export your variables
 
-1. First export the `CLUSTER_API`, the `OCP_DOMAIN` and your Lab User Id `LAB_PARTICIPANT_ID`:
+1. First export the `CLUSTER_API`, `OCP_DOMAIN`, the `SSO_CLIENT_SECRET` and your Lab User Id `LAB_PARTICIPANT_ID`:
 
 [source,shell]
 ----
@@ -38,12 +38,12 @@ export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
 In this task we are going to create:
 
 * An additional ingress gateway for the Travel Agency API Services
-* A Istio Virtual Service configuration
+* An Istio Virtual Service configuration
 * Certificates for our curl GTO client (link:../lab-4/create-client-certs-keys.sh[create-client-certs-keys.sh])
 * Verify the MTLS connection
 
 === Step 1
-Login as Mesh Operator with `emma/emma` and modify the SMCP resource.
+Login as Mesh Operator with `emma/emma` and modify the SMCP resource. You can also do this within the OpenShift Console.
 
 [NOTE]
 ====
