@@ -1,0 +1,257 @@
+= Scenario 4
+:toc:
+
+The Travel Agency company has running their applications now in a development and production environment and within OpenShift Service Mesh. Now there is a new business oportunity for the Travel Agency, as a new Business partner wants to integrate the Travel API services with their own Solutions. The Travel Agency company needs to establish a secure way to expose the API Services for external partners.
+
+[IMPORTANT]
+====
+The Lab Instructor should run the link:../setup/run-setup-scenario-4.sh[run-setup-scenario-4.sh] script for scenario 4 before you actually start working with the Scenario 4 tasks. This will create a RH-SSO Identity Provider, adds a realm for Service Mesh and also creates a client configuration for each production Service Mesh control plane.
+====
+
+[IMPORTANT]
+====
+The Lab Instructor should also run the second link:../setup/run-setup-scenario-4b-after-LAB-3[run-setup-scenario-4b-after-LAB-3] script for *EACH* Lab user after completing scenario 3. This script retrieves the OpenShift Ingress certificate and mounts it in the users istiod pod. This is necessary because Istio is accessing RH-SSO in order to validate tokens etc., and RH-SSO is exposed through an OCP TLS route.
+====
+
+== Requirements and constraints on integrating the new Business Partner
+
+1. The new partner _Global Travel Organization(GTO)_ will source travel offers via _Travel Services Domain_ APIs.
+2. The Travel Agency _Security Team_ requires all communications with the external client to be performed over `MUTUAL TLS`.
+3. The Travel Agency _Platform Team_ wishes to enable further `authentication` with a valid JWT token in order to exercise possible `authorization` policies in the future.
+
+image::assets/04-gto.png[300,700]
+
+== Task 1: Export your variables
+
+1. First export the `CLUSTER_API`, the `OCP_DOMAIN` and your Lab User Id `LAB_PARTICIPANT_ID`:
+
+[source,shell]
+----
+export CLUSTER_API=https://api.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443/
+export LAB_PARTICIPANT_ID=5
+export OCP_DOMAIN=apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com
+export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
+----
+
+== Task 2: External API integration with mTLS
+
+In this task we are going to create:
+
+* An additional ingress gateway for the Travel Agency API Services
+* A Istio Virtual Service configuration
+* Certificates for our curl GTO client (link:../lab-4/create-client-certs-keys.sh[create-client-certs-keys.sh])
+* Verify the MTLS connection
+
+=== Step 1
+Login as Mesh Operator with `emma/emma` and modify the SMCP resource.
+
+[NOTE]
+====
+Please sustitute *user-X* with your actual lab user-id!
+====
+
+[source, shell]
+----
+cd lab-4
+./login-as.sh emma 
+oc edit smcp/user-X-production -n user-$LAB_PARTICIPANT_ID-prod-istio-system
+----
+
+Navigate to the gateway section and add an additional gateway as follows:
+
+====
+  gateways:
+    additionalIngress:
+      gto-user-$LAB_PARTICIPANT_ID-ingressgateway:
+        enabled: true
+        runtime:
+          deployment:
+            autoScaling:
+              enabled: false
+        service:
+          metadata:
+            labels:
+              app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+          selector:
+            app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+====
+
+We can verify the creation of the additional gateway either in the OCP Console or with the CLI:
+
+[source, shell]
+----
+oc get pods -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep gto
+
+oc get routes -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
+----
+
+=== Step 2
+
+In the next step we 
+
+* create the CA and certs for the exposure of the TLS based Gateway, 
+* an OpenShift passthrough route,
+* the Istio Gateway configuration 
+* create the client certificates based on the same CA for the curl client (in order to test MTLS):
+
+[source, shell]
+----
+./create-external-mtls-https-ingress-gateway.sh prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID
+----
+
+You can check the created certs by looking in your current directory:
+
+[source, shell]
+----
+ls -ltr
+
+-rw-r--r--@ 1 oschneid  staff  3272 Dec 19 11:04 ca-root.key
+-rw-r--r--@ 1 oschneid  staff  1944 Dec 19 11:04 ca-root.crt
+-rw-r--r--@ 1 oschneid  staff   523 Dec 19 11:04 gto-user-1.conf
+-rw-r--r--@ 1 oschneid  staff  1704 Dec 19 11:04 gto-user-1-app.key
+-rw-r--r--@ 1 oschneid  staff  1045 Dec 19 11:04 gto-user-1-app.csr
+-rw-r--r--@ 1 oschneid  staff    17 Dec 19 11:04 ca-root.srl
+-rw-r--r--@ 1 oschneid  staff  1614 Dec 19 11:04 gto-user-1-app.crt
+-rw-r--r--@ 1 oschneid  staff  1704 Dec 19 11:04 curl-client.key
+-rw-r--r--@ 1 oschneid  staff   940 Dec 19 11:04 curl-client.csr
+-rw-r--r--@ 1 oschneid  staff  1497 Dec 19 11:04 curl-client.crt
+----
+
+You can navigate in Kiali to `Istio Config` and check the `travel-api-gateway` resource.
+
+image::assets/04-Kiali-Gateway.png[300,700]
+
+=== Step 3
+
+As Mesh Developer and Travel Services Domain Owner (Tech Lead) login with `farid/farid` and deploy the Istio Configs in your prod-travel-agency namespace to allow requests via the above defined Gateway to reach the required services cars, insurances, flights, hotels and travels.
+
+[source, shell]
+----
+./login-as.sh farid
+./deploy-external-travel-api-mtls-vs.sh user-$LAB_PARTICIPANT_ID-prod user-$LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID
+----
+
+The script will also run some example requests and if MTLS handshake works you should see something similar to this: 
+
+image::assets/04-MTLS-reqs.png[300,700]
+
+You can now go to the Kiali Dashboard (Graph section) and observe the traffic entering the Mesh through the MTLS enabled Gateway.
+
+image::assets/04-gto-external-ingressgateway.png[300,700]
+
+== Task 3: Configure Authn and Authz with JWT Tokens
+
+The Travel Agency has exposed their API services with MTLS through an additional ingress gateway. Now they want to further lock down who should be able to access their services. Therefore they want to use JWT Tokens with Istio.   
+
+=== The JWT workflow
+
+The intended final authentication workflow for external requests with a `JWT` token is as follows (*Note:* this is in addition to the mTLS handshake):
+
+1. The external user authenticates to RHSSO and gets a JWT token 
+2. The user performs an HTTP request to `https://<route>/travels` (or one of `cars`, `hotels`, `insurances`, `flights`) and passes along this request the JWT token;
+3. The `istio-proxy` container of the Istio Ingress Gateway checks the validity of the JWT token depending on the `RequestAuthentication` and `AuthorizationPolicy` objects
+4. If the JWT token is valid and the AuthorizationPolicy matches, the external user is allowed to access the `/PATH` - otherwise, an error message is returned to the user (code `403`, message `RBAC denied` or others).
+
+* Pros:
+** This is the simplest approach (only 2 Custom Resources to be deployed)
+** Fine-grained authorization based on JWT token fields
+* Cons:
+** No OIDC workflow: The user must get a JWT token on its own, and pass it with the HTTP request on its own
+** Need to define `RequestAuthentication` and `AuthorizationPolicy` objects for each application inside the service mesh
+
+=== Step 1
+
+We login as Mesh Operator with `emma/emma` and create a RequestAuthentication resource. 
+
+The request authentication enables JWT validation on the Istio ingress gateway so that the validated JWT claims can later be used in i.e. the virtual service for routing purposes. The request authentication is applied on the ingress gateway because the JWT claim based routing is *only* supported on ingress gateways.
+
+[NOTE]
+====
+The request authentication will only check the JWT if it exists in the request. To make the JWT required and reject the request if it does not include JWT, apply an authorization policy.
+====
+
+[source, shell]
+----
+./login-as.sh emma
+
+echo "apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+ name: jwt-rhsso-gto-external
+ namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+spec:
+ selector:
+   matchLabels:
+     app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+ jwtRules:
+   - issuer: >-
+       https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab
+     jwksUri: >-
+       https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/certs" | oc apply -f -
+----
+
+Next we add an AuthorizationPolicy Resource where we specify to only allow requests from a specific user when the token was issued by the specified RH-SSO.
+
+[source, shell]
+----
+echo "apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: authpolicy-gto-external
+  namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+spec:
+  selector:
+    matchLabels:
+      app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ['*']
+    when:
+    - key: request.auth.claims[iss]
+      values: ['https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab'] " | oc apply -f -
+----
+
+== Task 4: Test Authn / Authz with JWT
+
+Now we test the external access by sending a request to the cars and travels API services without a JWT Token. This gives as a HTTP 403 Response (RBAC / Access Denied):
+
+[source, shell]
+----
+./login-as.sh emma 
+
+export GATEWAY_URL=$(oc -n user-$LAB_PARTICIPANT_ID-prod-istio-system get route gto-user-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}') 
+echo $GATEWAY_URL
+
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/cars/Tallinn |jq 
+
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/travels/Tallinn |jq 
+----
+
+We authenticate against the RH-SSO instance and retrieve a JWT Access Token:
+
+[source, shell]
+----
+TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-user-$LAB_PARTICIPANT_ID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
+
+echo $TOKEN
+----
+
+Now we start sending requests with the JWT Token to the additional Ingress Gateway by using MTLS:
+
+[source, shell]
+----
+./call-via-mtls-and-jwt-travel-agency-api.sh user-$LAB_PARTICIPANT_ID-prod-istio-system gto-user-$LAB_PARTICIPANT_ID $TOKEN
+----
+
+Please login to Kiali and verify the traffic is successfully entering the mesh.
+
+image::assets/04-gto-external-ingressgateway-jtw.png[300,700]
+
+== Next Steps
+
+Congratulations!! 
+You have completed Scenario 4.
+
+link:scenario-5.adoc[Getting started with Scenario 5]
