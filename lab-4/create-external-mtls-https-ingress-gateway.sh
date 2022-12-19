@@ -78,7 +78,7 @@ echo "Create Certificate Signing Request, TLS Certificate for hosted service for
 echo "---------------------------------------------------------------------------------"
 echo
 echo "create-app-csr-certs-keys.sh $PREFIX.conf $PREFIX"
-create-app-csr-certs-keys.sh $PREFIX.conf $PREFIX
+./create-app-csr-certs-keys.sh $PREFIX.conf $PREFIX
 sleep 5
 echo
 
@@ -205,7 +205,7 @@ echo "Ingress Route [$PREFIX.$DOMAIN_NAME]"
 echo "===================================================================================="
 echo
 echo create-client-certs-keys.sh curl
-create-client-certs-keys.sh curl
+./create-client-certs-keys.sh curl
 
 echo
 sleep 5
