@@ -92,7 +92,7 @@ In the following table you’ll see the Persona / Role mappings for the Travel A
 |Domain Owner (Tech Lead)|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer]
 |Developer|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer]
 |Application Ops Team|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer]
-|Product Owner|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Operator]
+|Product Owner|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer]
 |===
 
 [NOTE]
