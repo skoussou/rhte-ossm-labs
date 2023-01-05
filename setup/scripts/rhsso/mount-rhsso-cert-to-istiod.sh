@@ -17,18 +17,20 @@ echo
 sleep 7
 echo "Retrieve the CA certificate from secret in openshift-ingress-operator project"
 echo "-----------------------------------------------------------------------------"
-echo "oc extract secret/router-ca -n openshift-ingress-operator --to=/tmp/"
+rm -rf /tmp/$SM_TENANT_NAME
+mkdir -p /tmp/$SM_TENANT_NAME
+echo "oc extract secret/router-ca -n openshift-ingress-operator --to=/tmp/$SM_TENANT_NAME"
 sleep 5
-oc extract secret/router-ca -n openshift-ingress-operator --to=/tmp/
+oc extract secret/router-ca -n openshift-ingress-operator --confirm --to=/tmp/$SM_TENANT_NAME
 sleep 3
 echo
 
 echo "Create a secret from this CA certificate in $SM_CP_NS project"
 echo "-----------------------------------------------------------------------------"
 oc -n $SM_CP_NS delete secret/openshift-wildcard
-echo "oc -n $SM_CP_NS create secret generic openshift-wildcard --from-file=extra.pem=/tmp/tls.crt"
+echo "oc -n $SM_CP_NS create secret generic openshift-wildcard --from-file=extra.pem=/tmp/$SM_TENANT_NAME/tls.crt"
 sleep 2
-oc -n $SM_CP_NS create secret generic openshift-wildcard --from-file=extra.pem=/tmp/tls.crt
+oc -n $SM_CP_NS create secret generic openshift-wildcard --from-file=extra.pem=/tmp/$SM_TENANT_NAME/tls.crt
 sleep 1
 echo
 
@@ -46,10 +48,14 @@ echo
 
 echo "Verification of the Procedure"
 echo "-----------------------------------------------------------------------------"
-echo "podname=oc get pods -n $SM_CP_NS | grep istiod-$SM_TENANT_NAME | awk '{print \$1}'"
-podname=$(oc get pods -n $SM_CP_NS | grep istiod-$SM_TENANT_NAME | awk '{print $1}')
+echo "podname=oc get pods -n $SM_CP_NS | grep istiod-$SM_TENANT_NAME | awk '{print \$1}' | sed '1d'"
+#podname=$(oc get pods -n $SM_CP_NS | grep istiod-$SM_TENANT_NAME | awk '{print $1}'  | awk 'NR>1')
+podname=$(oc get pods -n $SM_CP_NS | grep istiod-$SM_TENANT_NAME | awk '{print $1}' | sed '1d')
 echo
-echo "podname=$podname"
+echo "podname=[$podname]"
+echo
+#podname=$(echo podname| sed '1d')
+#echo "2nd time [$podname]"
 sleep 5
 
 # RSH to istiod pod
