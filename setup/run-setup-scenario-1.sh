@@ -9,6 +9,17 @@ HTTPASSWD_SECRET=$5 #oc get secret  -n openshift-config |grep htpasswd
 set -e
 
 echo ""
+echo "###############################################################"
+echo "  CLUSTER_API=         $CLUSTER_API                            "
+echo "  LAB_PARTICIPANTS=    $LAB_PARTICIPANTS                       "
+echo "  OCP_DOMAIN=          $OCP_DOMAIN                             "
+echo "  CLUSTERNAME=         $CLUSTERNAME                            "
+echo "  BASEDOMAIN=          $BASEDOMAIN                             "
+echo "  CLUSTER_ADMIN=       $CLUSTER_ADMIN                          "
+echo "  CLUSTER_ADMIN_PASS=  $CLUSTER_ADMIN_PASS                     "
+echo "###############################################################"
+echo ""
+sleep 5
 
 echo "==============================================================="
 echo " LOGIN"
