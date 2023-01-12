@@ -33,6 +33,15 @@ export OCP_DOMAIN=apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com
 export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
 ----
 
+[NOTE]
+====
+If you runout of time and you wish to complete the following lab sections in a single step execute
+----
+cd lab-4
+./complete-lab-4.sh $SSO_CLIENT_SECRET $OCP_DOMAIN $LAB_PARTICIPANT_ID
+----
+====
+
 == Task 2: External API integration with mTLS
 
 In this task we are going to create:

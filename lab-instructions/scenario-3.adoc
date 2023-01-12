@@ -5,7 +5,14 @@ The Travel Agency company has a running development environment. Now the company
 
 [NOTE]
 ====
-The Lab Instructor should run the setup script for scenario 3 before you actually start working with the Scenario 3 tasks. The setup script will create all prod namespaces for all lab users as well as the OpenShift users, roles and rolebindings for the production environment.
+The Lab Instructor has already created all prod namespaces for all lab users as well as the OpenShift users, roles and rolebindings for the production environment. You will now proceed to create the Prod Service Mesh Setup.
+
+If you runout of time and you wish to complete the following lab sections in a single step execute
+
+----
+cd lab-3
+./complete-lab-3.sh $OCP_DOMAIN $LAB_PARTICIPANT_ID
+----
 ====
 
 == Production Requirements
