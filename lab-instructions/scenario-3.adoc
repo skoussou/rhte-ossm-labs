@@ -10,7 +10,7 @@ The Lab Instructor has already created all prod namespaces for all lab users as 
 
 == Production Requirements
 
-Let us recall some of the initial requirements for production, which we've discussed in scenrio 1:
+Let us recall the initial requirements for production, which we've discussed in scenrio 1:
 
 1. The _Development Team_ wants to be able to trace (every) request during development, and a sample of `20%` of traffic in Production
 2. The _Product Team_ wants to see metrics around performance/usage (storing them for up to 1 week)
@@ -68,7 +68,6 @@ We are going to create a basic Service Mesh Control Plane for production. Regard
 * Option 1: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-deploy-production.html#ossm-smcp-prod_ossm-architecture[Production distributed tracing platform deployment (minimal) -  via SMCP Resource]
 * Option 2: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#ossm-deploying-jaeger-production_jaeger-config-reference[Production distributed tracing platform deployment (fully customized)]
 
-
 1. Login as Mesh Operator with `emma/emma` and run the `create-prod-smcp-1-tracing.sh` script. This deploys the production SMCP and an external Jaeger instance in your lab user control namespace.
 
 [source,shell]
@@ -77,6 +76,10 @@ cd lab-3
 ./login-as.sh emma 
 ./create-prod-smcp-1-tracing.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
 ----
+
+NOTE: The configs come from link:../lab3/create-prod-smcp-1-tracing.sh[create-prod-smcp-1-tracing.sh] script which you can inspect for details.
+
+
 
 * The `Jaeger Operator` will also create a `Jaeger Collector`, a `Jaeger Query` and an `Elastic Search` Deployment in your `$LAB_PARTICIPANT_ID-prod-istio-system`.
 
@@ -294,6 +297,8 @@ Now let's login as Mesh Operator with `emma/emma` and execute the described step
 ./create-https-ingress-gateway.sh prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID
 ----
 
+NOTE: The configs come from link:../lab-3/create-https-ingress-gateway.sh[create-https-ingress-gateway.sh] script which you can inspect for details.
+
 After finishing the script you'll get the exposed Route and the `Travel Control Dashboard` should be accessible (look at the end of the script log for the URL) i.e.:
 https://travel-user-5.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the Kiali error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs.png[`VirtualService` should also show as resolved].
 
@@ -320,6 +325,7 @@ This option assumes that another tool like Datadog is used by the Operations tea
 a. For `controlplane` components metrics collection, the tool needs to be part of the control plane namespace or a `NetworkPolicy` to allow it visibility to those components is required.
 b. For `dataplane` metrics the same approach described, previously, in _Option 3_ is to be followed.
 
+
 Now login as Mesh operator with `emma/emma`, create a PVC for Prometheus and update the Prometheus configuration.
 
 [source,shell]
@@ -327,6 +333,9 @@ Now login as Mesh operator with `emma/emma`, create a PVC for Prometheus and upd
 ./login-as.sh emma 
 ./update-prod-smcp-2-prometheus.sh user-$LAB_PARTICIPANT_ID-prod-istio-system
 ----
+
+NOTE: The configs come from link:../lab-3/update-prod-smcp-2-prometheus.sh[update-prod-smcp-2-prometheus.sh] script which you can inspect for details.
+
 
 == Task 6: Final Production Configuration
 
@@ -351,11 +360,6 @@ Therefore, based on these rules and guidelines we will apply to the final `PROD`
 * _Istio Ingress/Egress Gateways:_  (scale up to 2 instances)
 * _Istiod Controlplane_ (scale up to 2 instances)
 
-[IMPORTANT]
-====
-Please have a look at the link:../lab-3/update-prod-smcp-3-final.sh[update-prod-smcp-3-final.sh] script
-====
-
 We login as Mesh operator with 'emma/emma' and execute the final update script (on a separate command prompt execute `oc get pods -w -n user-$LAB_PARTICIPANT_ID-prod-istio-system` to follow the POD scalings).
 
 [source,shell]
@@ -363,6 +367,8 @@ We login as Mesh operator with 'emma/emma' and execute the final update script (
 ./login-as.sh emma 
 ./update-prod-smcp-3-final.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
 ----
+
+NOTE: The configs come from link:../lab-3/update-prod-smcp-3-final.sh[update-prod-smcp-3-final.sh] script which you can inspect for details.
 
 == Next Steps
 
