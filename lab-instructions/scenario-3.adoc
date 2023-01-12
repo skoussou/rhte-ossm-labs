@@ -241,7 +241,7 @@ The result of this command should look similar to this (may need to retry a few 
 +
 You can also login with `farid/farid` in the Openshift Console and verify the applications created in your `user-$LAB_PARTICIPANT_ID-prod-travel-agency` namespace. It should look like:
 +
-image::assets/03-travel-agency-expected-3-container-pods.png[200,500]
+image::assets/03-travel-agency-expected-3-container-pods.png[300,700]
 
 
 * In the next step we install the second part of our applications, the Travel Control and Travel Portal apps, with the responsible user `cristina/cristina`
@@ -281,11 +281,11 @@ image::assets/03-travel-agency-expected-3-container-pods.png[200,500]
 * We can login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces:
 ** `user-$LAB_PARTICIPANT_ID-prod-travel-control`
 +
-image::assets/03-travel-control-expected-3-container-pods.png[200,500]
+image::assets/03-travel-control-expected-3-container-pods.png[300,700]
 
 ** `user-$LAB_PARTICIPANT_ID-prod-travel-portal`
 +
-image::assets/03-travel-portal-expected-3-container-pods.png[200,500]
+image::assets/03-travel-portal-expected-3-container-pods.png[300,700]
 
 == Task 4: Expose the Travel Portal Dashboard via TLS
 
