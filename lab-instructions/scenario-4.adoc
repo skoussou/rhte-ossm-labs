@@ -153,9 +153,9 @@ The Travel Agency has exposed their API services with MTLS through an additional
 The intended final authentication workflow for external requests with a `JWT` token is as follows (*Note:* this is in addition to the mTLS handshake):
 
 1. The external user authenticates to RHSSO and gets a JWT token 
-2. The user performs an HTTP request to `https://<route>/travels` (or one of `cars`, `hotels`, `insurances`, `flights`) and passes along this request the JWT token;
+2. The user performs an HTTP request to `https://<route>/travels` (or one of `cars`, `hotels`, `insurances`, `flights`) and passes along this request the JWT token
 3. The `istio-proxy` container of the Istio Ingress Gateway checks the validity of the JWT token depending on the `RequestAuthentication` and `AuthorizationPolicy` objects
-4. If the JWT token is valid and the AuthorizationPolicy matches, the external user is allowed to access the `/PATH` - otherwise, an error message is returned to the user (code `403`, message `RBAC denied` or others).
+4. If the JWT token is valid and the AuthorizationPolicy matches, the external user is allowed to access the `/PATH` - otherwise, an error message is returned to the user (code `403`, message `RBAC: access denied` or others).
 
 * Pros:
 ** This is the simplest approach (only 2 Custom Resources to be deployed)

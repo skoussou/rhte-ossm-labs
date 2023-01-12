@@ -239,7 +239,10 @@ The result of this command should look similar to this (may need to retry a few 
 ./deploy-travel-services-domain.sh prod prod-istio-system $LAB_PARTICIPANT_ID
 ----
 +
-You can also login with `farid/farid` in the Openshift Console and verify the applications created in your `user-$LAB_PARTICIPANT_ID-prod-travel-agency` namespace and link:./assets/03-travel-agency-expected-3-container-pods.png[each POD has 3 containers].
+You can also login with `farid/farid` in the Openshift Console and verify the applications created in your `user-$LAB_PARTICIPANT_ID-prod-travel-agency` namespace. It should look like:
++
+image::assets/03-travel-agency-expected-3-container-pods.png[200,500]
+
 
 * In the next step we install the second part of our applications, the Travel Control and Travel Portal apps, with the responsible user `cristina/cristina`
 +
@@ -275,7 +278,14 @@ You can also login with `farid/farid` in the Openshift Console and verify the ap
 ./deploy-travel-portal-domain.sh prod prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID 
 ----
 
-* We can login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces `user-$LAB_PARTICIPANT_ID-prod-travel-control` (link:./assets/03-travel-control-expected-3-container-pods.png[control POD should have 3 containers]) and  `user-$LAB_PARTICIPANT_ID-prod-travel-portal` (link:./assets/03-travel-portal-expected-3-container-pods.png[all PODs should have 3 containers]).
+* We can login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces:
+** `user-$LAB_PARTICIPANT_ID-prod-travel-control`
++
+image::assets/03-travel-control-expected-3-container-pods.png[200,500]
+
+** `user-$LAB_PARTICIPANT_ID-prod-travel-portal`
++
+image::assets/03-travel-portal-expected-3-container-pods.png[200,500]
 
 == Task 4: Expose the Travel Portal Dashboard via TLS
 
@@ -372,7 +382,7 @@ NOTE: The configs come from link:../lab-3/update-prod-smcp-3-final.sh[update-pro
 
 == Next Steps
 
-IMPORTANT: As soon as you are done with this Lab Scenario inform the instructors who will need to prepare the environment for the next lab.
+IMPORTANT: *Before you move to Lab Scenario-4* inform the instructors you have completed this lab scenario as they will need to prepare the environment for the next lab.
 
 Contratulations! You have helped the Travel Agency setup a production environment. You deserve a *5 minute break*! before moving to the next scenario.
 
