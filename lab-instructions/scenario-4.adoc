@@ -48,12 +48,12 @@ cd lab-4
 In this task we are going to create:
 
 * An additional ingress gateway for the Travel Agency API Services
-* An Istio Virtual Service configuration
-* Certificates for our curl GTO client (link:../lab-4/create-client-certs-keys.sh[create-client-certs-keys.sh])
+* An Istio `VirtualService` configuration for traffic to flow via the gto gateway
+* Certificates for our `curl` GTO client to connect with MTLS to the gto gateway
 * Verify the MTLS connection
 
 === Step 1 - Create additionalIngress Gateway in SMCP
-Login as Mesh Operator with `emma/emma` and modify the SMCP resource. You can also do this within the OpenShift Console.
+Login as Mesh Operator with `emma/emma` and modify the SMCP resource. You can also do this within the Openshift Console.
 
 [source, shell]
 ----
@@ -95,7 +95,7 @@ oc get routes -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
 In the next step we 
 
 * create the CA and certs for the exposure of the TLS based Gateway, 
-* an OpenShift passthrough route,
+* an Openshift passthrough route,
 * the Istio Gateway configuration 
 * create the client certificates based on the same CA for the curl client (in order to test MTLS):
 
