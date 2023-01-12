@@ -6,13 +6,6 @@ The Travel Agency company has a running development environment. Now the company
 [NOTE]
 ====
 The Lab Instructor has already created all prod namespaces for all lab users as well as the OpenShift users, roles and rolebindings for the production environment. You will now proceed to create the Prod Service Mesh Setup.
-
-If you runout of time and you wish to complete the following lab sections in a single step execute
-
-----
-cd lab-3
-./complete-lab-3.sh $OCP_DOMAIN $LAB_PARTICIPANT_ID
-----
 ====
 
 == Production Requirements
@@ -58,6 +51,15 @@ export CLUSTER_API=https://api.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443/
 export LAB_PARTICIPANT_ID=5
 export OCP_DOMAIN=apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com
 ----
+
+[NOTE]
+====
+If you runout of time and you wish to complete the following lab sections in a single step execute
+----
+cd lab-3
+./complete-lab-3.sh $OCP_DOMAIN $LAB_PARTICIPANT_ID
+----
+====
 
 == Task 2: Install a basic Service Mesh Control Plane with an external Jaeger configuration
 
