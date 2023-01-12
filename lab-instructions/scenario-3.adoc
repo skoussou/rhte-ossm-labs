@@ -320,10 +320,6 @@ This option assumes that another tool like Datadog is used by the Operations tea
 a. For `controlplane` components metrics collection, the tool needs to be part of the control plane namespace or a `NetworkPolicy` to allow it visibility to those components is required.
 b. For `dataplane` metrics the same approach described, previously, in _Option 3_ is to be followed.
 
-[IMPORTANT]
-====
-In this scenario we decided to take option one! Please have a look at the link:assets/update-prod-smcp-2-prometheus.sh[update-prod-smcp-2-prometheus.sh] script
-====
 
 Now login as Mesh operator with `emma/emma`, create a PVC for Prometheus and update the Prometheus configuration.
 
