@@ -284,12 +284,6 @@ In order to achieve that,
 * store it in a secret in our SMCP namespace
 * create on Openshift passthrough route forwarding traffic to the Istio ingress Gateway
 * create an Istio Gateway Resource configured with our TLS certificate
-
-[NOTE]
-====
-Please take a look at the link:../lab-3/create-https-ingress-gateway.sh[create-https-ingress-gateway.sh] script to see the resources and instructions.
-====
-
 * Right now if you login to the Kiali Dashboard with the user `emma/emma`, there is an issue in the `VirtualService` control and link:./assets/03-no-gw-for-travel-control-ui-vs.png[an error on Kiali] as no `Gateway` exists yet.
 
 Now let's login as Mesh Operator with `emma/emma` and execute the described steps.
