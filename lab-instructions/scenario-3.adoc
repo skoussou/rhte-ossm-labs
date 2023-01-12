@@ -68,10 +68,6 @@ We are going to create a basic Service Mesh Control Plane for production. Regard
 * Option 1: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-deploy-production.html#ossm-smcp-prod_ossm-architecture[Production distributed tracing platform deployment (minimal) -  via SMCP Resource]
 * Option 2: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#ossm-deploying-jaeger-production_jaeger-config-reference[Production distributed tracing platform deployment (fully customized)]
 
-[NOTE]
-====
-Please take a look at the link:../lab3/create-prod-smcp-1-tracing.sh[create-prod-smcp-1-tracing.sh] script to see the resources and instructions.
-====
 
 1. Login as Mesh Operator with `emma/emma` and run the `create-prod-smcp-1-tracing.sh` script. This deploys the production SMCP and an external Jaeger instance in your lab user control namespace.
 
