@@ -1,7 +1,10 @@
-= Scenario 5
+= Scenario 5 - Business Authz restrictions and Corporate CA Setup
 :toc:
 
 Evaluations by the Product Security Team as well as new regulations are requiring the Travel Agency company to further improve the security aspects of the running applications in production.
+
+1. The Security Team requires a corporate (intermmediate) CA certificate to be used for the inter-Service Mesh mTLS communications.
+2. The Product Team (of the Travel Agency APIs) requires to add authorization for the access to specific services.
 
 == Final Security Architecture Overview
 
@@ -308,9 +311,7 @@ image::assets/05-access-restored-with-authz-policies.png[300,700]
 
 == Task 4 (Optional): Use a custom Certificate Authority (CA)
 
-coming soon...
-
-
+In the Handbook
 
 == Next Steps
 
