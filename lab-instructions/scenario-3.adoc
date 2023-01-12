@@ -1,11 +1,11 @@
 = Scenario 3
 :toc:
 
-The Travel Agency company has a running development environment. Now the company is heading to production. In this scenario we are going to set up OpenShift Service Mesh in a production environment, deploy the travel applications in the Mesh, exposing the application for external access with TLS and fine tune some Mesh parameters for production.
+The Travel Agency company has a running development environment. Now the company is heading to production. In this scenario we are going to set up Openshift Service Mesh in a production environment, deploy the travel applications in the Mesh, exposing the application for external access with TLS and fine tune some Mesh parameters for production.
 
 [NOTE]
 ====
-The Lab Instructor has already created all prod namespaces for all lab users as well as the OpenShift users, roles and rolebindings for the production environment. You will now proceed to create the Prod Service Mesh Setup.
+The Lab Instructor has already created all prod namespaces for all lab users as well as the Openshift users, roles and rolebindings for the production environment. You will now proceed to create the Prod Service Mesh Setup.
 ====
 
 == Production Requirements
@@ -179,7 +179,7 @@ The applied `ServiceMeshControlPlane` Resource ensures that:
 * *(4)* It will utilize Elastic Search for persistence of traces (unlike  in the `dev-istio-system` namespace where `memory` is utilized)
 * *(5)* The `jaeger-small-production` external `Jaeger` Resource is integrated by and utilized in the `Service Mesh`.
 
-You can also login to the OpenShift console with `emma/emma` and navigate to your `user-$LAB_PARTICIPANT_ID-prod-istio-system` namespace and verify all deployments and pods are running.
+You can also login to the Openshift console with `emma/emma` and navigate to your `user-$LAB_PARTICIPANT_ID-prod-istio-system` namespace and verify all deployments and pods are running.
 
 == Task 3: Add the Application Namespaces to the Production Mesh and create the Deployments
 
@@ -286,7 +286,7 @@ In order to achieve that,
 
 * we are going to create a TLS certificate 
 * store it in a secret in our SMCP namespace
-* create on OpenShift passthrough route forwarding traffic to the Istio ingress Gateway
+* create on Openshift passthrough route forwarding traffic to the Istio ingress Gateway
 * create an Istio Gateway Resource configured with our TLS certificate
 
 [NOTE]
@@ -323,7 +323,7 @@ a. Deploy an additional `Prometheus Operator` in `prod-istio-system`
 b. Deploy a `StatefulSet` based `Prometheus` resource with 2 replicas
 c. Configure the prometheus replicas to monitor the components in `prod-istio-system` and all dataplane namespaces.
 Option 3: Integrate with Openshift `Monitoring` Stack::
-With this option only the `dataplane` metrics (`istio-proxy` and business container) are collected. These will be scraped by the Openshift Monitoring Stack's Prometheus and the changes required on the service mesh are described in link:https://access.redhat.com/solutions/6958679[How to configure user-workload to monitor ServiceMesh application in OpenShift 4].
+With this option only the `dataplane` metrics (`istio-proxy` and business container) are collected. These will be scraped by the Openshift Monitoring Stack's Prometheus and the changes required on the service mesh are described in link:https://access.redhat.com/solutions/6958679[How to configure user-workload to monitor ServiceMesh application in Openshift 4].
 Option 4: Integrate with an external `Monitoring` Tool::
 This option assumes that another tool like Datadog is used by the Operations team to collect metrics. In order to achieve this:
 
