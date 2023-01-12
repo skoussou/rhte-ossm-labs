@@ -1,4 +1,4 @@
-= Scenario 3
+= Scenario 3 - Setup `ServiceMeshControlPlane` for Production
 :toc:
 
 The Travel Agency company has a running development environment. Now the company is heading to production. In this scenario we are going to set up Openshift Service Mesh in a production environment, deploy the travel applications in the Mesh, exposing the application for external access with TLS and fine tune some Mesh parameters for production.

@@ -1,4 +1,4 @@
-= Scenario 2
+= Scenario 2 - Service Mesh Development Environment & Observability Stack
 :toc:
 
 The Travel Agency company has decided to setup a development and staging environment as well as the production system. The first part of the scenario is setting up the development environmant, creating the users, roles and rolebindings as well as installing the Service Mesh in the DEV environment. The second part of the scenario is about verifying that everything is correctly installed and all roles/permissions are working as expected.

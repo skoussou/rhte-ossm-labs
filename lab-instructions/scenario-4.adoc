@@ -1,7 +1,7 @@
-= Scenario 4
+= Scenario 4 - Securing (Authn & Authz) Gateways with MTLS and valid JWT Token
 :toc:
 
-The Travel Agency company has running their applications now in a development and production environment and within OpenShift Service Mesh. Now there is a new business oportunity for the Travel Agency, as a new Business partner wants to integrate the Travel API services with their own Solutions. The Travel Agency company needs to establish a secure way to expose the API Services for external partners.
+The Travel Agency company has running their applications now in a development and production environment and within Openshift Service Mesh. Now there is a new business opportunity for the Travel Agency, as a new Business partner wants to integrate the Travel API services with their own Solutions. The Travel Agency company needs to establish a secure way to expose the API Services for external partners.
 
 [IMPORTANT]
 ====
@@ -10,7 +10,7 @@ The Lab Instructor should run the link:../setup/run-setup-scenario-4.sh[run-setu
 
 [IMPORTANT]
 ====
-The Lab Instructor should also run the second link:../setup/run-setup-scenario-4b-after-LAB-3.sh[run-setup-scenario-4b-after-LAB-3.sh] script for *EACH* Lab user after completing scenario 3. This script retrieves the OpenShift Ingress certificate and mounts it in the users istiod pod. This is necessary because Istio is accessing RH-SSO in order to validate tokens etc., and RH-SSO is exposed through an OCP TLS route.
+After *Lab Scenario-3* you should have informed the instructors who will need to prepare the environment for the next lab.
 ====
 
 == Requirements and constraints on integrating the new Business Partner
@@ -51,7 +51,7 @@ In this task we are going to create:
 * Certificates for our curl GTO client (link:../lab-4/create-client-certs-keys.sh[create-client-certs-keys.sh])
 * Verify the MTLS connection
 
-=== Step 1
+=== Step 1 - Create additionalIngress Gateway in SMCP
 Login as Mesh Operator with `emma/emma` and modify the SMCP resource. You can also do this within the OpenShift Console.
 
 [NOTE]
@@ -94,7 +94,7 @@ oc get pods -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep gto
 oc get routes -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
 ----
 
-=== Step 2
+=== Step 2 - Expose and secure via MTLS host on new Gateway
 
 In the next step we 
 
@@ -130,7 +130,7 @@ You can navigate in Kiali to `Istio Config` and check the `travel-api-gateway` r
 
 image::assets/04-Kiali-Gateway.png[300,700]
 
-=== Step 3
+=== Step 3 - Configuration to allow Traffic flow via new Gateway
 
 As Mesh Developer and Travel Services Domain Owner (Tech Lead) login with `farid/farid` and deploy the Istio Configs in your prod-travel-agency namespace to allow requests via the above defined Gateway to reach the required services cars, insurances, flights, hotels and travels.
 
@@ -168,7 +168,7 @@ The intended final authentication workflow for external requests with a `JWT` to
 ** No OIDC workflow: The user must get a JWT token on its own, and pass it with the HTTP request on its own
 ** Need to define `RequestAuthentication` and `AuthorizationPolicy` objects for each application inside the service mesh
 
-=== Step 1
+=== Step 1 - Define Authentication and Authorization with valid RHSSO JWT Token
 
 We login as Mesh Operator with `emma/emma` and create a RequestAuthentication resource. 
 

@@ -1,4 +1,4 @@
-= Scenario 1
+= Scenario 1 - Designing Service Mesh Perimeter and Operating Model
 :toc:
 
 In this first scenario we’ll have a look at the requirements and consideration for introducing a Service Mesh and the involved personas from the fictive Travel Agency company.
