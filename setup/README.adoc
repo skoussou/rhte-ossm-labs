@@ -18,10 +18,9 @@ export CLUSTER_ADMIN_PASS=
 * *Scenario-1:*  `./run-setup-scenario-1.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
 * *Scenario-3:*  `./run-setup-scenario-2.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $LAB_PARTICIPANTS htpasswd-secret`
 * *Scenario-3b:* `./run-setup-scenario-3.sh $OCP_DOMAIN $LAB_PARTICIPANTS
-
-* *Scenario-4:* `./run-setup-scenario-4.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN $LAB_PARTICIPANTS`
+* *Scenario-4:*  `./run-setup-scenario-4.sh $CLUSTER_ADMIN $CLUSTER_ADMIN_PASS https://api.$CLUSTERNAME.$BASEDOMAIN:6443/ $CLUSTERNAME $BASEDOMAIN $LAB_PARTICIPANTS`
 * *Scenario-4b-once-per-participant:* SEE BELOW (to be done once per participant)
-* *Scenario-5:* ``
+* *Scenario-6:*  `./run-setup-scenario-6.sh premium-broker partner-istio-system $OCP_DOMAIN partner`
 
 == Setup Scenario-1
 
