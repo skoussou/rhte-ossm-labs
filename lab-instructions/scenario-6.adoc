@@ -50,7 +50,7 @@ The following script in a single step will
 
 ----
 ./login-as <ADMIN>
-./execute-federation-setup.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production partner-istio-system partner premium-broker
+./execute-federation-setup.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production partner-istio-system partner premium-broker $LAB_PARTICIPANT_ID
 ----
 
 
@@ -59,7 +59,7 @@ The following script in a single step will
 The outcome of this configuration will be that insurance quotes requests arriving at prod-travel-agency/travels service will be forwarded to federated insurances.premium-broker.svc.partner-imports.local service.
 
 ----
-./apply-federated-traffic-connectivity.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production partner-istio-system partner premium-broker
+./apply-federated-traffic-connectivity.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production partner-istio-system partner premium-broker $LAB_PARTICIPANT_ID
 ----
 
 
