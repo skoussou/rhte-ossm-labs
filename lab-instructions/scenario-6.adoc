@@ -23,7 +23,7 @@ The Lab Instructors have already created a second Service Mesh in `partner-istio
 
 == Task 1: Setup federation between `production` and `partner` meshes
 
-The 2 `SMCP` instances (production and partner) will be federated (federation being a feature of Red Hat OSSM to connect services from multiple mesh instances) and the `insurances` service from the partner mesh will be imported and used at the Travel Agency for the premium destinations. Below we have implemented this option.
+The 2 `SMCP` instances (production and partner) will be federated (link:https://docs.openshift.com/container-platform/4.9/service_mesh/v2x/ossm-federation.html#ossm-federation-config-export_federation[federation being a feature of Red Hat OSSM to connect services from multiple mesh instances]) and the `insurances` service from the partner mesh will be imported and used at the Travel Agency for the premium destinations. Below we have implemented this option.
 
 [IMPORTANT]
 ====
