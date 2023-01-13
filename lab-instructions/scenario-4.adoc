@@ -10,7 +10,7 @@ The Travel Agency company have their applications now running in a development a
 
 [IMPORTANT]
 ====
-The Lab Instructor have created a RH-SSO Identity Provider, a `Realm` for Service Mesh and also created a client configuration for each production Service Mesh control plane.
+The Lab Instructors have created a RH-SSO Identity Provider, a `Realm` for Service Mesh and also created a client configuration for each production Service Mesh control plane.
 ====
 
 
