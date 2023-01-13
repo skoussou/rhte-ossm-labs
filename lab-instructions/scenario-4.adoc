@@ -24,7 +24,7 @@ image::assets/04-gto.png[300,700]
 
 == Task 1: Export your variables
 
-1. First export the `CLUSTER_API`, `OCP_DOMAIN`, the `SSO_CLIENT_SECRET` and your Lab User Id `LAB_PARTICIPANT_ID` (link:../README.adoc[3rd column from TABLE here]):
+First export the `CLUSTER_API`, `OCP_DOMAIN`, the `SSO_CLIENT_SECRET` and your Lab User Id `LAB_PARTICIPANT_ID` (link:../README.adoc[3rd column from TABLE here]):
 
 [source,shell]
 ----
