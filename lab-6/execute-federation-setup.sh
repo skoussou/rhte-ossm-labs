@@ -5,6 +5,7 @@ FED_1_SMCP_NAME=$2 #production
 FED_2_SMCP_NAMESPACE=$3 #partner-istio-system
 FED_2_SMCP_NAME=$4 #partner
 NAMESPACE=$5 #premium-broker
+LAB_PARTICPAND_ID=$6
 
 echo
 echo
@@ -20,6 +21,7 @@ echo 'Federated ServiceMesh Control Plane 1 Tenant Name      : '$FED_1_SMCP_NAME
 echo 'Federated ServiceMesh Control Plane 2 Namespace        : '$FED_2_SMCP_NAMESPACE
 echo 'Federated ServiceMesh Control Plane 2 Tenant Name      : '$FED_2_SMCP_NAME
 echo 'Partner Dataplane Namespace                            : '$NAMESPACE
+echo 'LAB Participant Id                                     : '$LAB_PARTICPAND_ID
 echo '---------------------------------------------------------------------------'
 echo
 echo
@@ -45,16 +47,10 @@ echo "Current SMCP/$FED_1_SMCP_NAME
 apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
 metadata:
-  namespace: prod-istio-system
-  name: production
+  namespace: $FED_1_SMCP_NAMESPACE
+  name: $FED_1_SMCP_NAME
 spec:
   security:
-    certificateAuthority:
-      istiod:
-        privateKey:
-          rootCADir: /etc/cacerts
-        type: PrivateKey
-      type: Istiod
     dataPlane:
       automtls: true
       mtls: true
@@ -83,6 +79,19 @@ spec:
         outbound:
           policy: REGISTRY_ONLY
   gateways:
+    additionalIngress:
+      gto-user-$LAB_PARTICPAND_ID-ingressgateway:
+        enabled: true
+        runtime:
+          deployment:
+            autoScaling:
+              enabled: false
+        service:
+          metadata:
+            labels:
+              app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
+          selector:
+            app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
     egress:
       enabled: true
       runtime:
@@ -104,19 +113,6 @@ spec:
             minReplicas: 2
         pod: {}
       service: {}
-    additionalIngress:
-      gto-external-ingressgateway:
-        enabled: true
-        runtime:
-          deployment:
-            autoScaling:
-              enabled: false
-        service:
-          metadata:
-            labels:
-              app: gto-external-ingressgateway
-          selector:
-            app: gto-external-ingressgateway
     openshiftRoute:
       enabled: false
   policy:
@@ -181,12 +177,6 @@ metadata:
   namespace: $FED_1_SMCP_NAMESPACE
 spec:
   security:
-    certificateAuthority:
-      istiod:
-        privateKey:
-          rootCADir: /etc/cacerts
-        type: PrivateKey
-      type: Istiod
     dataPlane:
       automtls: true
       mtls: true
@@ -267,7 +257,7 @@ spec:
             name: tls
           - port: 8188
             name: https-discovery
-      gto-external-ingressgateway:
+      gto-user-$LAB_PARTICPAND_ID-ingressgateway:
         enabled: true
         runtime:
           deployment:
@@ -276,9 +266,9 @@ spec:
         service:
           metadata:
             labels:
-              app: gto-external-ingressgateway
+              app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
           selector:
-            app: gto-external-ingressgateway
+            app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
     openshiftRoute:
       enabled: false
   policy:
@@ -329,7 +319,7 @@ spec:
       kiali:
         deployment: {}
         pod: {}
-  version: v2.2
+  version: v2.3
   telemetry:
     type: Istiod"
 
@@ -340,12 +330,6 @@ metadata:
   namespace: $FED_1_SMCP_NAMESPACE
 spec:
   security:
-    certificateAuthority:
-      istiod:
-        privateKey:
-          rootCADir: /etc/cacerts
-        type: PrivateKey
-      type: Istiod
     dataPlane:
       automtls: true
       mtls: true
@@ -426,7 +410,7 @@ spec:
             name: tls
           - port: 8188
             name: https-discovery
-      gto-external-ingressgateway:
+      gto-user-$LAB_PARTICPAND_ID-ingressgateway:
         enabled: true
         runtime:
           deployment:
@@ -435,9 +419,9 @@ spec:
         service:
           metadata:
             labels:
-              app: gto-external-ingressgateway
+              app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
           selector:
-            app: gto-external-ingressgateway
+            app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
     openshiftRoute:
       enabled: false
   policy:
@@ -488,10 +472,10 @@ spec:
       kiali:
         deployment: {}
         pod: {}
-  version: v2.2
+  version: v2.3
   telemetry:
     type: Istiod"|oc apply -f -
-
+exit
 echo
 echo
 echo "oc wait --for condition=Ready -n $FED_1_SMCP_NAMESPACE smcp/$FED_1_SMCP_NAME --timeout 300s"
