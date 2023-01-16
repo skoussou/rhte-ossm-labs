@@ -119,9 +119,9 @@ You are allowed to:
 1. See traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials (`mus/mus`) to view the tracing console
 2. See metrics for the overall solution. Go to `Workloads` in `Kiali` and select `cars-v1` application workload. Use the `inbound` or `outbound` metrics.
 +
-image::./assets/02-mus-kiali-metrics.png[200,500]
+image::./assets/02-mus-kiali-metrics.png[300,600]
 +
-image::./assets/02-mus-kiali-inbound-metrics.png[200,500]
+image::./assets/02-mus-kiali-inbound-metrics.png[300,600]
 
 3. Alternatively, go to the `Prometheus` URL (identified above) and login with your credentials (mus/mus). Apply on the `Graph` view 
 *** `istio_requests_total{destination_workload="discounts-v1", app="discounts"}` to visualize requests towards `discounts-v1`
