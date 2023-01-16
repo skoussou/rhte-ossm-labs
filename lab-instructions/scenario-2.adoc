@@ -108,7 +108,7 @@ image::./assets/02-about.png[200,200]
 
 === Task 3: Test the Observability stack as Product Owner for the Travel-Agency Solution
 
-1. Access the `Kiali` URL and login with username/password *`mus`*/*`mus`* (role: `Application Viewer`)
+Access the `Kiali` URL and login with username/password *`mus`*/*`mus`* (role: `Application Viewer`)
 
 As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace.
 
@@ -123,7 +123,7 @@ image::./assets/02-mus-kiali-metrics.png[400,800]
 +
 image::./assets/02-mus-kiali-inbound-metrics.png[400,800]
 
-3. Alternatively, go to the `Prometheus` URL (identified above) and login with your credentials (mus/mus). Apply on the `Graph` view 
+3. *Alternatively*, go to the `Prometheus` URL (identified above) and login with your credentials (*`mus`*/*`mus`*). Apply on the `Graph` view ONE of the following metrics:
 *** `istio_requests_total{destination_workload="discounts-v1", app="discounts"}` to visualize requests towards `discounts-v1`
 *** `istio_request_duration_milliseconds_count{app="discounts"}`
 *** `istio_response_bytes_bucket`
