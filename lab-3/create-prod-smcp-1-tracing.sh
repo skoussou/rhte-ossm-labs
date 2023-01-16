@@ -34,29 +34,41 @@ spec:
           memory: 1500Mi
       redundancyPolicy: ZeroRedundancy              // Index redundancy"
 
-echo "apiVersion: jaegertracing.io/v1
-kind: Jaeger
-metadata:
-  name: jaeger-small-production
-spec:
-  strategy: production
-  storage:
-    type: elasticsearch
-    esIndexCleaner:
-      enabled: true
-      numberOfDays: 7
-      schedule: '55 23 * * *'
-    elasticsearch:
-      nodeCount: 1
-      storage:
-        size: 1Gi
-      resources:
-        requests:
-          cpu: 200m
-          memory: 1Gi
-        limits:
-          memory: 1500Mi
-      redundancyPolicy: ZeroRedundancy"| oc apply -n $SM_CP_NS -f -
+# DISABLING ElasticSearch SETUP DURING LAB IN A MULTI-PARTICIPANT LAB DUE TO LARGE ELASTICSEARCH STARTUP TIME.
+# THIS IS will be done PRE-SETUP via setup/run-setup-scenario-3.sh and if not done (single lab scenario) the
+# following can be re-enabled via CREATE_ES=Yes
+sleep 10
+CREATE_ES = "No"
+if [[ "CREATE_ES" == "No" ]]; then
+    echo "ElasticSearch exists"
+    echo
+else
+  echo "apiVersion: jaegertracing.io/v1
+  kind: Jaeger
+  metadata:
+    name: jaeger-small-production
+  spec:
+    strategy: production
+    storage:
+      type: elasticsearch
+      esIndexCleaner:
+        enabled: true
+        numberOfDays: 7
+        schedule: '55 23 * * *'
+      elasticsearch:
+        nodeCount: 1
+        storage:
+          size: 1Gi
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1Gi
+          limits:
+            memory: 1500Mi
+        redundancyPolicy: ZeroRedundancy"| oc apply -n $SM_CP_NS -f -
+fi
+
+
 
 
 echo
