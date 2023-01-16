@@ -14,7 +14,7 @@ Let us recall the initial requirements for production, which we've discussed in 
 
 1. The _Development Team_ wants to be able to trace (every) request during development, and a sample of `20%` of traffic in Production
 2. The _Product Team_ wants to see metrics around performance/usage (storing them for up to 1 week)
-3. The _Security_ team wishes to enable mTLS in all inter-mesh communications
+3. The _Security_ team wishes to enable mTLS in all intra-mesh communications
 4. The _Platform Team_ wants to centrally manage security
 5. The _Development Teams_ wants to implement some resiliency to make the overall application more stable and reliable.
 
