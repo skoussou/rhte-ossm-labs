@@ -45,12 +45,7 @@ For the purpose of managing, monitoring and troubleshooting the Production envir
 
 First export the `CLUSTER_API`, the `OCP_DOMAIN` and your Lab User Id `LAB_PARTICIPANT_ID` (link:../README.adoc[3rd column from TABLE here]):
 
-[source,shell]
-----
-export CLUSTER_API=https://api.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443
-export LAB_PARTICIPANT_ID=<FROM 3rd column of THE TABLE>
-export OCP_DOMAIN=apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com
-----
+* Get link:https://github.com/skoussou/rhte-ossm-labs#lab-information[all exports from here]
 
 [NOTE]
 ====

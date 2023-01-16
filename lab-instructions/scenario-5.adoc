@@ -14,13 +14,8 @@ image::assets/05-corporate-mtls-authz.png[300,700]
 
 First export the `CLUSTER_API`, `OCP_DOMAIN`, the `SSO_CLIENT_SECRET` and your Lab User Id `LAB_PARTICIPANT_ID` (link:../README.adoc[3rd column from TABLE here]):
 
-[source,shell]
-----
-export CLUSTER_API=https://api.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com:6443/
-export LAB_PARTICIPANT_ID=5
-export OCP_DOMAIN=apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com
-export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
-----
+* Get link:https://github.com/skoussou/rhte-ossm-labs#lab-information[all exports from here]
+
 
 [NOTE]
 ====
