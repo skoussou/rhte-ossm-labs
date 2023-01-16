@@ -129,11 +129,11 @@ image::./assets/02-mus-kiali-inbound-metrics.png[400,800]
 *** `istio_response_bytes_bucket`
 4. See the dashboards in grafana for the solution. Access the `Grafana` URL as 'mus/mus' (role `Application Viewer`, See above on how to find the URL)
 *** Check the 'status' of the overall Travel Agency solution *Dashboards -> Manage -> Istio -> Istio Mesh Dashboard*
-
++
 image::./assets/02-grafana-istio-mesh-dashboard.png[400,1000]
 
 *** Check the 'performance' of the overall Travel Agency solution *Dashboards -> Manage -> Istio -> Istio Performance Dashboard*
-
++
 image::./assets/02-grafana-performance.png[400,1000]
 
 ==== Verifying that RBAC restrictions for the `Product Owner` are in place
