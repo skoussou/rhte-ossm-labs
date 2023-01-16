@@ -59,7 +59,7 @@ IMPORTANT: `OSSM` -like Istio- now offers the ability for the injection of an  *
 == Development Environment Verification & Observability Usage
 
 === Task 1: Access the Travel Control Dashboard
-* Log in (as one of `phillip`, `emma`, `cristina`, `farid`) and verify that you can reach the  *Travel Control Dashboard* in your Browser.
+* Log in via CLI with a user with access to `dev-istio-system` (we use user `emma`), get the OCP `ROUTE` to the application and verify that you can reach the  *Travel Control Dashboard* in your Browser.
 
 [NOTE]
 ====
