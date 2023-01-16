@@ -39,7 +39,20 @@ We just briefly describe the steps in order to install the development environme
 === Actions with role Mesh Developer
 
 1. As *farid* (role: `Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_
-** Onboard namespace `dev-travel-agency` to Service Mesh `dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in `dev-travel-agency` for `dev-travel-agency` namespace to `dev-basic` `ServiceMeshControlPlane` present in `dev-istio-system`.
+** Onboard namespace `dev-travel-agency` to Service Mesh `dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in `dev-travel-agency`, eg:
+----
+$ oc get smm -n user-$LAB_PARTICIPANT_ID-dev-travel-agency -o yaml
+
+apiVersion: maistra.io/v1
+kind: ServiceMeshMember
+metadata:
+  namespace: user-29-dev-travel-agency
+  name: default
+spec:
+  controlPlaneRef:
+    name: user-29-dev-basic
+    namespace: user-29-dev-istio-system
+----
 ** Deploy the Applications in `dev-travel-agency` namespaces
 
 2. As *cristina* (role: `Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_
