@@ -64,7 +64,10 @@ image::assets/01-travels-demo-design.png[]
 === Travel Portal and Travel Agency flow
 
 A typical flow consists of the following steps: +
-A portal queries the _travels_ service for available destinations. . _Travels_ service queries the available hotels and returns to the portal shop. . A user selects a destination and a type of travel, which may include a _flight_ and/or a _car_, _hotel_ and _insurance_. . _Cars_, _Hotels_ and _Flights_ may have available discounts depending on user type.
+. A portal queries the `travels` service for available destinations,
+. `travels` service queries the available `hotels` and returns to the portal shop,
+. A user selects a destination and a type of travel, which may include a `flight` and/or a `car`, `hotel` and `insurance`,
+.  `Cars`, `Hotels` and `Flights` may have available discounts depending on user type.
 
 === Travel Control namespace
 
