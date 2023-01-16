@@ -198,7 +198,8 @@ image::./assets/02-grafana-cars-workload-outbound-dashboard.png[400,1000]
 1. Access `Kiali` URL with username/password *`mia`*/*`mia`* (role: `Application Viewer`)
 
 * As a `Developer` for the _Travel Services_ domain *mia* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-agency`. Therefore, access is given to that service mesh namespace while the _Travel Portal_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
-* *mia* is allowed as an `Application Viewer` to check the `traces` of the worloads, `metrics` for the same workloads and `dashboards` for the overall solution.
++
+image::./assets/02-mia-graph-restricted-view.png[400,1000]
 
 === Task 6: Test the Observability stack as Mesh Operator
 
