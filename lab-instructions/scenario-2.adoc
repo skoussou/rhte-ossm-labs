@@ -63,7 +63,7 @@ IMPORTANT: `OSSM` -like Istio- now offers the ability for the injection of an  *
 
 [NOTE]
 ====
-Please ensure you set Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
+Please ensure you have already set in your command prompt the Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
 ====
 
 [source, shell]
