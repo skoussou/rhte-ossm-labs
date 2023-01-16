@@ -48,15 +48,15 @@ In this Lab we’ll walk through a Fictive Use Case of a Travel Agency company i
 
 === Travel Portal namespace
 
-The Travel Demo application simulates two business domains organized in different namespaces. +
-In a first namespace called _travel-portal_ there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance. The shop applications can behave differently based on request characteristics like channel (web or mobile) or user (new or existing). +
+The Travel Demo application simulates two business domains organized in different namespaces.
+In a first namespace called `travel-portal` there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance. The shop applications can behave differently based on request characteristics like channel (web or mobile) or user (new or existing). +
 These workloads may generate different types of traffic to imitate different real scenarios. All the portals consume a service called _travels_ deployed in the _travel-agency_ namespace.
 
 === Travel Agency namespace
 
-A second namespace called _travel-agency_ will host a set of services created to provide quotes for travel. +
-A main _travels_ service will be the business entry point for the travel agency. It receives a destination city and a user as parameters and it calculates all elements that compose a travel budget: airfare, lodging, car reservation and travel insurance. +
-Each service can provide an independent quote and the _travels_ service must then aggregate them into a single response. Additionally, some users, like _registered_ users, can have access to special discounts, managed as well by an external service. +
+A second namespace called `travel-agency` will host a set of services created to provide quotes for travel. +
+A main `travels` service will be the business entry point for the travel agency. It receives a destination city and a user as parameters and it calculates all elements that compose a travel budget: airfare, lodging, car reservation and travel insurance. +
+Each service can provide an independent quote and the `travels` service must then aggregate them into a single response. Additionally, some users, like _registered_ users, can have access to special discounts, managed as well by an external service. +
 Service relations between namespaces can be described in the following diagram:
 
 image::assets/01-travels-demo-design.png[]
@@ -68,10 +68,10 @@ A portal queries the _travels_ service for available destinations. . _Travels_ s
 
 === Travel Control namespace
 
-The _travel-control_ namespace runs a _business dashboard_ with two key features:
+The `travel-control` namespace runs a _business dashboard_ with two key features:
 
 * Allow setting changes for every travel shop simulator (traffic ratio, device, user and type of travel).
-* Provide a _business_ view of the total requests generated from the _travel-portal_ namespace to the _travel-agency_ services, organized by business criteria as grouped per shop, per type of traffic and per city.
+* Provide a _business_ view of the total requests generated from the `travel-portal` namespace to the `travel-agency` services, organized by business criteria as grouped per shop, per type of traffic and per city.
 
 image::assets/01-travels-dashboard.png[]
 
