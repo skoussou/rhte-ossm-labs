@@ -176,14 +176,14 @@ image::./assets/02-workloads.png[400,1000]
 +
 image::./assets/02-view-config-but-no-modify.png[400,1000]
 +
-** If you login in `Kiali` as *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `user-x-dev-travel-control` and apply some modification as those namespaces are part of your domain.
+** If you login in `Kiali` as *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `user-x-dev-travel-control` and apply some modification as those namespaces are part of your domain (*Warning:* Don't save any changes).
 +
 image::./assets/02-cristina-configs-change-1.png[400,1000]
 +
 image::./assets/02-cristina-configs-change-2.png[400,1000]
 
 
-6. See Grafana Dashboards (See above on how to find the URL)
+6. Optionally (skip to save time) see Grafana Dashboards (See above on how to find the URL)
 *** Check the 'status' of the services and workloads in the `dev-travel-portal` or `dev-travel-agency` by viewing
 *** *Dashboards -> Manage-> Istio -> Istio Service Dashboard* dashboard
 +
