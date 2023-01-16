@@ -42,6 +42,12 @@ echo
 sleep 5
 
 
+VAR="no"
+if [[ "$VAR" == "yes" ]]
+then
+
+
+
 echo "Current SMCP/$FED_1_SMCP_NAME
 -------------------------------------
 apiVersion: maistra.io/v2
@@ -163,7 +169,7 @@ spec:
       kiali:
         deployment: {}
         pod: {}
-  version: v2.2
+  version: v2.3
   telemetry:
     type: Istiod"
 
@@ -475,7 +481,7 @@ spec:
   version: v2.3
   telemetry:
     type: Istiod"|oc apply -f -
-exit
+
 echo
 echo
 echo "oc wait --for condition=Ready -n $FED_1_SMCP_NAMESPACE smcp/$FED_1_SMCP_NAME --timeout 300s"
@@ -534,7 +540,7 @@ spec:
   tracing:
     sampling: 10000
     type: Jaeger
-  version: v2.2"
+  version: v2.3"
 
 
 echo
@@ -604,7 +610,7 @@ spec:
     type: Jaeger
   policy:
     type: Istiod
-  version: v2.2"
+  version: v2.3"
 
 echo "apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
@@ -671,7 +677,7 @@ spec:
     type: Jaeger
   policy:
     type: Istiod
-  version: v2.2" |oc apply -f -
+  version: v2.3" |oc apply -f -
 
 echo
 echo
@@ -946,6 +952,7 @@ sleep 10
 echo
 echo
 
+fi
 echo '---------------------- Step 3c - Verify Service Mesh Peering Connection (PRODUCTION -> PARTNER)  ----------------------'
 sleep 7
 echo
@@ -964,16 +971,22 @@ echo
 sleep 12
 echo
 echo
+
 echo '---------------------- Step 3d - Verify Service Mesh Peering Connection (PARTNER -> PRODUCTION)  ----------------------'
 sleep 7
 echo
 echo "------------------------------------ CHECK ServiceMeshPeering (PARTNER -> PRODUCTION) STATUS ------------------------------------"
 echo 'NOTE: Check if status \"connected: true\" 305 times with 1 sec delay as 5 mins peering synced'
-echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}' -n $FED_2_SMCP_NAMESPACE"
+#echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}' -n $FED_2_SMCP_NAMESPACE"
+#echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].watch.connected}' -n $FED_2_SMCP_NAMESPACE"
+echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.inactive[0].watch.connected}' -n $FED_2_SMCP_NAMESPACE"
 espod="False"
 while [ "$espod" != "true" ]; do
   sleep 5
-  espod=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+  #espod=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+  #espod=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].watch.connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+  espod=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.inactive[0].watch.connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+
   echo "ServiceMeshPeer PARTNER -> PRODUCTION Connected => "$espod
 done
 echo

@@ -54,7 +54,7 @@ spec:
       enabled: false
   telemetry:
     type: Istiod
-  version: v2.2"
+  version: v2.3"
 echo
 echo "apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
@@ -88,7 +88,7 @@ spec:
       enabled: false
   telemetry:
     type: Istiod
-  version: v2.2" |oc apply -f -
+  version: v2.3" |oc apply -f -
 
 echo "oc wait --for condition=Ready -n $SM_CP_NS smcp/$PREFIX --timeout=300s"
 echo

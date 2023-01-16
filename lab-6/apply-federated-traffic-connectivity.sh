@@ -5,6 +5,7 @@ FED_1_SMCP_NAME=$2 #production
 FED_2_SMCP_NAMESPACE=$3 #partner-istio-system
 FED_2_SMCP_NAME=$4 #partner
 NAMESPACE=$5 #premium-broker
+LAB_PARTICPAND_ID=$6
 
 echo
 echo
@@ -20,6 +21,7 @@ echo 'Federated ServiceMesh Control Plane 1 Tenant Name      : '$FED_1_SMCP_NAME
 echo 'Federated ServiceMesh Control Plane 2 Namespace        : '$FED_2_SMCP_NAMESPACE
 echo 'Federated ServiceMesh Control Plane 2 Tenant Name      : '$FED_2_SMCP_NAME
 echo 'Partner Dataplane Namespace                            : '$NAMESPACE
+echo 'LAB Participant Id                                     : '$LAB_PARTICPAND_ID
 echo '---------------------------------------------------------------------------'
 echo
 echo
@@ -38,7 +40,7 @@ echo "apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: dr-insurances-versions
-  namespace: prod-travel-agency
+  namespace: user-$LAB_PARTICPAND_ID-prod-travel-agency
 spec:
   host: insurances
   subsets:
@@ -53,7 +55,7 @@ echo "apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: dr-insurances-versions
-  namespace: prod-travel-agency
+  namespace: user-$LAB_PARTICPAND_ID-prod-travel-agency
 spec:
   host: insurances
   subsets:
@@ -68,10 +70,10 @@ echo "kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
  name: vs-insurances-split
- namespace: prod-travel-agency
+ namespace: user-$LAB_PARTICPAND_ID-prod-travel-agency
 spec:
  hosts:
-   - insurances.prod-travel-agency.svc.cluster.local
+   - insurances.user-$LAB_PARTICPAND_ID-prod-travel-agency.svc.cluster.local
  http:
     - match:
         - uri:
@@ -95,7 +97,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: insurances.prod-travel-agency.svc.cluster.local
+            host: insurances.user-$LAB_PARTICPAND_ID-prod-travel-agency.svc.cluster.local
             subset: v1
           weight: 100"
 
@@ -103,10 +105,10 @@ echo "kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
  name: vs-insurances-split
- namespace: prod-travel-agency
+ namespace: user-$LAB_PARTICPAND_ID-prod-travel-agency
 spec:
  hosts:
-   - insurances.prod-travel-agency.svc.cluster.local
+   - insurances.user-$LAB_PARTICPAND_ID-prod-travel-agency.svc.cluster.local
  http:
     - match:
         - uri:
@@ -130,6 +132,6 @@ spec:
             prefix: /
       route:
         - destination:
-            host: insurances.prod-travel-agency.svc.cluster.local
+            host: insurances.user-$LAB_PARTICPAND_ID-prod-travel-agency.svc.cluster.local
             subset: v1
           weight: 100" |oc apply -f -
