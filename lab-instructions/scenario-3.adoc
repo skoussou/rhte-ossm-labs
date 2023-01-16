@@ -297,7 +297,7 @@ In order to achieve that,
 * create an Istio Gateway Resource configured with our TLS certificate
 * Right now if you login to the Kiali Dashboard with the user `emma/emma`, there is an issue in the `VirtualService` control and an error on Kiali as no `Gateway` exists yet.
 +
-image::./assets/03-no-gw-for-travel-control-ui-vs.png[300,600]
+image::./assets/03-no-gw-for-travel-control-ui-vs.png[400,800]
 
 Now let's login as Mesh Operator with `emma/emma` and execute the described steps.
 
