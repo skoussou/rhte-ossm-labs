@@ -77,10 +77,6 @@ cd lab-3
 ./create-prod-smcp-1-tracing.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
 ----
 
-NOTE: The configs come from link:../lab3/create-prod-smcp-1-tracing.sh[create-prod-smcp-1-tracing.sh] script which you can inspect for details.
-
-
-
 * The `Jaeger Operator` will also create a `Jaeger Collector`, a `Jaeger Query` and an `Elastic Search` Deployment in your `$LAB_PARTICIPANT_ID-prod-istio-system`.
 
 This is the Jaeger Custom Resource applied:
@@ -180,6 +176,8 @@ The applied `ServiceMeshControlPlane` Resource ensures that:
 
 You can also login to the Openshift console with `emma/emma` and navigate to your `user-$LAB_PARTICIPANT_ID-prod-istio-system` namespace and verify all deployments and pods are running.
 
+NOTE: The configs came from link:../lab3/create-prod-smcp-1-tracing.sh[create-prod-smcp-1-tracing.sh] script which you can inspect for details.
+
 == Task 3: Add the Application Namespaces to the Production Mesh and create the Deployments
 
 In this task we add the application namespaces to our newly created Service Mesh by specifying ServiceMeshMember resources and deploy the corresponding applications for production. We also configure the applications for the usage within the Service Mesh by specifying two `sidecar` containers:
@@ -187,7 +185,7 @@ In this task we add the application namespaces to our newly created Service Mesh
 1. `istio-proxy` sidecar container: used to proxy all communications in/out of the main application container and apply `Service Mesh` configurations
 2. `jaeger-agent` sidecar container: The `Service Mesh` documentation link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#distr-tracing-deployment-best-practices_jaeger-config-reference[Jaeger Agent Deployment Best Practices] mentions the options of deploying `jaeger-agent` as sidecar or as `DaemonSet`. We have selected the former in order to allow `multi-tenancy` in the Openshift cluster.
 
-All application `Deployment`(s) will be patched as follows:
+All application `Deployment`(s) will be patched as follows to include the sidecars (*Warning:* Don't apply as the script `deploy-travel-services-domain.sh` further down will do so):
 ----
 oc patch deployment/voyages -p '{"metadata":{"annotations":{"sidecar.jaegertracing.io/inject": "jaeger-small-production"}}}' -n $ENV-travel-portal
 oc patch deployment/voyages -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n $ENV-travel-portal
@@ -309,8 +307,8 @@ Now let's login as Mesh Operator with `emma/emma` and execute the described step
 
 NOTE: The configs come from link:../lab-3/create-https-ingress-gateway.sh[create-https-ingress-gateway.sh] script which you can inspect for details.
 
-After finishing the script you'll get the exposed Route and the `Travel Control Dashboard` should be accessible (look at the end of the script log for the URL) i.e.:
-https://travel-user-5.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the Kiali error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs.png[`VirtualService` should also show as resolved].
+After finishing, the script above, you'll get the exposed URL Route and the `Travel Control Dashboard` should be accessible (look at the end of the script log for the URL) eg.:
+https://travel-user-x.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the `Kiali` error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs.png[`VirtualService` should also show as resolved].
 
 image::assets/03-Travel-Control-Dashboard-https.png[Travel Control Dashboard]
 
