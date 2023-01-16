@@ -28,7 +28,7 @@ cd lab-5
 
 == Task 2: Disable STRICT MTLS for specific services
 
-The Service Mesh of the Travel Agency company is configured to automatically use mTLS,
+The Service Mesh of the Travel Agency company is configured to automatically use mTLS:
 
 [source,yaml]
 .Excerpt from the SMCP
@@ -41,7 +41,8 @@ spec:
 ----
 
 but sometimes there is the requirement to exclude specific services from `OSSM` *mTLS*, i.e. if workloads offer their own mTLS certificates (see KAFKA, Elastic Search).
-Also the configuration if SMCP doesn't actually enforce mTLS, this can be done by configuring a `PeerAuthentication` resource.
+
+In addition if the SMCP configuration doesn't actually enforce mTLS, this can be done by configuring a `PeerAuthentication` resource.
 
 [NOTE]
 ====
