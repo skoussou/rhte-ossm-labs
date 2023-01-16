@@ -6,10 +6,10 @@ This describes the setup required in a cluster in order to host `X` number of co
 == Setup Commands Summary
 
 ----
-export CLUSTER_API=https://api.cluster-klvh8.klvh8.sandbox1886.opentlc.com:6443
+export CLUSTER_API=https://api.cluster-k9s4c.k9s4c.sandbox1424.opentlc.com:6443
 export LAB_PARTICIPANTS=5
-export OCP_DOMAIN=apps.cluster-klvh8.klvh8.sandbox1886.opentlc.com
-export CLUSTERNAME=cluster-klvh8.klvh8.sandbox1886
+export OCP_DOMAIN=apps.cluster-k9s4c.k9s4c.sandbox1424.opentlc.com
+export CLUSTERNAME=cluster-k9s4c.k9s4c.sandbox1424
 export BASEDOMAIN=opentlc.com
 export CLUSTER_ADMIN=
 export CLUSTER_ADMIN_PASS=
