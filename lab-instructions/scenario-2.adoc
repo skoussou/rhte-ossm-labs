@@ -150,7 +150,7 @@ image::./assets/02-mus-error-view-config.png[400,800]
 
 === Task 4: Test the Observability stack as an App/Domain Owner for the Travel-Portal or Travel-Services Domain
 
-1. Access `Kiali` URL with username/password *`farid`*/*`farid`* (role `Mesh Developer`)
+1. Access `Kiali` URL with username/password *`farid`*/*`farid`* (role: `Mesh Developer`)
 
 * As the `Domain Owner` of the _Travel Services_ domain you have *view* access to
 ** _data plane_ namespace `dev-travel-agency` and the
@@ -176,7 +176,7 @@ image::./assets/02-workloads.png[400,1000]
 +
 image::./assets/02-view-config-but-no-modify.png[400,1000]
 +
-** As *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `user-x-dev-travel-control` and apply some modification as those namespaces are part of your domain.
+** If you login in `Kiali` as *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `user-x-dev-travel-control` and apply some modification as those namespaces are part of your domain.
 +
 image::./assets/02-cristina-configs-change-1.png[400,1000]
 +
