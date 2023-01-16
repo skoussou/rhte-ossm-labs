@@ -63,7 +63,8 @@ image::assets/01-travels-demo-design.png[]
 
 === Travel Portal and Travel Agency flow
 
-A typical flow consists of the following steps: +
+A typical flow consists of the following steps:
+
 . A portal queries the `travels` service for available destinations,
 . `travels` service queries the available `hotels` and returns to the portal shop,
 . A user selects a destination and a type of travel, which may include a `flight` and/or a `car`, `hotel` and `insurance`,
