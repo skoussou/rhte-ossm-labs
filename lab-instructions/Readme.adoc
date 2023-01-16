@@ -3,16 +3,12 @@
 
 == Lab Prerequisites
 
-You will need in this Lab: +
-The following *CLI tools* are required for running the scenarios in this Lab. Please have them installed and configured before you get started with any of the chapters.
+For this lab you will need the following *CLI tools*. Please have them installed and configured before you get started with any of the scenarios.
 
-OpenShift CLI: https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli[https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli]
-
-Git: https://git-scm.com/downloads[https://git-scm.com/downloads]
-
-curl: https://curl.se/download.html[https://curl.se/download.html]
-
-OpenSSL: https://www.openssl.org/source/[https://www.openssl.org/source/]
+* OpenShift CLI: https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli[https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli]
+* Git: https://git-scm.com/downloads[https://git-scm.com/downloads]
+* curl: https://curl.se/download.html[https://curl.se/download.html]
+* OpenSSL: https://www.openssl.org/source/[https://www.openssl.org/source/]
 
 == Download the Lab Sources
 
