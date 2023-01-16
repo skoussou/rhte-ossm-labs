@@ -90,7 +90,7 @@ In this task you will learn how you can find the URLs to the Observability Stack
 
 [NOTE]
 ====
-Please ensure you set Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
+Please ensure you have set LAB Participan Id by `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
 ====
 
 [source, shell]
@@ -108,9 +108,13 @@ image::./assets/02-about.png[200,200]
 
 === Task 3: Test the Observability stack as Product Owner for the Travel-Agency Solution
 
-1. Access the `Kiali` URL and login with username/password *`mus`*/*`mus`* (role `Application Viewer`)
+1. Access the `Kiali` URL and login with username/password *`mus`*/*`mus`* (role: `Application Viewer`)
 
-As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace. You are allowed to:
+As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace.
+
+image::./assets/02-mus-kiali-view.png[200,500]
+
+You are allowed to:
 
 1. See traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials (`mus/mus`) to view the tracing console
 2. See metrics for the overall solution. Go to `Workloads` in `Kiali` and select `cars-v1` application workload. Use the `inbound` or `outbound` metrics.
