@@ -40,7 +40,7 @@ WARNING: Very Important to use the correct *namespaces* based on the link:https:
 
 *Note:* This is an example ONLY for use with *LAB_PARTICIPANT_ID=1*
 
-image::./assets/0-start-namespaces.png[400,1000]
+image::./assets/0-start-namespaces.png[200,500]
 
 == Introduction
 
