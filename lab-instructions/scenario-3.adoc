@@ -176,7 +176,7 @@ The applied `ServiceMeshControlPlane` Resource ensures that:
 
 You can also login to the Openshift console with `emma/emma` and navigate to your `user-$LAB_PARTICIPANT_ID-prod-istio-system` namespace and verify all deployments and pods are running.
 
-NOTE: The configs came from link:../lab3/create-prod-smcp-1-tracing.sh[create-prod-smcp-1-tracing.sh] script which you can inspect for details.
+NOTE: The configs came from link:../lab-3/create-prod-smcp-1-tracing.sh[create-prod-smcp-1-tracing.sh] script which you can inspect for details.
 
 == Task 3: Add the Application Namespaces to the Production Mesh and create the Deployments
 
