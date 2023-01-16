@@ -23,36 +23,32 @@ We just briefly describe the steps in order to install the development environme
 === Actions with role Cluster Admin
 
 
-1. As *phillip* (`Cluster Admin`) add the `Service Mesh` operators in the OCP Cluster
+1. As *phillip* (role: `Cluster Admin`) add the `Service Mesh` operators in the OCP Cluster
 
-2. As *phillip* (`Cluster Admin`) once the operators have been successfully installed, create the necessary _Travel Agency_ Namespaces
+2. As *phillip* (role: `Cluster Admin`) once the operators have been successfully installed, create the necessary _Travel Agency_ Namespaces
 
-3. As *phillip* (`Cluster Admin`) create the `Service Mesh Roles`
+3. As *phillip* (role: `Cluster Admin`) create the `Service Mesh Roles`
 
-4. As *phillip* (`Cluster Admin`) create the Service Mesh Users and assign Roles
+4. As *phillip* (role: `Cluster Admin`) create the Service Mesh Users and assign Roles
 
 === Actions with role Mesh Operator
 
-1. As *emma* (`Mesh Operator`) create the `Service Mesh` controlplane namespaces and the `ServiceMeshControlPlane (SMCP)` resource.
+1. As *emma* (role: `Mesh Operator`) create the `Service Mesh` controlplane namespaces and the `ServiceMeshControlPlane (SMCP)` resource.
 
 
 === Actions with role Mesh Developer
 
-1. As *farid* (`Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_ deploy the applications to the `dev-travel-agency` namespaces
+1. As *farid* (role: `Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_
+** Onboard namespace `dev-travel-agency` to Service Mesh `dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in `dev-travel-agency` for `dev-travel-agency` namespace to `dev-basic` `ServiceMeshControlPlane` present in `dev-istio-system`.
+** Deploy the Applications in `dev-travel-agency` namespaces
 
-2. Add (`SMM`) (service mesh membership) with `dev-travel-agency` namespace to `dev-basic` `ServiceMeshControlPlane` service mesh in `dev-istio-system`
-
-3. Deploy the Applications in `dev-travel-agency` namespaces
-
-4. As *cristina* (`Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_ add the `ServiceMeshMember` (`SMM`) (service mesh membership) resource for `dev-travel-control`, `dev-travel-portal` namespaces
-
-5. Add `SMM` with namespaces to `dev-basic` `ServiceMeshControlPlane` service mesh in `dev-istio-system`
-
-6. Deploy the Applications in `dev-travel-control`, `dev-travel-portal` namespaces and `Istio` configs to expose Service Mesh services
+2. As *cristina* (role: `Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_
+** Onboard namespaces `dev-travel-control` and `dev-travel-portal` to Service Mesh `dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in each namespace to `dev-basic` `ServiceMeshControlPlane` present in `dev-istio-system`.
+** Deploy the Applications in `dev-travel-control`, `dev-travel-portal` namespaces and `Istio` configs to expose Service Mesh services
 
 === Final Actions with role Mesh Operator
 
-1. As *emma* (`Mesh Operator`) create the Istio `Gateway` resource
+1. As *emma* (role: `Mesh Operator`) create the Istio `Gateway` resource
 
 IMPORTANT: `OSSM` -like Istio- now offers the ability for the injection of an  *_ingress Gateway_* in the dataplane however for the _Travel Agency_ use case the Architects have selected a *_Self-Service(Restricted)_*  link:https://github.com/skoussou/rhte-ossm-labs/blob/main/lab-instructions/scenario-1.adoc#user-governance-model[Model of Operation] where the `Mesh Operator` will be responsible for ingress/egress resource configurations.
 
@@ -173,14 +169,14 @@ image::./assets/02-grafana-cars-workload-outbound-dashboard.png[400,1000]
 
 === Task 5: Test the Observability stack as Developer for the Travel-Portal or Travel-Services Domain
 
-1. Access `Kiali` URL with username/password *`mia`*/*`mia`* (role `Application Viewer`)
+1. Access `Kiali` URL with username/password *`mia`*/*`mia`* (role: `Application Viewer`)
 
 * As a `Developer` for the _Travel Services_ domain *mia* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-agency`. Therefore, access is given to that service mesh namespace while the _Travel Portal_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
 * *mia* is allowed as an `Application Viewer` to check the `traces` of the worloads, `metrics` for the same workloads and `dashboards` for the overall solution.
 
 === Task 6: Test the Observability stack as Mesh Operator
 
-1. Access `Kiali` URL as with username/password *`emma`*/*`emma`* (role `Mesh Operator`)
+1. Access `Kiali` URL as with username/password *`emma`*/*`emma`* (role: `Mesh Operator`)
 
 * As the `Mesh Operator` you have *full* access to all 3 _data plane_ namespaces and the _control plane_. 
 ** In `Kiali` go to *Graphs -> App Graph*, select from *Display* `Request Distribution`, `Namespace Boxes`, `Traffic Animation`, `Security` and see the Mesh Operator view
