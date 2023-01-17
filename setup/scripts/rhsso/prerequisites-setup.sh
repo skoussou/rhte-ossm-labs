@@ -91,7 +91,7 @@ echo
 #  name: rhsso-operator
 #  source: redhat-operators
 #  sourceNamespace: openshift-marketplace
-#  startingCSV: rhsso-operator.7.6.1-opr-004"
+#  startingCSV: rhsso-operator.7.6.1-opr-005"
 
 #echo "apiVersion: operators.coreos.com/v1alpha1
 #kind: Subscription
@@ -104,7 +104,7 @@ echo
 #  name: rhsso-operator
 #  source: redhat-operators
 #  sourceNamespace: openshift-marketplace
-#  startingCSV: rhsso-operator.7.6.1-opr-004 | oc apply -f -
+#  startingCSV: rhsso-operator.7.6.1-opr-005 | oc apply -f -
 
 #echo 'waiting 20s for operator to be installed'
 #sleep 20
@@ -115,7 +115,7 @@ echo
 jop="False"
 while [ "$jop" != "Succeeded" ]; do
   sleep 5
-  jop=$(oc get csv/rhsso-operator.7.6.1-opr-004 -n rhsso -o 'jsonpath={..status.phase}')
+  jop=$(oc get csv/rhsso-operator.7.6.1-opr-005 -n rhsso -o 'jsonpath={..status.phase}')
   echo "Rhsso Operator Status => "$jop
 done
 sleep 1
