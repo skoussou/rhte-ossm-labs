@@ -11,7 +11,7 @@ set -e
 echo ""
 cd ../lab-3
 
-ls -la
+#ls -la
 echo ""
 sleep 5
 
@@ -32,54 +32,53 @@ do
 
   echo "############# Creating jaeger-small-production Resource in Namespace [$SM_CP_NS ] #############"
 
-  echo "apiVersion: jaegertracing.io/v1
-  kind: Jaeger
-  metadata:
-    name: jaeger-small-production
-  spec:
-    strategy: production
-    storage:
-      type: elasticsearch
-      esIndexCleaner:
-        enabled: true                                 // turn the cron job deployment on and off
-        numberOfDays: 7                               // number of days to wait before deleting a record
-        schedule: 55 23 * * *                       // cron expression for it to run
-      elasticsearch:
-        nodeCount: 1                                    // 1 Elastic Search Node
-        storage:
-          size: 1Gi
-        resources:
-          requests:
-            cpu: 200m
-            memory: 1Gi
-          limits:
-            memory: 1500Mi
-        redundancyPolicy: ZeroRedundancy              // Index redundancy"
+echo "apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: jaeger-small-production
+spec:
+  strategy: production
+  storage:
+    type: elasticsearch
+    esIndexCleaner:
+      enabled: true                                 // turn the cron job deployment on and off
+      numberOfDays: 7                               // number of days to wait before deleting a record
+      schedule: 55 23 * * *                       // cron expression for it to run
+    elasticsearch:
+      nodeCount: 1                                    // 1 Elastic Search Node
+      storage:
+        size: 1Gi
+      resources:
+        requests:
+          cpu: 200m
+          memory: 1Gi
+        limits:
+          memory: 1500Mi
+      redundancyPolicy: ZeroRedundancy              // Index redundancy"
 
-  echo "apiVersion: jaegertracing.io/v1
-  kind: Jaeger
-  metadata:
-    name: jaeger-small-production
-  spec:
-    strategy: production
-    storage:
-      type: elasticsearch
-      esIndexCleaner:
-        enabled: true
-        numberOfDays: 7
-        schedule: '55 23 * * *'
-      elasticsearch:
-        nodeCount: 1
-        storage:
-          size: 1Gi
-        resources:
-          requests:
-            cpu: 200m
-            memory: 1Gi
-          limits:
-            memory: 1500Mi
-        redundancyPolicy: ZeroRedundancy"| oc apply -n $SM_CP_NS -f -
-
+echo "apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: jaeger-small-production
+spec:
+  strategy: production
+  storage:
+    type: elasticsearch
+    esIndexCleaner:
+      enabled: true
+      numberOfDays: 7
+      schedule: '55 23 * * *'
+    elasticsearch:
+      nodeCount: 1
+      storage:
+        size: 1Gi
+      resources:
+        requests:
+          cpu: 200m
+          memory: 1Gi
+        limits:
+          memory: 1500Mi
+      redundancyPolicy: ZeroRedundancy"| oc apply -n $SM_CP_NS -f -
 
   echo
   echo "------------------------------------ CHECK ELASTIC SEARCH STATUS ------------------------------------"
