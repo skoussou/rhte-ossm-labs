@@ -31,7 +31,7 @@ First export the `CLUSTER_API`, `OCP_DOMAIN`, the `SSO_CLIENT_SECRET` and your L
 
 [NOTE]
 ====
-If you runout of time and you wish to complete the following lab sections in a single step execute
+If you run out of time and you wish to complete the following lab sections in a single step execute
 ----
 cd lab-4
 ./complete-lab-4.sh $SSO_CLIENT_SECRET $OCP_DOMAIN $LAB_PARTICIPANT_ID
@@ -53,7 +53,7 @@ Login as Mesh Operator with `emma/emma` and modify the SMCP resource. You can al
 [source, shell]
 ----
 cd lab-4
-./login-as.sh emma 
+./login-as.sh emma
 oc edit smcp/user-$LAB_PARTICIPANT_ID-production -n user-$LAB_PARTICIPANT_ID-prod-istio-system
 ----
 
@@ -87,11 +87,11 @@ oc get routes -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
 
 === Step 2 - Expose and secure via MTLS host on new Gateway
 
-In the next step we 
+In the next step we
 
-* create the CA and certs for the exposure of the TLS based Gateway, 
+* create the CA and certs for the exposure of the TLS based Gateway,
 * an Openshift passthrough route,
-* the Istio Gateway configuration 
+* the Istio Gateway configuration
 * create the client certificates based on the same CA for the curl client (in order to test MTLS):
 
 [source, shell]
@@ -131,7 +131,7 @@ As Mesh Developer and Travel Services Domain Owner (Tech Lead) login with `farid
 ./deploy-external-travel-api-mtls-vs.sh user-$LAB_PARTICIPANT_ID-prod user-$LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID
 ----
 
-The script will also run some example requests and if MTLS handshake works you should see something similar to this: 
+The script will also run some example requests and if MTLS handshake works you should see something similar to this:
 
 image::assets/04-MTLS-reqs.png[300,700]
 
@@ -141,13 +141,13 @@ image::assets/04-gto-external-ingressgateway.png[300,700]
 
 == Task 3: Configure Authn and Authz with JWT Tokens
 
-The Travel Agency has exposed their API services with MTLS through an additional ingress gateway. Now they want to further lock down who should be able to access their services. Therefore they want to use JWT Tokens with Istio.   
+The Travel Agency has exposed their API services with MTLS through an additional ingress gateway. Now they want to further lock down who should be able to access their services. Therefore they want to use JWT Tokens with Istio.
 
 === The JWT workflow
 
 The intended final authentication workflow for external requests with a `JWT` token is as follows (*Note:* this is in addition to the mTLS handshake):
 
-1. The external user authenticates to RHSSO and gets a JWT token 
+1. The external user authenticates to RHSSO and gets a JWT token
 2. The user performs an HTTP request to `https://<route>/travels` (or one of `cars`, `hotels`, `insurances`, `flights`) and passes along this request the JWT token
 3. The `istio-proxy` container of the Istio Ingress Gateway checks the validity of the JWT token depending on the `RequestAuthentication` and `AuthorizationPolicy` objects
 4. If the JWT token is valid and the AuthorizationPolicy matches, the external user is allowed to access the `/PATH` - otherwise, an error message is returned to the user (code `403`, message `RBAC: access denied` or others).
@@ -161,7 +161,7 @@ The intended final authentication workflow for external requests with a `JWT` to
 
 === Step 1 - Define Authentication and Authorization with valid RHSSO JWT Token
 
-We login as Mesh Operator with `emma/emma` and create a RequestAuthentication resource. 
+We login as Mesh Operator with `emma/emma` and create a RequestAuthentication resource.
 
 The request authentication enables JWT validation on the Istio ingress gateway so that the validated JWT claims can later be used in i.e. the virtual service for routing purposes. The request authentication is applied on the ingress gateway because the JWT claim based routing is *only* supported on ingress gateways.
 
@@ -219,14 +219,14 @@ Now we test the external access by sending a request to the cars and travels API
 
 [source, shell]
 ----
-./login-as.sh emma 
+./login-as.sh emma
 
-export GATEWAY_URL=$(oc -n user-$LAB_PARTICIPANT_ID-prod-istio-system get route gto-user-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}') 
+export GATEWAY_URL=$(oc -n user-$LAB_PARTICIPANT_ID-prod-istio-system get route gto-user-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}')
 echo $GATEWAY_URL
 
-curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/cars/Tallinn |jq 
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/cars/Tallinn |jq
 
-curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/travels/Tallinn |jq 
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/travels/Tallinn |jq
 ----
 
 We authenticate against the RH-SSO instance and retrieve a JWT Access Token:
@@ -251,7 +251,7 @@ image::assets/04-gto-external-ingressgateway-jtw.png[300,700]
 
 == Next Steps
 
-Congratulations!! 
+Congratulations!!
 You have completed Scenario 4.
 
 link:scenario-5.adoc[Getting started with Scenario 5]
