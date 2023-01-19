@@ -40,9 +40,10 @@ Is it a producer-consumer platform  where admins/ops deploy all configurations a
 
 _Dev(Sec)Ops Methodology_::
 
-Which of the DevOps (and Agile) practices and methodologies to adopt for application and cloud configuration delivery and (This includes service mesh configurations).
+Whether the team have adopted link:https://www.redhat.com/en/topics/security/devsecops/approach[DevSecOps approaches] for application and cloud configuration delivery. DevSecOps approaches bring together development, security, and operations into a collaborative shared-responsibility paradigm. The goal is to break down barriers between roles, disciplines, and teams across an organization to encourage collaboration and work toward common goals. A DevSecOps approach encompasses people, processes, technology, and governance.
 
 For the purpose of the provided scenarios the Travel Agency has selected the following options determining the _Model of Operation_.
+
 
 
 [cols="2,4,4"]
@@ -56,7 +57,7 @@ For the purpose of the provided scenarios the Travel Agency has selected the fol
 
 | 3 | Platform Operating Model | <<sidenote2,Self-Service platform (restricted)>>
 
-| 4 | Dev(Sec)Ops Methodology | not covered in this Lab
+| 4 | Dev(Sec)Ops Methodology | not covered by the Labs
 
 |===
 
