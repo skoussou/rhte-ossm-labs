@@ -97,12 +97,8 @@ In the following table you’ll see the Persona / Role mappings for the Travel A
 
 [NOTE]
 ====
-The MeshOperator, Mesh Application Viewer and Mesh Developer Roles have been pre created for this Lab!
+The `Mesh Operator`, `Mesh Application Viewer` and `Mesh Developer` Roles have been pre created for this Lab! Later you can review the link:https://github.com/skoussou/rhte-ossm-labs/blob/ef642f62a9cee8d501ab3a4aa219be7d2708aca2/setup/run-setup-scenario-1.sh#L76[OCP role resources] and link:https://github.com/skoussou/rhte-ossm-labs/blob/ef642f62a9cee8d501ab3a4aa219be7d2708aca2/setup/run-setup-scenario-1.sh#L129[role bindings] for each user.
 ====
-
-*You can now verify the created role resources:*
-
-https://github.com/skoussou/rhte-ossm-labs/tree/main/setup/resources/roles-resources[https://github.com/skoussou/rhte-ossm-labs/tree/main/setup/resources/roles-resources]
 
 == User/Role/Persona Mapping for the DEV environment
 
@@ -116,21 +112,19 @@ The table below shows the User/Role/Persona Mapping for the Travel Agency DEV en
 [cols="1,4,3,2"]
 .Users created in `DEV` Environment
 |===
-|Name |Enterprise Persona |Role |Namespace
+|Name |Enterprise Persona |Role Bindings |Namespace
 
-| phillip | Platform Admin | link:../setup/resources/roles-resources/mesh-admin.yaml[`Cluster Admin`] | `dev-istio-system`
+| emma | Mesh Operator |  link:../setup/scripts/users/create-mesh-operator-roles.sh[`Mesh Operator`] | `dev-istio-system`
 
-| emma | Mesh Operator |  link:../setup/resources/roles-resources/mesh-operator.yaml[`Mesh Operator`] | `dev-istio-system`
+| cristina | Travel Portal Domain Owner (Tech Lead)  | link:../setup/scripts/users/create-mesh-dev-roles.sh[`Mesh Developer`] | `dev-travel-portal`, `dev-travel-control`
 
-| cristina | Travel Portal Domain Owner (Tech Lead)  | link:../setup/resources/roles-resources/mesh-developer.yaml[`Mesh Developer`] | `dev-travel-portal`, `dev-travel-control`
+| farid | Travel Services Domain Owner (Tech Lead)  | link:../setup/scripts/users/create-mesh-dev-roles.sh[`Mesh Developer`] | `dev-travel-agency`
 
-| farid | Travel Services Domain Owner (Tech Lead)  | link:../setup/resources/roles-resources/mesh-developer.yaml[`Mesh Developer`] | `dev-travel-agency`
+| john | Developer (TP) | link:../setup/scripts/users/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `dev-travel-portal`, `dev-travel-control`
 
-| john | Developer (TP) | link:../setup/resources/roles-resources/mesh-app-viewer.yaml[`Mesh Application Viewer`] | `dev-travel-portal`, `dev-travel-control`
+| mia | Developer (TS) | link:../setup/scripts/users/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `dev-travel-agency`
 
-| mia | Developer (TS) | link:../setup/resources/roles-resources/mesh-app-viewer.yaml[`Mesh Application Viewer`] | `dev-travel-agency`
-
-| mus | Product Owner | link:../setup/resources/roles-resources/mesh-app-viewer.yaml[`Mesh Application Viewer`] | `dev-travel-portal`, `dev-travel-control`, `dev-travel-agency`
+| mus | Product Owner | link:../setup/scripts/users/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `dev-travel-portal`, `dev-travel-control`, `dev-travel-agency`
 
 |===
 
