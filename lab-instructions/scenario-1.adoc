@@ -64,104 +64,25 @@ For the purpose of the provided scenarios the Travel Agency has selected the fol
 [[sidenote2]]
 *Self-service (restricted):* In this Model of Operation the teams will be able to create `Service Mesh` configurations in a self-service manner with the exception of `Gateway` resources which will be handled by the `Service Mesh` operating admin.
 
-== Travel Agency Personas
+== Travel Agency Personas & Roles
 
-The following enterprise personas that will interact with the Service Mesh (OSSM) have been identified:
+The following Travel Agency enterprise personas that will interact with the Service Mesh (OSSM) have been identified which are also most common in customer organizations (albeit with possible different names).
 
-|===
-|*Persona*|*Responsibility*
-|Platform Admin|Owner of multiple OpenShift clusters, sets organizational policies.
-|Mesh Operator|Operates parts of the cluster and the domain based service mesh for the hosted services. Creates and operates Service Mesh tenants.
-|Domain Owner (Tech Lead)|Responsible for an Application Domain. Onboards developers in the team and understands inter/intra service dependencies. Creates and configures Service Mesh resources (Virtual Services, Destination Rules etc.) in his domain
-|Developer|Develops services in his Application Domain. Needs to be kept aware of the health, performance and functional correctness of the solution.
-|Application Ops Team|The _Application Ops_ team monitors and maintains the running applications in the deployed cluster and within the domain hosted mesh (OSSM tenant), including extracting logs, executing commands to verify state, and troubleshooting in higher (non-development) environments
-|Product Owner|The Product Owner needs to be aware of the health, usage, cost as well as other metrics around the business domain of the solution.
-|===
-
-== User Roles
-
-Upstream Istio as well as OpenShift Service Mesh do not define standard or default user roles, so it is up to each project/implementation to define the appropriate permissions and roles for the required personas in order to access the necessary Service Mesh resources.
+Upstream Istio, and so OpenShift Service Mesh, do not define standard or default user roles it is up to each project/implementation to define the appropriate permissions and roles for the required personas in order to access the necessary Service Mesh resources.
+We have defined those based on the _Model of Operation_ and expected User Governance.
 
 In the following table you’ll see the Persona / Role mappings for the Travel Agency personas:
-
 
 |===
 |*Persona*|*Role*
 
-|Platform Admin|Cluster Admin (Default OpenShift cluster-admin role)
-|Mesh Operator|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-operator.yaml[Mesh Operator]
-|Domain Owner (Tech Lead)|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer]
-|Developer|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer]
-|Application Ops Team|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer]
-|Product Owner|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer]
+|Platform Admin|Cluster Admin (Default OpenShift cluster-admin role)|Owner of multiple OpenShift clusters, deploys operators and sets organizational policies.
+|Mesh Operator|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-operator.yaml[Mesh Operator]|Operates parts of the cluster and the domain based service mesh for the hosted services. Creates and operates Service Mesh tenants.
+|Domain Owner (Tech Lead)|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer]|Responsible for an Application Domain. Onboards developers in the team and understands inter/intra service dependencies. Creates and configures Service Mesh resources (`VirtualService`, `DestinationRule` etc.) in their domain.
+|Developer|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer]|Develops services in his Application Domain. Needs to be kept aware of the health, performance and functional correctness of the solution.
+|Application Ops Team|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer]|The _Application Ops_ team monitors and maintains the running applications in the deployed cluster and within the domain hosted mesh (OSSM tenant), including extracting logs, executing commands to verify state, and troubleshooting in higher (non-development) environments
+|Product Owner|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer]|The Product Owner needs to be aware of the health, usage, cost as well as other metrics around the business domain of the solution.
 |===
-
-|===
-|*Persona*|*Service mesh role*|*Responsibilities*
-
-|Platform administrator|Cluster Admin (Default OpenShift cluster-admin role)|
-The cluster admin owns and operates Red Hat OpenShift clusters and sets organizational policies. They have all cluster privileges.
-
-- Add, remove, and update cluster operators.
-
-- Install container images to the image registry.
-
-- Update OpenShift versions.
-
-- Set up cluster infrastructure and configurations, including routers, networking, nodes, and resources.
-
-- Set up security.
-
-- Provide service mesh resources to retrieve logs for troubleshooting.
-
-|Mesh Operator|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-operator.yaml[Mesh Operator]|
-The mesh operator operates the parts of the cluster and domain-based service mesh that provide hosted services. They can administer an entire cluster or several namespaces, depending on your operational setup.
-
-- Add, remove, and update the service mesh control plane, member role, member, and Istio resources within the owned namespaces.
-
-- Configure the service mesh control plane observability stack.
-
-- Set up mesh security and certificates.
-
-|Domain Owner (Tech Lead)|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer]|
-The domain owner understands the internal and external dependencies for applications that interact with the service mesh and onboards developers.
-
-- Define environments for domain-based applications.
-
-- Define Istio configurations for the service mesh data plane.
-
-- Work with mesh operators to configure ingress and egress traffic and resources.
-
-|Developer|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer] |
-- *Mesh application viewer (development environments)*
-
-- Developers use the configured platform, mesh, and observability stack to review and troubleshoot application functionality and performance.
-
-- Monitor the health, performance, and functional capabilities of applications.
-
-- Access Kiali visualizations, Jaeger telemetry, Prometheus metrics, and pod logs in the development environment.
-
-|Application Ops Team|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-developer.yaml[Mesh Developer] |
-- *Application operator Mesh developer (higher environments)*
-
-- Application operators monitor and maintain applications deployed in the cluster and within the domain hosted mesh.
-
-- Access logs and envoy proxy configurations, telemetry, and traces to validate issues within their domain.
-
-- Extract information and work with mesh operators and developers to identify issues.
-
-- Suggest Istio configurations to mesh operators and developers.
-
-|Product Owner|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-app-viewer.yaml[Mesh Application Viewer] |
-Product owners monitor the applications that comprise their product, both within and outside of the mesh, using the observability stack.
-
-- Monitor product health, use, cost, and other metrics within their domain.
-
-- Access observability stack information for up to one week after collection.
-
-|===
-
-
 
 [NOTE]
 ====
