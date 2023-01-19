@@ -38,8 +38,9 @@ spec:
 # THIS IS will be done PRE-SETUP via setup/run-setup-scenario-3.sh and if not done (single lab scenario) the
 # following can be re-enabled via CREATE_ES=Yes
 sleep 10
-CREATE_ES = "No"
-if [[ "CREATE_ES" == "No" ]]; then
+
+CREATE_ES="No"
+if [[ "$CREATE_ES" == "No" ]]; then
     echo "ElasticSearch exists"
     echo
 else

@@ -15,6 +15,17 @@ echo ""
 
 sleep 5
 
+echo ""
+echo ""
+
+./login-as.sh emma
+./create-prod-smcp-1-tracing.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
+
+sleep 5
+
+echo ""
+echo ""
+
 ./login-as.sh farid
 ./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-agency
 echo "waiting for membership annotations to be applied to the user-$LAB_PARTICIPANT_ID-prod-travel-agency"
