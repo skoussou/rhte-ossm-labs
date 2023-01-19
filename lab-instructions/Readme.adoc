@@ -24,19 +24,11 @@ export LAB_HOME="$(pwd)/rhte-ossm-labs"
 cd rhte-ossm-labs
 ----
 
-== In Openshift Console `Star` the correct Namespaces
+== In Openshift Console `Use` correct Namespaces
 
-As we will be using a shared cluster it is very important each uses their own namespaces.
+IMPORTANT: As we will be using a shared cluster and the users are also common with access to multiple namespaces it is very important each one of us uses their own namespaces. Very Important to use the correct *namespaces* based on the link:https://github.com/skoussou/rhte-ossm-labs#lab-information[*LAB_PARTICIPANT_ID* which you can find in this table]
 
-WARNING: Very Important to use the correct *namespaces* based on the link:https://github.com/skoussou/rhte-ossm-labs#lab-information[*LAB_PARTICIPANT_ID* which you can find in this table]
-
-*Action:* We ask you to *STAR* in the Openshift Console the correct namespaces based on your *LAB_PARTICIPANT_ID*
-
-* Login in the console as user `emma`/`emma` and perform the action.
-
-*Note:* This is an example ONLY for use with *LAB_PARTICIPANT_ID=1*
-
-image::./assets/0-start-namespaces.png[200,500]
+*Note:* This is an example ONLY for user who has been assigned *LAB_PARTICIPANT_ID=1*
 
 == Introduction
 
