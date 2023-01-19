@@ -26,6 +26,24 @@ echo '--------------------------------------------------------------------------
 echo
 echo
 
+echo
+EXECUTE_FEDERATION="False"
+espod=$(oc -n $FED_2_SMCP_NAMESPACE get ServiceMeshPeer/$FED_1_SMCP_NAME -o 'jsonpath={..metadata.name}')
+echo "espod: $espod"
+sleep 5
+if [[ "$espod" == "$FED_1_SMCP_NAME" ]]; then
+  EXECUTE_FEDERATION="True"
+fi
+echo "Apply Federation Setup => "$EXECUTE_FEDERATION
+echo
+echo
+sleep 7
+
+#VAR="no"
+#if [[ "$VAR" == "yes" ]]
+#then
+#fi
+
 echo '###########################################################################'
 echo '#                                                                         #'
 echo '#   STAGE 3 - Federated Connectivity                                      #'
@@ -51,6 +69,7 @@ spec:
     labels:
       version: premium"
 
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -65,7 +84,7 @@ spec:
   - name: premium
     labels:
       version: premium"|oc apply -f -
-
+fi
 echo "kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
@@ -101,6 +120,7 @@ spec:
             subset: v1
           weight: 100"
 
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
@@ -135,3 +155,4 @@ spec:
             host: insurances.user-$LAB_PARTICPAND_ID-prod-travel-agency.svc.cluster.local
             subset: v1
           weight: 100" |oc apply -f -
+fi

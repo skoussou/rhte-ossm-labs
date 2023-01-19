@@ -26,6 +26,28 @@ echo '--------------------------------------------------------------------------
 echo
 echo
 
+echo "LOGIN CLUSTER 1 [$FED_1_SMCP_NAME] as $(oc whoami)"
+echo
+sleep 5
+
+echo
+EXECUTE_FEDERATION="True"
+espod=$(oc -n $FED_2_SMCP_NAMESPACE get ServiceMeshPeer -o 'jsonpath={..metadata.name}')
+echo "espod: $espod"
+sleep 5
+if [[ "$espod" == "$FED_1_SMCP_NAME" ]]; then
+  EXECUTE_FEDERATION="False"
+fi
+echo "Execute Federation Setup => "$EXECUTE_FEDERATION
+echo
+echo
+sleep 7
+
+#VAR="no"
+#if [[ "$VAR" == "yes" ]]
+#then
+#fi
+
 echo '###########################################################################'
 echo '#                                                                         #'
 echo '#   STAGE 1 - SMCP Preperations for Federation                            #'
@@ -37,141 +59,130 @@ echo "---------------------- Step 1-a Update SMCP/$FED_1_SMCP_NAME in Namespace 
 sleep 7
 echo
 
-echo "LOGIN CLUSTER 1 [$FED_1_SMCP_NAME] as $(oc whoami)"
-echo
-sleep 5
-
-
-VAR="no"
-if [[ "$VAR" == "yes" ]]
-then
-
-
-
-echo "Current SMCP/$FED_1_SMCP_NAME
--------------------------------------
-apiVersion: maistra.io/v2
-kind: ServiceMeshControlPlane
-metadata:
-  namespace: $FED_1_SMCP_NAMESPACE
-  name: $FED_1_SMCP_NAME
-spec:
-  security:
-    dataPlane:
-      automtls: true
-      mtls: true
-  tracing:
-    sampling: 500
-    type: Jaeger
-  general:
-    logging:
-      logAsJSON: true
-  profiles:
-    - default
-  proxy:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 500m
-        memory: 128Mi
-    accessLogging:
-      file:
-        name: /dev/stdout
-    networking:
-      trafficControl:
-        inbound: {}
-        outbound:
-          policy: REGISTRY_ONLY
-  gateways:
-    additionalIngress:
-      gto-user-$LAB_PARTICPAND_ID-ingressgateway:
-        enabled: true
-        runtime:
-          deployment:
-            autoScaling:
-              enabled: false
-        service:
-          metadata:
-            labels:
-              app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
-          selector:
-            app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
-    egress:
-      enabled: true
-      runtime:
-        deployment:
-          autoScaling:
-            enabled: true
-            maxReplicas: 2
-            minReplicas: 2
-        pod: {}
-      service: {}
-    enabled: true
-    ingress:
-      enabled: true
-      runtime:
-        deployment:
-          autoScaling:
-            enabled: true
-            maxReplicas: 2
-            minReplicas: 2
-        pod: {}
-      service: {}
-    openshiftRoute:
-      enabled: false
-  policy:
-    type: Istiod
-  addons:
-    grafana:
-      enabled: true
-      install:
-        config:
-          env: {}
-          envSecrets: {}
-        persistence:
-          accessMode: ReadWriteOnce
-          capacity:
-            requests:
-              storage: 5Gi
-          enabled: true
-        service:
-          ingress:
-            contextPath: /grafana
-            tls:
-              termination: reencrypt
-    jaeger:
-      install:
-        ingress:
-          enabled: true
-        storage:
-          type: Elasticsearch
-      name: jaeger-small-production
-    kiali:
-      enabled: true
-    prometheus:
-      enabled: true
-  runtime:
-    components:
-      pilot:
-        deployment:
-          replicas: 2
-        pod:
-          affinity: {}
-        container:
-          resources:
-          limits: {}
-          requirements: {}
-      grafana:
-        deployment: {}
-        pod: {}
-      kiali:
-        deployment: {}
-        pod: {}
-  version: v2.3
-  telemetry:
-    type: Istiod"
+#echo "Current SMCP/$FED_1_SMCP_NAME
+#-------------------------------------
+#apiVersion: maistra.io/v2
+#kind: ServiceMeshControlPlane
+#metadata:
+#  namespace: $FED_1_SMCP_NAMESPACE
+#  name: $FED_1_SMCP_NAME
+#spec:
+#  security:
+#    dataPlane:
+#      automtls: true
+#      mtls: true
+#  tracing:
+#    sampling: 500
+#    type: Jaeger
+#  general:
+#    logging:
+#      logAsJSON: true
+#  profiles:
+#    - default
+#  proxy:
+#    resources:
+#      requests:
+#        cpu: 100m
+#        memory: 128Mi
+#      limits:
+#        cpu: 500m
+#        memory: 128Mi
+#    accessLogging:
+#      file:
+#        name: /dev/stdout
+#    networking:
+#      trafficControl:
+#        inbound: {}
+#        outbound:
+#          policy: REGISTRY_ONLY
+#  gateways:
+#    additionalIngress:
+#      gto-user-$LAB_PARTICPAND_ID-ingressgateway:
+#        enabled: true
+#        runtime:
+#          deployment:
+#            autoScaling:
+#              enabled: false
+#        service:
+#          metadata:
+#            labels:
+#              app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
+#          selector:
+#            app: gto-user-$LAB_PARTICPAND_ID-ingressgateway
+#    egress:
+#      enabled: true
+#      runtime:
+#        deployment:
+#          autoScaling:
+#            enabled: true
+#            maxReplicas: 2
+#            minReplicas: 2
+#        pod: {}
+#      service: {}
+#    enabled: true
+#    ingress:
+#      enabled: true
+#      runtime:
+#        deployment:
+#          autoScaling:
+#            enabled: true
+#            maxReplicas: 2
+#            minReplicas: 2
+#        pod: {}
+#      service: {}
+#    openshiftRoute:
+#      enabled: false
+#  policy:
+#    type: Istiod
+#  addons:
+#    grafana:
+#      enabled: true
+#      install:
+#        config:
+#          env: {}
+#          envSecrets: {}
+#        persistence:
+#          accessMode: ReadWriteOnce
+#          capacity:
+#            requests:
+#              storage: 5Gi
+#          enabled: true
+#        service:
+#          ingress:
+#            contextPath: /grafana
+#            tls:
+#              termination: reencrypt
+#    jaeger:
+#      install:
+#        ingress:
+#          enabled: true
+#        storage:
+#          type: Elasticsearch
+#      name: jaeger-small-production
+#    kiali:
+#      enabled: true
+#    prometheus:
+#      enabled: true
+#  runtime:
+#    components:
+#      pilot:
+#        deployment:
+#          replicas: 2
+#        pod:
+#          affinity: {}
+#        container:
+#          resources:
+#          limits: {}
+#          requirements: {}
+#      grafana:
+#        deployment: {}
+#        pod: {}
+#      kiali:
+#        deployment: {}
+#        pod: {}
+#  version: v2.3
+#  telemetry:
+#    type: Istiod"
 
 echo
 echo "----- Updated for federation SMCP/$FED_1_SMCP_NAME ----"
@@ -329,6 +340,8 @@ spec:
   telemetry:
     type: Istiod"
 
+
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
 metadata:
@@ -481,6 +494,8 @@ spec:
   version: v2.3
   telemetry:
     type: Istiod"|oc apply -f -
+fi
+
 
 echo
 echo
@@ -504,43 +519,43 @@ echo
 sleep 5
 
 echo
-echo "Current SMCP/$FED_2_SMCP_NAME
--------------------------------------
-apiVersion: maistra.io/v2
-kind: ServiceMeshControlPlane
-metadata:
-  name: $FED_2_SMCP_NAME
-  namespace: ${FED_2_SMCP_NAMESPACE}
-spec:
-  addons:
-    grafana:
-      enabled: true
-    jaeger:
-      install:
-        storage:
-          type: Memory
-    kiali:
-      enabled: true
-    prometheus:
-      enabled: true
-  gateways:
-    openshiftRoute:
-      enabled: false
-  policy:
-    type: Istiod
-  profiles:
-    - default
-  security:
-    controlPlane:
-      mtls: true
-    dataPlane:
-      mtls: true
-  telemetry:
-    type: Istiod
-  tracing:
-    sampling: 10000
-    type: Jaeger
-  version: v2.3"
+#echo "Current SMCP/$FED_2_SMCP_NAME
+#-------------------------------------
+#apiVersion: maistra.io/v2
+#kind: ServiceMeshControlPlane
+#metadata:
+#  name: $FED_2_SMCP_NAME
+#  namespace: ${FED_2_SMCP_NAMESPACE}
+#spec:
+#  addons:
+#    grafana:
+#      enabled: true
+#    jaeger:
+#      install:
+#        storage:
+#          type: Memory
+#    kiali:
+#      enabled: true
+#    prometheus:
+#      enabled: true
+#  gateways:
+#    openshiftRoute:
+#      enabled: false
+#  policy:
+#    type: Istiod
+#  profiles:
+#    - default
+#  security:
+#    controlPlane:
+#      mtls: true
+#    dataPlane:
+#      mtls: true
+#  telemetry:
+#    type: Istiod
+#  tracing:
+#    sampling: 10000
+#    type: Jaeger
+#  version: v2.3"
 
 
 echo
@@ -612,6 +627,8 @@ spec:
     type: Istiod
   version: v2.3"
 
+
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
 metadata:
@@ -678,6 +695,7 @@ spec:
   policy:
     type: Istiod
   version: v2.3" |oc apply -f -
+fi
 
 echo
 echo
@@ -707,10 +725,13 @@ echo '==========================='
 sleep 5
 echo "a. GET ROOT CA CERT FROM $FED_1_SMCP_NAME MESH:					oc get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' -n $FED_1_SMCP_NAMESPACE > production-mesh-cert.pem"
 echo
-sleep 5
-oc get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' -n $FED_1_SMCP_NAMESPACE > production-mesh-cert.pem
-echo
-sleep 5
+
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
+  sleep 5
+  oc get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' -n $FED_1_SMCP_NAMESPACE > production-mesh-cert.pem
+  echo
+  sleep 5
+fi
 echo
 echo '==============================='
 echo "SHARE TO $FED_2_SMCP_NAME MESH"
@@ -719,29 +740,37 @@ sleep 5
 echo
 echo "b. CREATE IN $FED_2_SMCP_NAMESPACE with $FED_1_SMCP_NAME MESH CERT a configmap:		oc create configmap production-ca-root-cert --from-file=root-cert.pem=production-mesh-cert.pem -n $FED_2_SMCP_NAMESPACE"
 echo
-sleep 5
-oc delete configmap production-ca-root-cert -n $FED_2_SMCP_NAMESPACE
-oc create configmap production-ca-root-cert --from-file=root-cert.pem=production-mesh-cert.pem -n $FED_2_SMCP_NAMESPACE
+
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
+  sleep 5
+  oc delete configmap production-ca-root-cert -n $FED_2_SMCP_NAMESPACE
+  oc create configmap production-ca-root-cert --from-file=root-cert.pem=production-mesh-cert.pem -n $FED_2_SMCP_NAMESPACE
+fi
 
 echo '==========================='
 echo "FROM $FED_2_SMCP_NAME MESH"
 echo '==========================='
 sleep 5
 echo "c. GET ROOT CA CERT FROM $FED_2_SMCP_NAME MESH:					oc get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' -n $FED_2_SMCP_NAMESPACE > partner-mesh-cert.pem"
-oc get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' -n $FED_2_SMCP_NAMESPACE > partner-mesh-cert.pem
-echo
-sleep 5
 
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
+  oc get configmap istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' -n $FED_2_SMCP_NAMESPACE > partner-mesh-cert.pem
+  echo
+  sleep 5
+fi
 echo
 echo '==============================='
 echo "SHARE TO $FED_1_SMCP_NAME MESH"
 echo '==============================='
 echo "d. CREATE IN $FED_1_SMCP_NAMESPACE with $FED_2_SMCP_NAME MESH CERT a configmap:		oc create configmap partner-ca-root-cert --from-file=root-cert.pem=partner-mesh-cert.pem -n $FED_1_SMCP_NAMESPACE"
-oc delete configmap partner-ca-root-cert -n $FED_1_SMCP_NAMESPACE
-oc create configmap partner-ca-root-cert --from-file=root-cert.pem=partner-mesh-cert.pem -n $FED_1_SMCP_NAMESPACE
-echo
-sleep 15
-echo
+
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
+  oc delete configmap partner-ca-root-cert -n $FED_1_SMCP_NAMESPACE
+  oc create configmap partner-ca-root-cert --from-file=root-cert.pem=partner-mesh-cert.pem -n $FED_1_SMCP_NAMESPACE
+  echo
+  sleep 15
+  echo
+fi
 
 echo
 echo
@@ -771,6 +800,7 @@ spec:
       kind: ConfigMap
       name: partner-ca-root-cert"
 
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "kind: ServiceMeshPeer
 apiVersion: federation.maistra.io/v1
 metadata:
@@ -793,6 +823,8 @@ spec:
     certificateChain:
       kind: ConfigMap
       name: partner-ca-root-cert" |oc apply -f -
+fi
+
 sleep 7
 echo
 # If you import services with importAsLocal: true,
@@ -818,6 +850,8 @@ spec:
 #      importAsLocal: false
 #      namespace: $NAMESPACE
 #      name: insurances
+
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "
 kind: ImportedServiceSet
 apiVersion: federation.maistra.io/v1
@@ -837,6 +871,7 @@ spec:
 #      importAsLocal: false
 #      namespace: $NAMESPACE
 #      name: insurances
+fi
 sleep 15
 echo
 echo
@@ -868,6 +903,8 @@ spec:
       kind: ConfigMap
       name: production-ca-root-cert"
 
+
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "kind: ServiceMeshPeer
 apiVersion: federation.maistra.io/v1
 metadata:
@@ -890,6 +927,7 @@ spec:
     certificateChain:
       kind: ConfigMap
       name: production-ca-root-cert" |oc apply -f -
+fi
 sleep 7
 echo
 #echo "
@@ -937,6 +975,7 @@ spec:
       namespace: $NAMESPACE
       name: insurances"
 
+if [[ "$EXECUTE_FEDERATION" == "True" ]]; then
 echo "kind: ExportedServiceSet
 apiVersion: federation.maistra.io/v1
 metadata:
@@ -948,11 +987,12 @@ spec:
     nameSelector:
       namespace: $NAMESPACE
       name: insurances" |oc apply -f -
+fi
 sleep 10
 echo
 echo
 
-fi
+
 echo '---------------------- Step 3c - Verify Service Mesh Peering Connection (PRODUCTION -> PARTNER)  ----------------------'
 sleep 7
 echo
@@ -977,17 +1017,22 @@ sleep 7
 echo
 echo "------------------------------------ CHECK ServiceMeshPeering (PARTNER -> PRODUCTION) STATUS ------------------------------------"
 echo 'NOTE: Check if status \"connected: true\" 305 times with 1 sec delay as 5 mins peering synced'
-#echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}' -n $FED_2_SMCP_NAMESPACE"
-#echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].watch.connected}' -n $FED_2_SMCP_NAMESPACE"
+echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}' -n $FED_2_SMCP_NAMESPACE"
+echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].watch.connected}' -n $FED_2_SMCP_NAMESPACE"
+echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.inactive[0].remotes[0].connected}' -n $FED_2_SMCP_NAMESPACE"
 echo "oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.inactive[0].watch.connected}' -n $FED_2_SMCP_NAMESPACE"
+
 espod="False"
 while [ "$espod" != "true" ]; do
   sleep 5
-  #espod=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
-  #espod=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].watch.connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
-  espod=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.inactive[0].watch.connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
-
-  echo "ServiceMeshPeer PARTNER -> PRODUCTION Connected => "$espod
+  espod1=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].remotes[0].connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+  espod2=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.active[0].watch.connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+  espod3=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.inactive[0].remotes[0].connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+  espod4=$(oc get servicemeshpeer $FED_1_SMCP_NAME -o jsonpath='{.status.discoveryStatus.inactive[0].watch.connected}{"\n"}' -n $FED_2_SMCP_NAMESPACE)
+  if [[ "$espod1" = "true"  ||  "$espod2" = "true" || "$espod3" == "true" || "$espod4" == "true" ]]; then
+    espod="true"
+  fi
+  echo "ServiceMeshPeer PARTNER -> PRODUCTION Connected => $espod"
 done
 echo
 sleep 10
