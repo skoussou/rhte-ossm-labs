@@ -66,7 +66,7 @@ For the purpose of the provided scenarios the Travel Agency has selected the fol
 
 == Travel Agency Personas & Roles
 
-The following Travel Agency enterprise personas that will interact with the Service Mesh (OSSM) have been identified which are also most common in customer organizations (albeit with possible different names).
+The following Travel Agency enterprise personas that will interact with the Service Mesh (OSSM) have been identified. Typically these are the most common ones in customer organizations (albeit with possible different names).
 
 Upstream Istio, and so OpenShift Service Mesh, do not define standard or default user roles it is up to each project/implementation to define the appropriate permissions and roles for the required personas in order to access the necessary Service Mesh resources.
 We have defined those based on the _Model of Operation_ and expected User Governance.
