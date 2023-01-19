@@ -73,7 +73,7 @@ IMPORTANT: `OSSM` -like Istio- now offers the ability for the injection of an  *
 
 [NOTE]
 ====
-Please ensure you have already set in your command prompt the Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
+Please ensure you have already set in your command prompt the Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Participants Table]>`
 ====
 
 [source, shell]
@@ -90,7 +90,7 @@ In this task you will learn how you can find the URLs to the Observability Stack
 
 [NOTE]
 ====
-Please ensure you have set LAB Participan Id by `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Particpants Table]>`
+Please ensure you have set LAB Participant Id by `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Participants Table]>`
 ====
 
 [source, shell]
@@ -205,7 +205,7 @@ image::./assets/02-mia-graph-restricted-view.png[400,1000]
 
 1. Access `Kiali` URL as with username/password *`emma`*/*`emma`* (role: `Mesh Operator`)
 
-* As the `Mesh Operator` you have *full* access to all 3 _data plane_ namespaces and the _control plane_. 
+* As the `Mesh Operator` you have *full* access to all 3 _data plane_ namespaces and the _control plane_.
 ** In `Kiali` go to *Graphs -> App Graph*, select from *Display* `Request Distribution`, `Namespace Boxes`, `Traffic Animation`, `Security` and see the Mesh Operator view
 ** In addition from the `Kiali` menu on the left to go to `Istio Config`. You should be able to access or modify any config as the administrator of this mesh
 ** You can in addition access logs of the workloads. From the `Kiali` menu on the left go to `Workloads` and access one of the workloads, it has both proxy and pod logs available

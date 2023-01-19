@@ -3,7 +3,7 @@
 
 Evaluations by the Product Security Team as well as new regulations are requiring the Travel Agency company to further improve the security aspects of the running applications in production.
 
-1. The Security Team requires a corporate (intermmediate) CA certificate to be used for the inter-Service Mesh mTLS communications.
+1. The Security Team requires a corporate (intermediate) CA certificate to be used for the inter-Service Mesh mTLS communications.
 2. The Product Team (of the Travel Agency APIs) requires to add authorization for the access to specific services.
 
 == Final Security Architecture Overview
@@ -68,15 +68,15 @@ First lets verify that by default the _Service Mesh_ authorization policies allo
 |===
 | Type of Policy | Namespaces | Client | Target
 
-| ALLOW all | `prod-istio-system` -> `prod-travel-control` | Browser | `control.prod-travel-control` 
+| ALLOW all | `prod-istio-system` -> `prod-travel-control` | Browser | `control.prod-travel-control`
 
-| ALLOW all | `prod-istio-system` -> `prod-travel-agency` | `gto-external-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| ALLOW all | `prod-istio-system` -> `prod-travel-agency` | `gto-external-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
-| ALLOW all | `prod-travel-control` -> `prod-travel-agency` | `control.prod-travel-control` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| ALLOW all | `prod-travel-control` -> `prod-travel-agency` | `control.prod-travel-control` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
-| ALLOW all | `prod-travel-portal` -> `prod-travel-agency` | `viaggi.prod-travel-portal` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| ALLOW all | `prod-travel-portal` -> `prod-travel-agency` | `viaggi.prod-travel-portal` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
-| ALLOW all | `prod-travel-agency` -> `prod-travel-agency` | `travels.prod-travel-agency` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| ALLOW all | `prod-travel-agency` -> `prod-travel-agency` | `travels.prod-travel-agency` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
 |===
 
@@ -126,17 +126,17 @@ Now we can verify that no communications from the _Service Mesh_ are authorizate
 [cols="1,2,1,3"]
 .DENY ALL policy
 |===
-| Type of Policy | Namespaces | Client | Target 
+| Type of Policy | Namespaces | Client | Target
 
-| DENY all | `prod-istio-system` -> `prod-travel-control` | Browser | `https://travel-prod-istio-system.apps.ocp4.rhlab.de/` 
+| DENY all | `prod-istio-system` -> `prod-travel-control` | Browser | `https://travel-prod-istio-system.apps.ocp4.rhlab.de/`
 
-| DENY all | `prod-istio-system` -> `prod-travel-agency` | `gto-external-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| DENY all | `prod-istio-system` -> `prod-travel-agency` | `gto-external-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
-| DENY all | `prod-travel-control` -> `prod-travel-agency` | `control.prod-travel-control` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| DENY all | `prod-travel-control` -> `prod-travel-agency` | `control.prod-travel-control` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
-| DENY all | `prod-travel-portal` -> `prod-travel-agency` | `viaggi.prod-travel-portal` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| DENY all | `prod-travel-portal` -> `prod-travel-agency` | `viaggi.prod-travel-portal` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
-| DENY all | `prod-travel-agency` -> `prod-travel-agency` | `travels.prod-travel-agency` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency` 
+| DENY all | `prod-travel-agency` -> `prod-travel-agency` | `travels.prod-travel-agency` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
 |===
 
@@ -159,7 +159,7 @@ Let us first login as Mesh Operator with `emma/emma` and check if we can access 
 
 [source,shell]
 ----
-./login-as.sh emma 
+./login-as.sh emma
 
 curl -k https://travel-user-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
 
@@ -185,7 +185,7 @@ spec:
             paths: [\"*\"]" |oc apply -f -
 ----
 
-and 
+and
 
 [source,shell]
 ----
@@ -211,17 +211,17 @@ curl -k https://travel-user-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
 
 === Step 5 - Apply fine grained business Authz policies for service to service communications
 
-In this last step, we'll create policies which will allow access 
+In this last step, we'll create policies which will allow access
 
 * from the gto-external-ingressgateway towards travels.prod-travel-agency, hotels.prod-travel-agency, cars.prod-travel-agency, insurances.prod-travel-agency, flights.prod-travel-agency in order to enable external partner requests
 * for intra prod-travel-agency communications
-* from prod-travel-portal to prod-travel-agency 
+* from prod-travel-portal to prod-travel-agency
 
 Login as Mesh Developer with `farid/farid` and create the following AuthorizationPolicy:
 
 [source,shell]
 ----
-./login-as.sh farid 
+./login-as.sh farid
 
 echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -241,7 +241,7 @@ Now let's login as Mesh Operator with `emma/emma` and verify the communication:
 
 [source,shell]
 ----
-./login-as.sh emma 
+./login-as.sh emma
 
 ./check-authz-all.sh 'ALLOW intra' user-$LAB_PARTICIPANT_ID-prod-istio-system $OCP_DOMAIN $SSO_CLIENT_SECRET $LAB_PARTICIPANT_ID
 ----
@@ -257,7 +257,7 @@ In the Handbook
 
 == Next Steps
 
-Congratulations!! 
+Congratulations!!
 You have completed Scenario 5.
 
 link:scenario-6.adoc[Getting started with Scenario 6]

@@ -5,12 +5,12 @@ In this first scenario we’ll have a look at the requirements and consideration
 
 == Motivation
 
-The existing Travel system is a microservices based architecture splitted into two domains, and is developed and operated by several teams and personas. 
+The existing Travel system is a microservices based architecture split into two domains, and is developed and operated by several teams and personas.
 
 A service mesh is a design pattern that can be applied to a microservice-based system to manage communication between services and address common concerns of running a service, like monitoring, networking, and security.  +
-Developers and operators can focus on creating and managing applications for their users instead of worrying about implementing specific features to address challenges for every service. 
+Developers and operators can focus on creating and managing applications for their users instead of worrying about implementing specific features to address challenges for every service.
 
-This is one of the reasons why the company has decided to introduce OpenShift Service Mesh.  
+This is one of the reasons why the company has decided to introduce OpenShift Service Mesh.
 
 == Service Mesh Requirements
 
@@ -40,7 +40,7 @@ Is it a producer-consumer platform  where admins/ops deploy all configurations a
 
 _Dev(Sec)Ops Methodology_::
 
-Which of the DevOps (and Agile) practices and methologies to adopt for application and cloud configuration delivery and (This includes service mesh configurations).
+Which of the DevOps (and Agile) practices and methodologies to adopt for application and cloud configuration delivery and (This includes service mesh configurations).
 
 For the purpose of the provided scenarios the Travel Agency has selected the following options determining the _Model of Operation_.
 
@@ -50,7 +50,7 @@ For the purpose of the provided scenarios the Travel Agency has selected the fol
 |===
 |# |Strategy |Option
 
-| 1 | Cluster Type | Dedicated Cluster 
+| 1 | Cluster Type | Dedicated Cluster
 
 | 2 | Automation | Scripting (Step2 is GitOps)
 
@@ -68,8 +68,8 @@ For the purpose of the provided scenarios the Travel Agency has selected the fol
 The following enterprise personas that will interact with the Service Mesh (OSSM) have been identified:
 
 |===
-|*Persona*|*Responsibilty*
-|Platform Admin|Owner of multiple OpenShift clusters, sets organizational policies. 
+|*Persona*|*Responsibility*
+|Platform Admin|Owner of multiple OpenShift clusters, sets organizational policies.
 |Mesh Operator|Operates parts of the cluster and the domain based service mesh for the hosted services. Creates and operates Service Mesh tenants.
 |Domain Owner (Tech Lead)|Responsible for an Application Domain. Onboards developers in the team and understands inter/intra service dependencies. Creates and configures Service Mesh resources (Virtual Services, Destination Rules etc.) in his domain
 |Developer|Develops services in his Application Domain. Needs to be kept aware of the health, performance and functional correctness of the solution.
@@ -79,7 +79,7 @@ The following enterprise personas that will interact with the Service Mesh (OSSM
 
 == User Roles
 
-Upstream Istio as well as OpenShift Service Mesh do not define standard or default user roles, so it is up to each project/implementation to define the appropriate permissions and roles for the required personas in order to access the necessary Service Mesh resources. 
+Upstream Istio as well as OpenShift Service Mesh do not define standard or default user roles, so it is up to each project/implementation to define the appropriate permissions and roles for the required personas in order to access the necessary Service Mesh resources.
 
 In the following table you’ll see the Persona / Role mappings for the Travel Agency personas:
 

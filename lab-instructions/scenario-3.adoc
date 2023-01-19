@@ -10,7 +10,7 @@ The Lab Instructor has already created all prod namespaces for all lab users as 
 
 == Production Requirements
 
-Let us recall the initial requirements for production, which we've discussed in scenrio 1:
+Let us recall the initial requirements for production, which we've discussed in scenario 1:
 
 1. The _Development Team_ wants to be able to trace (every) request during development, and a sample of `20%` of traffic in Production
 2. The _Product Team_ wants to see metrics around performance/usage (storing them for up to 1 week)
@@ -68,7 +68,7 @@ We are going to create a basic Service Mesh Control Plane for production. Regard
 [source,shell]
 ----
 cd lab-3
-./login-as.sh emma 
+./login-as.sh emma
 ./create-prod-smcp-1-tracing.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
 ----
 
@@ -109,7 +109,7 @@ The applied `Jaeger` setup will ensure that:
 * *(4)* Elastic Search will be hosted on a single Elastic node
 * *(5)* Total Elastic Search Index size will be _`1Gi`_
 * *(6)* Resource for the node will be both requested and limited
-* *(7)* Since a single node is setup redundancy of the indeces will be set to `ZeroRedundancy`
+* *(7)* Since a single node is setup redundancy of the indices will be set to `ZeroRedundancy`
 
 This is the SMCP Resource that is configured to use the external Jaeger instance:
 
@@ -188,11 +188,11 @@ oc patch deployment/voyages -p '{"spec":{"template":{"metadata":{"annotations":{
 
 Now let's get started.
 
-* First we login as Mesh Developer with `farid/farid` who is responsible for the Travel Agency services and we check the Labels for the `user-$LAB_PARTICIPANT_ID-prod-travel-agency` appliction namespace
+* First we login as Mesh Developer with `farid/farid` who is responsible for the Travel Agency services and we check the Labels for the `user-$LAB_PARTICIPANT_ID-prod-travel-agency` application namespace
 +
 [source,shell]
 ----
-./login-as.sh farid 
+./login-as.sh farid
 ./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
 ----
 +
@@ -241,8 +241,8 @@ image::assets/03-travel-agency-expected-3-container-pods.png[500,10000]
 +
 [source,shell]
 ----
-./login-as.sh cristina 
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control 
+./login-as.sh cristina
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control
 ./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-portal
 ----
 
@@ -250,16 +250,16 @@ image::assets/03-travel-agency-expected-3-container-pods.png[500,10000]
 +
 [source,shell]
 ----
-./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-control 
+./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-control
 
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control 
+./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control
 ----
 
 * Now we add the `user-$LAB_PARTICIPANT_ID-prod-travel-portal` application namespace to the Mesh
 +
 [source,shell]
 ----
-./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-portal 
+./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-portal
 
 ./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-portal
 ----
@@ -268,7 +268,7 @@ image::assets/03-travel-agency-expected-3-container-pods.png[500,10000]
 +
 [source,shell]
 ----
-./deploy-travel-portal-domain.sh prod prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID 
+./deploy-travel-portal-domain.sh prod prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID
 ----
 
 * We can login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces:
@@ -284,9 +284,9 @@ image::assets/03-travel-portal-expected-3-container-pods.png[300,700]
 
 Now after the deployment of the applications, we want to make them accessible outside of the cluster for the Travel Agency customers.
 We also want to expose the services with a custom TLS cert.
-In order to achieve that, 
+In order to achieve that,
 
-* we are going to create a TLS certificate 
+* we are going to create a TLS certificate
 * store it in a secret in our SMCP namespace
 * create on Openshift passthrough route forwarding traffic to the Istio ingress Gateway
 * create an Istio Gateway Resource configured with our TLS certificate
@@ -317,7 +317,7 @@ Option 1: Create a `PersistenceVolume` for the `SMCP` created `Prometheus` resou
 With this option the `mesh operator` will enhance the `SMCP` managed `Prometheus Deployment` resource in order to
 * extend metric retention to 7 days (`7d`) and
 * enable long-term persistence of the metrics by adding a persistent volume to the deployment.
-Option 2: External `Prometheus` Setup via `prometheus-operator`:: 
+Option 2: External `Prometheus` Setup via `prometheus-operator`::
 With this option the `cluster admin` user will perform the following actions:
 a. Deploy an additional `Prometheus Operator` in `prod-istio-system`
 b. Deploy a `StatefulSet` based `Prometheus` resource with 2 replicas
@@ -334,7 +334,7 @@ For the purpose of this lab we will deliver *Option 1* in the production setup. 
 
 [source,shell]
 ----
-./login-as.sh emma 
+./login-as.sh emma
 ./update-prod-smcp-2-prometheus.sh user-$LAB_PARTICIPANT_ID-prod-istio-system
 ----
 
@@ -368,7 +368,7 @@ We login as Mesh operator with 'emma/emma' and execute the final update script (
 
 [source,shell]
 ----
-./login-as.sh emma 
+./login-as.sh emma
 ./update-prod-smcp-3-final.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
 ----
 
@@ -378,6 +378,6 @@ NOTE: The configs come from link:../lab-3/update-prod-smcp-3-final.sh[update-pro
 
 IMPORTANT: *Before you move to Lab Scenario-4* inform the instructors you have completed this lab scenario as they will need to prepare the environment for the next lab.
 
-Contratulations! You have helped the Travel Agency setup a production environment. You deserve a *5 minute break*! before moving to the next scenario.
+Congratulations! You have helped the Travel Agency setup a production environment. You deserve a *5 minute break*! before moving to the next scenario.
 
 link:scenario-4.adoc[Getting started with Scenario 4]
