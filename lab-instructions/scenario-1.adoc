@@ -74,7 +74,7 @@ We have defined those based on the _Model of Operation_ and expected User Govern
 In the following table you’ll see the Persona / Role mappings for the Travel Agency personas:
 
 |===
-|*Persona*|*Role*
+|*Persona*|*Role*|*Responsibilities*
 
 |Platform Admin|Cluster Admin (Default OpenShift cluster-admin role)|Owner of multiple OpenShift clusters, deploys operators and sets organizational policies.
 |Mesh Operator|https://github.com/skoussou/rhte-ossm-labs/blob/main/setup/resources/roles-resources/mesh-operator.yaml[Mesh Operator]|Operates parts of the cluster and the domain based service mesh for the hosted services. Creates and operates Service Mesh tenants.
