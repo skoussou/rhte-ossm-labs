@@ -139,14 +139,14 @@ image::./assets/02-grafana-performance.png[400,1000]
 ==== Verifying that RBAC restrictions for the `Product Owner` are in place
 [WARNING]
 ====
-As `Product Owner` You are not allowed to view or modify the Istio Configurations or the Istio logs
+As `Product Owner` You are not allowed to modify the Istio Configurations and view the Istio logs
 ====
 
-* You should not be able to see configs in the `Kiali`. If you select in the menu to the left `Istio Config` and then try to see a config, it fails to access one of the configs.
+* You should not be able to modify configs via `Kiali`. If you select in the menu to the left `Istio Config` and enter a config you will notice the config cannot be modified by the user.
 +
-image::./assets/02-mus-error-view-config.png[400,800]
+image::./assets/02-mus-view-config.png[400,800]
 
-* You cannot access logs in the `Kiali`. If you select in the menu to the left go to `Workloads` and access one of the workloads, it has no logs if you try to see them
+* You cannot access logs of a workload, neither for `istio-proxy` of the main workload container, via `Kiali`. If you select in the menu to the left go to `Workloads` and access `cars-v1` workload, no logs are displayed.
 
 === Task 4: Test the Observability stack as an App/Domain Owner for the Travel-Portal or Travel-Services Domain
 
