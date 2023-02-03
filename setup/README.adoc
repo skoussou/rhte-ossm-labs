@@ -11,8 +11,8 @@ export LAB_PARTICIPANTS=22
 export OCP_DOMAIN=apps.cluster-kttns.kttns.sandbox56.opentlc.com
 export CLUSTERNAME=cluster-kttns.kttns.sandbox56
 export BASEDOMAIN=opentlc.com
-export CLUSTER_ADMIN=opentlc-mgr
-export CLUSTER_ADMIN_PASS=r3dh4t1!
+export CLUSTER_ADMIN=
+export CLUSTER_ADMIN_PASS=
 ----
 
 *Note:* All the following setups, with the exception of *Scenario-4b-once-per-participant* will be run in advance of the labs start and in the order provided*
