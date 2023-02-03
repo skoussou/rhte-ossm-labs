@@ -13,10 +13,10 @@ link:lab-instructions/Readme.adoc[RHTE 2023 Red Hat OSSM Lab Instructions]
 == Lab Information
 
 ----
-export CLUSTER_CONSOLE=https://console-openshift-console.apps.cluster-dzndx.dzndx.sandbox778.opentlc.com/
-export CLUSTER_API=https://api.cluster-dzndx.dzndx.sandbox778.opentlc.com:6443
+export CLUSTER_CONSOLE=https://console-openshift-console.apps.cluster-kttns.kttns.sandbox56.opentlc.com/
+export CLUSTER_API=https://api.cluster-kttns.kttns.sandbox56.opentlc.com:6443/
 export LAB_PARTICIPANT_ID=<FROM 3rd column of THE TABLE below>
-export OCP_DOMAIN=apps.cluster-dzndx.dzndx.sandbox778.opentlc.com
+export OCP_DOMAIN=apps.cluster-kttns.kttns.sandbox56.opentlc.com
 export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
 ----
 

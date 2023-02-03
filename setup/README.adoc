@@ -6,13 +6,13 @@ This describes the setup required in a cluster in order to host `X` number of co
 == Setup Commands Summary
 
 ----
-export CLUSTER_API=https://api.cluster-dzndx.dzndx.sandbox778.opentlc.com:6443
-export LAB_PARTICIPANTS=5
-export OCP_DOMAIN=apps.cluster-dzndx.dzndx.sandbox778.opentlc.com
-export CLUSTERNAME=cluster-dzndx.dzndx.sandbox778
+export CLUSTER_API=https://api.cluster-kttns.kttns.sandbox56.opentlc.com:6443
+export LAB_PARTICIPANTS=22
+export OCP_DOMAIN=apps.cluster-kttns.kttns.sandbox56.opentlc.com
+export CLUSTERNAME=cluster-kttns.kttns.sandbox56
 export BASEDOMAIN=opentlc.com
-export CLUSTER_ADMIN=
-export CLUSTER_ADMIN_PASS=
+export CLUSTER_ADMIN=opentlc-mgr
+export CLUSTER_ADMIN_PASS=r3dh4t1!
 ----
 
 *Note:* All the following setups, with the exception of *Scenario-4b-once-per-participant* will be run in advance of the labs start and in the order provided*
