@@ -106,13 +106,13 @@ sleep 1
 echo
 
 
-echo "################# Adding Operator kiali-ossm #################"   
+echo "################# Adding Operator kiali-ossm #################"
 echo "
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: kiali-ossm
-  namespace: openshift-operators  
+  namespace: openshift-operators
 spec:
   channel: stable
   installPlanApproval: Automatic
@@ -125,13 +125,13 @@ echo "apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: kiali-ossm
-  namespace: openshift-operators  
+  namespace: openshift-operators
 spec:
   channel: stable
   installPlanApproval: Automatic
   name: kiali-ossm
   source: redhat-operators
-  sourceNamespace: openshift-marketplace" | oc apply -f -   
+  sourceNamespace: openshift-marketplace" | oc apply -f -
 
 echo 'waiting 20s for operator to be installed'
 sleep 20
@@ -142,7 +142,7 @@ echo
 kop="False"
 while [ "$kop" != "Succeeded" ]; do
   sleep 5
-  kop=$(oc get csv/kiali-operator.v1.57.3 -n openshift-operators -o 'jsonpath={..status.phase}')
+  kop=$(oc get csv/kiali-operator.v1.57.5 -n openshift-operators -o 'jsonpath={..status.phase}')
   echo "KIALI Operator Status => "$kop
 done
 sleep 1
@@ -181,7 +181,7 @@ echo
 jop="False"
 while [ "$oop" != "Succeeded" ]; do
   sleep 5
-  oop=$(oc get csv/servicemeshoperator.v2.3.0 -n openshift-operators -o 'jsonpath={..status.phase}')
+  oop=$(oc get csv/servicemeshoperator.v2.3.1 -n openshift-operators -o 'jsonpath={..status.phase}')
   echo "OSSM Operator Status => "$oop
 done
 sleep 1
