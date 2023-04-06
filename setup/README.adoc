@@ -15,6 +15,7 @@ export CLUSTERNAME=cluster-kttns.kttns.sandbox56
 export BASEDOMAIN=opentlc.com
 export CLUSTER_ADMIN=
 export CLUSTER_ADMIN_PASS=
+export LABS_HOME=[FULL-PATH]/rhte-ossm-labs/setup
 ----
 
 *Note:* All the following setups, with the exception of *Scenario-4b-once-per-participant* will be run in advance of the labs start and in the order provided*

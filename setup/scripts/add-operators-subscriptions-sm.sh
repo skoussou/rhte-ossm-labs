@@ -1,6 +1,16 @@
 #!/bin/bash
 
-echo "oc create ns openshift-operators-redhat"   
+source $LABS_HOME/scripts/versions-config
+
+echo "-----------------------------------------------------------"
+echo "KIALI_OPERATOR_VERSION       : "$KIALI_OPERATOR_VERSION
+echo "SERVICEMESH_OPERATOR_VERSION : "$SERVICEMESH_OPERATOR_VERSION
+echo "JAEGER_OPERATOR_VERSION      : "$JAEGER_OPERATOR_VERSION
+echo "-----------------------------------------------------------"
+sleep 4
+
+
+echo "oc create ns openshift-operators-redhat"
 oc create ns openshift-operators-redhat
 sleep 4
 echo "oc create ns openshift-distributed-tracing"
@@ -31,7 +41,7 @@ spec:
   installPlanApproval: Automatic
   name: elasticsearch-operator
   source: redhat-operators
-  sourceNamespace: openshift-marketplace" | oc apply -f -  
+  sourceNamespace: openshift-marketplace" | oc apply -f -
 
 echo 'apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
@@ -45,8 +55,8 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace | oc apply -f -  '
 
-echo 'waiting 20s for operator to be installed'
-sleep 20
+echo 'waiting 30s for operator to be installed'
+sleep 30
 
 
 
@@ -88,10 +98,10 @@ spec:
   installPlanApproval: Automatic
   name: jaeger-product
   source: redhat-operators
-  sourceNamespace: openshift-marketplace" | oc apply -f -    
+  sourceNamespace: openshift-marketplace" | oc apply -f -
 
-echo 'waiting 20s for operator to be installed'
-sleep 20
+echo 'waiting 10s for operator to be installed'
+sleep 10
 
 echo
 echo "------------------------------------ CHECK Distributed Tracing Operator STATUS ------------------------------------"
@@ -99,7 +109,7 @@ echo
 jop="False"
 while [ "$jop" != "Succeeded" ]; do
   sleep 5
-  jop=$(oc get csv/jaeger-operator.v1.39.0-3 -n openshift-distributed-tracing -o 'jsonpath={..status.phase}')
+  jop=$(oc get csv/$JAEGER_OPERATOR_VERSION -n openshift-distributed-tracing -o 'jsonpath={..status.phase}')
   echo "Jaeger Operator Status => "$jop
 done
 sleep 1
@@ -133,8 +143,8 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace" | oc apply -f -
 
-echo 'waiting 20s for operator to be installed'
-sleep 20
+echo 'waiting 10s for operator to be installed'
+sleep 10
 
 echo
 echo "------------------------------------ CHECK KIALI Operator STATUS ------------------------------------"
@@ -142,13 +152,13 @@ echo
 kop="False"
 while [ "$kop" != "Succeeded" ]; do
   sleep 5
-  kop=$(oc get csv/kiali-operator.v1.57.5 -n openshift-operators -o 'jsonpath={..status.phase}')
+  kop=$(oc get csv/$KIALI_OPERATOR_VERSION -n openshift-operators -o 'jsonpath={..status.phase}')
   echo "KIALI Operator Status => "$kop
 done
 sleep 1
 echo
 
-echo "################# Adding Operator servicemeshoperator #################"   
+echo "################# Adding Operator servicemeshoperator #################"
 echo "
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
@@ -173,7 +183,7 @@ spec:
   installPlanApproval: Automatic
   name: servicemeshoperator
   source: redhat-operators
-  sourceNamespace: openshift-marketplace" | oc apply -f -      
+  sourceNamespace: openshift-marketplace" | oc apply -f -
 
 echo
 echo "------------------------------------ CHECK OSSM Operator STATUS ------------------------------------"
@@ -181,7 +191,7 @@ echo
 jop="False"
 while [ "$oop" != "Succeeded" ]; do
   sleep 5
-  oop=$(oc get csv/servicemeshoperator.v2.3.1 -n openshift-operators -o 'jsonpath={..status.phase}')
+  oop=$(oc get csv/$SERVICEMESH_OPERATOR_VERSION -n openshift-operators -o 'jsonpath={..status.phase}')
   echo "OSSM Operator Status => "$oop
 done
 sleep 1
