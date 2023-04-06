@@ -9,6 +9,9 @@ LABPARTICIPANTS=$3
 #then
 #fi
 
+source $LABS_HOME/scripts/versions-config
+
+
 echo "============================================================"
 echo "|                                                           |"
 echo "|  Replace <CLUSTERNAME> for [$CLUSTERNAME]                 |"
@@ -42,9 +45,17 @@ echo "|                                                           |"
 echo "|  Deploy RHSSO using the RHSSO operator                    |"
 echo "|                                                           |"
 echo "============================================================"
+echo
+echo "-----------------------------------------------------------"
+echo "RHSSO_OPERATOR_VERSION       : "$RHSSO_OPERATOR_VERSION
+echo "-----------------------------------------------------------"
+echo
+sleep 4
+
+
 
 ls scripts/rhsso/prerequisites/yaml/rhsso/01_rhsso.yaml
-sleep 5
+sleep 3
 
 #We'll deploy a very simple, non-prod ready, RHSSO platform using the RHSSO platform.
 # This RHSSO platform can be enhanced later to use a remote database (e.g. Amazon RDS), run multiple instances and use identity provider such as Github.
@@ -56,7 +67,14 @@ echo "oc new-project rhsso"
 oc new-project rhsso
 sleep 3
 
+MANUAL="no"
+if [[ "$MANUAL" == "yes" ]]
+then
+
 echo "MANUAL: Install the RHSSO operator in the rhsso namespace"
+echo "=========================================================="
+sleep 2
+echo
 echo "See Official docs: https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/7.6/html/server_installation_and_configuration_guide/operator#install_by_olm"
 echo "------------------------------------------------"
 echo
@@ -78,36 +96,57 @@ esac
 done
 
 echo
-#echo "################# Adding Operator rhsso-operator #################"
 
-#echo "apiVersion: operators.coreos.com/v1alpha1
-#kind: Subscription
-#metadata:
-#  name: rhsso-operator
-#  namespace: rhsso
-#spec:
-#  channel: stable
-#  installPlanApproval: Automatic
-#  name: rhsso-operator
-#  source: redhat-operators
-#  sourceNamespace: openshift-marketplace
-#  startingCSV: rhsso-operator.7.6.1-opr-005"
+else
 
-#echo "apiVersion: operators.coreos.com/v1alpha1
-#kind: Subscription
-#metadata:
-#  name: rhsso-operator
-#  namespace: rhsso
-#spec:
-#  channel: stable
-#  installPlanApproval: Automatic
-#  name: rhsso-operator
-#  source: redhat-operators
-#  sourceNamespace: openshift-marketplace
-#  startingCSV: rhsso-operator.7.6.1-opr-005 | oc apply -f -
 
-#echo 'waiting 20s for operator to be installed'
-#sleep 20
+echo "Automatic: Install the RHSSO operator in the rhsso namespace"
+echo "=========================================================="
+sleep 2
+echo
+echo "################# Adding Operator rhsso-operator #################"
+echo
+echo "apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+    olm.providedAPIs: Keycloak.v1alpha1.keycloak.org,KeycloakBackup.v1alpha1.keycloak.org,KeycloakClient.v1alpha1.keycloak.org,KeycloakRealm.v1alpha1.keycloak.org,KeycloakUser.v1alpha1.keycloak.org
+  generateName: rhsso-
+  namespace: rhsso
+spec:
+  targetNamespaces:
+  - rhsso" |oc create -f -
+
+echo "apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: rhsso-operator
+  namespace: rhsso
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: rhsso-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: $RHSSO_OPERATOR_VERSION"
+
+echo "apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: rhsso-operator
+  namespace: rhsso
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: rhsso-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: $RHSSO_OPERATOR_VERSION" | oc apply -f -
+
+echo 'waiting 10s for operator to be installed'
+sleep 10
+
+fi
 
 echo
 echo "------------------------------------ CHECK RHSSO Operator STATUS ------------------------------------"
@@ -115,7 +154,7 @@ echo
 jop="False"
 while [ "$jop" != "Succeeded" ]; do
   sleep 5
-  jop=$(oc get csv/rhsso-operator.7.6.1-opr-005 -n rhsso -o 'jsonpath={..status.phase}')
+  jop=$(oc get csv/$RHSSO_OPERATOR_VERSION -n rhsso -o 'jsonpath={..status.phase}')
   echo "Rhsso Operator Status => "$jop
 done
 sleep 1
