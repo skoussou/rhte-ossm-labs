@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ossm
+  namespace: openshift-gitops
+spec:
+  generators:
+  - list:
+      elements:
+{{- $userCount := int .Values.user.count }}
+{{- range $index := until $userCount }}
+      - user: {{ $.Values.user.prefix }}{{ add $index 1}}
+{{- end }}
+  template:
+    metadata:
+      name: ossm-{{- "{{" }} user {{- " }}" }}
+      namespace: openshift-gitops
+    spec:
+      project: default
+      source:
+        repoURL: {{ .Values.ossm.git.url }}/{{- "{{" }} user {{- " }}" }}/{{ .Values.ossm.git.repo }}
+        targetRevision: {{ .Values.ossm.git.revision }}
+        path: {{ .Values.ossm.git.path }}
+        helm:
+          values: |
+            namespaceTravelControl: '{{- "{{" }} user {{- " }}" }}-travel-control'
+            namespaceTravelPortal: '{{- "{{" }} user {{- " }}" }}-travel-portal'
+            namespaceTravelAgency: '{{- "{{" }} user {{- " }}" }}-travel-agency'
+            namespaceIstioSystem: '{{- "{{" }} user {{- " }}" }}-istio-system'
+            mykey: {{ .Values.ossm.values.myKey }}
+      destination:
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: false
