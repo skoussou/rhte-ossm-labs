@@ -24,10 +24,10 @@ curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt
 curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/insurances/Brussels |jq
 curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/hotels/Brussels |jq
 
-curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/cars/Warsaw |jq
-curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/travels/Warsaw |jq
-curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/flights/Warsaw |jq
-curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/insurances/Warsaw |jq
-curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/hotels/Warsaw |jq
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/cars/London |jq
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/travels/London |jq
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/flights/London |jq
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/insurances/London |jq
+curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/hotels/London |jq
 
 done
