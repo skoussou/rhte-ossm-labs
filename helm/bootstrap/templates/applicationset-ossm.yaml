@@ -19,7 +19,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: {{ .Values.ossm.git.url }}/{{- "{{" }} user {{- " }}" }}/{{ .Values.ossm.git.repo }}
+        repoURL: {{ .Values.ossm.git.url }}
         targetRevision: {{ .Values.ossm.git.revision }}
         path: {{ .Values.ossm.git.path }}
         helm:

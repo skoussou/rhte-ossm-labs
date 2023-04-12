@@ -8,8 +8,7 @@ user:
 
 ossm:
   git:
-    url: http://unknown:3000
-    repo: myapp
+    url: http://unknown:3000/gitops/myapp
     revision: main
     path: helm/ossm
   values:
