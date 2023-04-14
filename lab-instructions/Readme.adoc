@@ -9,6 +9,7 @@ For this lab you will need the following *CLI tools*. Please have them installed
 * Git: https://git-scm.com/downloads[https://git-scm.com/downloads]
 * curl: https://curl.se/download.html[https://curl.se/download.html]
 * OpenSSL: https://www.openssl.org/source/[https://www.openssl.org/source/]
+* Apache HTTP Server: https://httpd.apache.org/download.cgi[https://httpd.apache.org/download.cgi]
 
 == Download the Lab Sources
 
