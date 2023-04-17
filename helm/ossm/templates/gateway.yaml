@@ -1,0 +1,16 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: control-gateway
+  namespace: {{ .Values.user }}-dev-istio-system
+spec:
+  servers:
+    - hosts:
+        - istio-ingressgateway-{{ .Values.user }}-dev-istio-system.{{ .Values.domain }}
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+  selector:
+    istio: ingressgateway
