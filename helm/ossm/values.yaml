@@ -3,3 +3,4 @@
 # Declare variables to be passed into your templates.
 
 user: user1
+domain: apps.cluster-guid.sandbox.opentlc.com

@@ -12,4 +12,5 @@ ossm:
     revision: main
     path: helm/ossm
   values:
+    domain: apps.cluster-guid.sandbox.opentlc.com
     myKey: myValue

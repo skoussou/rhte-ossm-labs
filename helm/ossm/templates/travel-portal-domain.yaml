@@ -1,0 +1,287 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voyages
+  namespace: {{ .Values.user }}-dev-travel-portal
+spec:
+  selector:
+    matchLabels:
+      app: voyages
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: voyages
+        version: v1
+    spec:
+      containers:
+        - name: voyages
+          image: quay.io/kiali/demo_travels_portal:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: PORTAL_COORDINATES
+              value: '48.861310,2.337418'
+            - name: PORTAL_COUNTRY
+              value: 'France'
+            - name: PORTAL_NAME
+              value: 'voyages.fr'
+            - name: TRAVELS_AGENCY_SERVICE
+              value: 'http://travels.{{ .Values.user }}-dev-travel-agency:8000'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voyages
+  namespace: {{ .Values.user }}-dev-travel-portal
+  labels:
+    app: voyages
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: voyages
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: viaggi
+  namespace: {{ .Values.user }}-dev-travel-portal
+spec:
+  selector:
+    matchLabels:
+      app: viaggi
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: viaggi
+        version: v1
+    spec:
+      containers:
+        - name: control
+          image: quay.io/kiali/demo_travels_portal:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: PORTAL_COORDINATES
+              value: '41.890668,12.492194'
+            - name: PORTAL_COUNTRY
+              value: 'Italy'
+            - name: PORTAL_NAME
+              value: 'viaggi.it'
+            - name: TRAVELS_AGENCY_SERVICE
+              value: 'http://travels.{{ .Values.user }}-dev-travel-agency:8000'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: viaggi
+  namespace: {{ .Values.user }}-dev-travel-portal
+  labels:
+    app: viaggi
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: viaggi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travels
+  namespace: {{ .Values.user }}-dev-travel-portal
+spec:
+  selector:
+    matchLabels:
+      app: travels
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: travels
+        version: v1
+    spec:
+      containers:
+        - name: control
+          image: quay.io/kiali/demo_travels_portal:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: PORTAL_COORDINATES
+              value: '55.956245,-3.187915'
+            - name: PORTAL_COUNTRY
+              value: 'United Kingdom'
+            - name: PORTAL_NAME
+              value: 'travels.uk'
+            - name: TRAVELS_AGENCY_SERVICE
+              value: 'http://travels.{{ .Values.user }}-dev-travel-agency:8000'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: travels
+  namespace: {{ .Values.user }}-dev-travel-portal
+  labels:
+    app: travels
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: travels
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control
+  namespace: {{ .Values.user }}-dev-travel-control
+spec:
+  selector:
+    matchLabels:
+      app: control
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+      labels:
+        app: control
+        version: v1
+    spec:
+      containers:
+        - name: control
+          image: quay.io/kiali/demo_travels_control:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          securityContext:
+            privileged: false
+          env:
+            - name: PORTAL_SERVICES
+              value: 'voyages.fr;http://voyages.{{ .Values.user }}-dev-travel-portal:8000,viaggi.it;http://viaggi.{{ .Values.user }}-dev-travel-portal:8000,travels.uk;http://travels.{{ .Values.user }}-dev-travel-portal:8000'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: control
+  namespace: {{ .Values.user }}-dev-travel-control
+  labels:
+    app: control
+spec:
+  ports:
+    - name: http
+      port: 8080
+  selector:
+    app: control
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: control
+  namespace: {{ .Values.user }}-dev-travel-control
+spec:
+  hosts:
+    - istio-ingressgateway-{{ .Values.user }}-dev-istio-system.{{ .Values.domain }}
+  gateways:
+    - {{ .Values.user }}-dev-istio-system/control-gateway
+  http:
+    - route:
+        - destination:
+            host: control.{{ .Values.user }}-dev-travel-control.svc.cluster.local
+            subset: v1
+          weight: 100
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: control
+  namespace: {{ .Values.user }}-dev-travel-control
+spec:
+  host: control.{{ .Values.user }}-dev-travel-control.svc.cluster.local
+  subsets:
+    - labels:
+        version: v1
+      name: v1
