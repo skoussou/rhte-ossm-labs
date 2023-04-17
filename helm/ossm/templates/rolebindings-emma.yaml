@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: view
+  name: view-emma
   namespace: {{ .Values.user }}-dev-istio-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
