@@ -1,0 +1,30 @@
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMember
+metadata:
+  name: default
+  namespace: {{ .Values.user }}-dev-travel-agency
+spec:
+  controlPlaneRef:
+    name: {{ .Values.user }}-dev-basic
+    namespace: {{ .Values.user }}-dev-istio-system
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMember
+metadata:
+  name: default
+  namespace: {{ .Values.user }}-dev-travel-control
+spec:
+  controlPlaneRef:
+    name: {{ .Values.user }}-dev-basic
+    namespace: {{ .Values.user }}-dev-istio-system
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMember
+metadata:
+  name: default
+  namespace: {{ .Values.user }}-dev-travel-portal
+spec:
+  controlPlaneRef:
+    name: {{ .Values.user }}-dev-basic
+    namespace: {{ .Values.user }}-dev-istio-system
