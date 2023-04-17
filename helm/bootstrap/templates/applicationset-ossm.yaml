@@ -24,10 +24,7 @@ spec:
         path: {{ .Values.ossm.git.path }}
         helm:
           values: |
-            namespaceTravelControl: '{{- "{{" }} user {{- " }}" }}-travel-control'
-            namespaceTravelPortal: '{{- "{{" }} user {{- " }}" }}-travel-portal'
-            namespaceTravelAgency: '{{- "{{" }} user {{- " }}" }}-travel-agency'
-            namespaceIstioSystem: '{{- "{{" }} user {{- " }}" }}-istio-system'
+            user: '{{- "{{" }} user {{- " }}" }}'
             mykey: {{ .Values.ossm.values.myKey }}
       destination:
         server: https://kubernetes.default.svc

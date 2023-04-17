@@ -2,7 +2,4 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespaceTravelControl: user-travel-control
-namespaceTravelPortal: user-travel-portal
-namespaceTravelAgency: user-travel-agency
-namespaceIstioSystem: user-istio-system
+user: user1

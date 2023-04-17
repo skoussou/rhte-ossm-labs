@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .Values.namespaceTravelControl }}
+  name: {{ .Values.user }}-travel-control
   annotations:
     openshift.io/description: "Travel Control Namespace"
     openshift.io/display-name: "Travel Control Namespace"
@@ -10,7 +10,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .Values.namespaceTravelPortal }}
+  name: {{ .Values.user }}-travel-portal
   annotations:
     openshift.io/description: "Travel Portal Namespace"
     openshift.io/display-name: "Travel Portal Namespace"
@@ -18,7 +18,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .Values.namespaceTravelAgency }}
+  name: {{ .Values.user }}-travel-agency
   annotations:
     openshift.io/description: "Travel Agency Namespace"
     openshift.io/display-name: "Travel Agency Namespace"
@@ -26,7 +26,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .Values.namespaceIstioSystem }}
+  name: {{ .Values.user }}-istio-system
   annotations:
     openshift.io/description: "Istio System Namespace"
     openshift.io/display-name: "Istio System Namespace"

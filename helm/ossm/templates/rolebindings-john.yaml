@@ -1,0 +1,42 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-app-viewer
+  namespace: {{ .Values.user }}-dev-travel-portal
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-app-viewer
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: john
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-app-viewer
+  namespace: {{ .Values.user }}-dev-travel-control
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-app-viewer
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: john
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-app-viewer
+  namespace: {{ .Values.user }}-dev-istio-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-app-viewer
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: john

@@ -1,0 +1,14 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-operator-pods
+  namespace: openshift-operators
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-operator-pods
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: emma
