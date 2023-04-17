@@ -1,0 +1,515 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-credentials
+  namespace: {{ .Values.user }}-dev-travel-agency
+type: Opaque
+data:
+  rootpasswd: cGFzc3dvcmQ=
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysqldb
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: mysqldb
+spec:
+  ports:
+    - port: 3306
+      name: tcp
+  selector:
+    app: mysqldb
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldb-v1
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: mysqldb
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysqldb
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: mysqldb
+        version: v1
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - name: mysqldb
+          image: quay.io/kiali/demo_travels_mysqldb:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: rootpasswd
+          args: ["--default-authentication-plugin","mysql_native_password"]
+          volumeMounts:
+            - name: var-lib-mysql
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: var-lib-mysql
+          emptyDir:
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cars-v1
+  namespace: {{ .Values.user }}-dev-travel-agency
+spec:
+  selector:
+    matchLabels:
+      app: cars
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: cars
+        version: v1
+    spec:
+      containers:
+        - name: cars
+          image: quay.io/kiali/demo_travels_cars:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: CURRENT_SERVICE
+              value: 'cars'
+            - name: CURRENT_VERSION
+              value: 'v1'
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: DISCOUNTS_SERVICE
+              value: 'http://discounts.{{ .Values.user }}-dev-travel-agency:8000'
+            - name: MYSQL_SERVICE
+              value: 'mysqldb.{{ .Values.user }}-dev-travel-agency:3306'
+            - name: MYSQL_USER
+              value: 'root'
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: rootpasswd
+            - name: MYSQL_DATABASE
+              value: 'test'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cars
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: cars
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: cars
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discounts-v1
+  namespace: {{ .Values.user }}-dev-travel-agency
+spec:
+  selector:
+    matchLabels:
+      app: discounts
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: discounts
+        version: v1
+    spec:
+      containers:
+        - name: discounts
+          image: quay.io/kiali/demo_travels_discounts:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: CURRENT_SERVICE
+              value: 'discounts'
+            - name: CURRENT_VERSION
+              value: 'v1'
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discounts
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: discounts
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: discounts
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flights-v1
+  namespace: {{ .Values.user }}-dev-travel-agency
+spec:
+  selector:
+    matchLabels:
+      app: flights
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: flights
+        version: v1
+    spec:
+      containers:
+        - name: flights
+          image: quay.io/kiali/demo_travels_flights:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: CURRENT_SERVICE
+              value: 'flights'
+            - name: CURRENT_VERSION
+              value: 'v1'
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: DISCOUNTS_SERVICE
+              value: 'http://discounts.{{ .Values.user }}-dev-travel-agency:8000'
+            - name: MYSQL_SERVICE
+              value: 'mysqldb.{{ .Values.user }}-dev-travel-agency:3306'
+            - name: MYSQL_USER
+              value: 'root'
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: rootpasswd
+            - name: MYSQL_DATABASE
+              value: 'test'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flights
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: flights
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: flights
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotels-v1
+  namespace: {{ .Values.user }}-dev-travel-agency
+spec:
+  selector:
+    matchLabels:
+      app: hotels
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: hotels
+        version: v1
+    spec:
+      containers:
+        - name: hotels
+          image: quay.io/kiali/demo_travels_hotels:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: CURRENT_SERVICE
+              value: 'hotels'
+            - name: CURRENT_VERSION
+              value: 'v1'
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: DISCOUNTS_SERVICE
+              value: 'http://discounts.{{ .Values.user }}-dev-travel-agency:8000'
+            - name: MYSQL_SERVICE
+              value: 'mysqldb.{{ .Values.user }}-dev-travel-agency:3306'
+            - name: MYSQL_USER
+              value: 'root'
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: rootpasswd
+            - name: MYSQL_DATABASE
+              value: 'test'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotels
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: hotels
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: hotels
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insurances-v1
+  namespace: {{ .Values.user }}-dev-travel-agency
+spec:
+  selector:
+    matchLabels:
+      app: insurances
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: insurances
+        version: v1
+    spec:
+      containers:
+        - name: insurances
+          image: quay.io/kiali/demo_travels_insurances:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: CURRENT_SERVICE
+              value: 'insurances'
+            - name: CURRENT_VERSION
+              value: 'v1'
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: DISCOUNTS_SERVICE
+              value: 'http://discounts.{{ .Values.user }}-dev-travel-agency:8000'
+            - name: MYSQL_SERVICE
+              value: 'mysqldb.{{ .Values.user }}-dev-travel-agency:3306'
+            - name: MYSQL_USER
+              value: 'root'
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: rootpasswd
+            - name: MYSQL_DATABASE
+              value: 'test'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: insurances
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: insurances
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: insurances
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travels-v1
+  namespace: {{ .Values.user }}-dev-travel-agency
+spec:
+  selector:
+    matchLabels:
+      app: travels
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: ""
+        sidecar.istio.io/inject: "true"
+        proxy.istio.io/config: |
+          tracing:
+            zipkin:
+              address: zipkin.istio-system:9411
+            sampling: 10
+            custom_tags:
+              http.header.portal:
+                header:
+                  name: portal
+              http.header.device:
+                header:
+                  name: device
+              http.header.user:
+                header:
+                  name: user
+              http.header.travel:
+                header:
+                  name: travel
+      labels:
+        app: travels
+        version: v1
+    spec:
+      containers:
+        - name: travels
+          image: quay.io/kiali/demo_travels_travels:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          securityContext:
+            privileged: false
+          env:
+            - name: CURRENT_SERVICE
+              value: 'travels'
+            - name: CURRENT_VERSION
+              value: 'v1'
+            - name: LISTEN_ADDRESS
+              value: ':8000'
+            - name: FLIGHTS_SERVICE
+              value: 'http://flights.{{ .Values.user }}-dev-travel-agency:8000'
+            - name: HOTELS_SERVICE
+              value: 'http://hotels.{{ .Values.user }}-dev-travel-agency:8000'
+            - name: CARS_SERVICE
+              value: 'http://cars.{{ .Values.user }}-dev-travel-agency:8000'
+            - name: INSURANCES_SERVICE
+              value: 'http://insurances.{{ .Values.user }}-dev-travel-agency:8000'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: travels
+  namespace: {{ .Values.user }}-dev-travel-agency
+  labels:
+    app: travels
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: travels
