@@ -4,6 +4,8 @@ kind: Gateway
 metadata:
   name: control-gateway
   namespace: {{ .Values.user }}-dev-istio-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   servers:
     - hosts:

@@ -261,11 +261,13 @@ spec:
   selector:
     app: control
 ---
-kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   hosts:
     - istio-ingressgateway-{{ .Values.user }}-dev-istio-system.{{ .Values.domain }}
@@ -278,11 +280,13 @@ spec:
             subset: v1
           weight: 100
 ---
-kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
 metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   host: control.{{ .Values.user }}-dev-travel-control.svc.cluster.local
   subsets:
