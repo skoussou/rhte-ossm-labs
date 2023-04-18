@@ -8,9 +8,23 @@ user:
 
 ossm:
   git:
-    url: http://unknown:3000/gitops/myapp
+    url: https://github.com/skoussou/rhte-ossm-labs
     revision: main
     path: helm/ossm
   values:
     domain: apps.cluster-guid.sandbox.opentlc.com
     myKey: myValue
+
+usertool:
+  repoUrl: https://github.com/redhat-gpte-devopsautomation/user-distribution
+  repoRevision: v0.0.1
+  repoPath: chart
+  namespace: usertool
+  image: quay.io/openshiftlabs/username-distribution:1.4
+  redisImage: registry.redhat.io/rhel8/redis-6:1-118
+  labDuration: 1week
+  labAdminPassword: password
+  labUserPassword: password
+  labAccessToken: password
+  labExtraUrls: "https://console-openshift-console.apps.cluster-guid.sandbox.opentlc.com;OpenShift Console,https://kiali-%USERNAME%-dev-istio-system.apps.cluster-guid.sandbox.opentlc.com;Kiali"
+  labModuleUrls: ""
