@@ -27,4 +27,11 @@ usertool:
   labUserPassword: password
   labAccessToken: password
   labExtraUrls: "https://console-openshift-console.apps.cluster-guid.sandbox.opentlc.com;OpenShift Console,https://kiali-%USERNAME%-dev-istio-system.apps.cluster-guid.sandbox.opentlc.com;Kiali"
-  labModuleUrls: ""
+  labModuleUrls: "https://guides-guides.apps.cluster-guid.sandbox.opentlc.com/summit-ossm-labs-guides/main/m1/intro.html?USERID=%USERNAME%&SUBDOMAIN=apps.cluster-guid.sandbox.opentlc.com;Scenario 1,https://guides-guides.apps.cluster-guid.sandbox.opentlc.com/summit-ossm-labs-guides/main/m2/intro.html?USERID=%USERNAME%&SUBDOMAIN=apps.cluster-guid.sandbox.opentlc.com;Scenario 2,https://guides-guides.apps.cluster-guid.sandbox.opentlc.com/summit-ossm-labs-guides/main/m3/intro.html?USERID=%USERNAME%&SUBDOMAIN=apps.cluster-guid.sandbox.opentlc.com;Scenario 3"
+
+guides:
+  repoUrl: https://github.com/skoussou/summit-ossm-labs-guides
+  repoRevision: main
+  repoPath: chart
+  namespace: guides
+  image: quay.io/juliaaano/summit-ossm-labs-guides:latest
