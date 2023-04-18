@@ -22,8 +22,8 @@ spec:
         labUserCount: "{{ .Values.user.count }}"
         labUserPassword: {{ .Values.usertool.labUserPassword }}
         labUserPrefix: {{ .Values.user.prefix }}
-        labExtraUrls: {{ .Values.usertool.labExtraUrls }}
-        labModuleUrls: {{ .Values.usertool.labModuleUrls }}
+        labExtraUrls: {{ include "usertool.labExtraUrls" . }}
+        labModuleUrls: {{ include "usertool.labModuleUrls" . }}
   destination:
     namespace: {{ .Values.usertool.namespace }}
     server: https://kubernetes.default.svc

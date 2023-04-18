@@ -25,7 +25,7 @@ spec:
         helm:
           values: |
             user: '{{- "{{" }} user {{- " }}" }}'
-            domain: {{ .Values.ossm.values.domain }}
+            domain: {{ .Values.domain }}
             mykey: {{ .Values.ossm.values.myKey }}
       destination:
         server: https://kubernetes.default.svc

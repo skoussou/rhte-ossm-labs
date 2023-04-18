@@ -6,13 +6,14 @@ user:
   count: 2
   prefix: user
 
+domain: apps.cluster-guid.sandbox.opentlc.com
+
 ossm:
   git:
     url: https://github.com/skoussou/rhte-ossm-labs
     revision: main
     path: helm/ossm
   values:
-    domain: apps.cluster-guid.sandbox.opentlc.com
     myKey: myValue
 
 usertool:
@@ -26,8 +27,6 @@ usertool:
   labAdminPassword: password
   labUserPassword: password
   labAccessToken: password
-  labExtraUrls: "https://console-openshift-console.apps.cluster-guid.sandbox.opentlc.com;OpenShift Console,https://kiali-%USERNAME%-dev-istio-system.apps.cluster-guid.sandbox.opentlc.com;Kiali"
-  labModuleUrls: "https://guides-guides.apps.cluster-guid.sandbox.opentlc.com/summit-ossm-labs-guides/main/m1/intro.html?USERID=%USERNAME%&SUBDOMAIN=apps.cluster-guid.sandbox.opentlc.com;Scenario 1,https://guides-guides.apps.cluster-guid.sandbox.opentlc.com/summit-ossm-labs-guides/main/m2/intro.html?USERID=%USERNAME%&SUBDOMAIN=apps.cluster-guid.sandbox.opentlc.com;Scenario 2,https://guides-guides.apps.cluster-guid.sandbox.opentlc.com/summit-ossm-labs-guides/main/m3/intro.html?USERID=%USERNAME%&SUBDOMAIN=apps.cluster-guid.sandbox.opentlc.com;Scenario 3"
 
 guides:
   repoUrl: https://github.com/skoussou/summit-ossm-labs-guides
