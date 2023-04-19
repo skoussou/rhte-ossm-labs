@@ -3,24 +3,35 @@
 
 In this first lab scenario we’ll have a look at the requirements and considerations for the introduction of a Service Mesh as well as the involved personas from the fictive Travel Agency company.
 
+ifdef::env-github[]
+image:https://img.youtube.com/vi/qSAa4iY3Xa0/maxresdefault.jpg[link=https://youtu.be/qSAa4iY3Xa0]
+endif::[]
+
+.A walkthrough of the labs use case
+ifndef::env-github[]
+video::qSAa4iY3Xa0[youtube,list=PLZjCciga0z5w6PiJKl2P8UJKdG0cEXKcz]
+endif::[]
+
+
 == Motivation
 
-The existing Travel system is a microservices based architecture split into two domains, and is developed and operated by several teams and personas.
+The existing Travel Demo system is based on an architecture of microservices split into two domains, developed and operated by several teams and personas.
 
-A service mesh is a design pattern that can be applied to a microservice-based system to manage communication between services and address common concerns of running a service, like monitoring, networking, and security.  +
+A service mesh is a design pattern that can be applied to a microservice-based system to manage communication between services and address common concerns of running a service, like monitoring, networking, and security.
+
 Developers and operators can focus on creating and managing applications for their users instead of worrying about implementing specific features to address challenges for every service.
 
 This is one of the reasons why the company has decided to introduce OpenShift Service Mesh.
 
 == Service Mesh Requirements
 
-The requirements below are a summary of a Kick-Off meeting where the stakeholders have stated the capabilities they would like to benefit from with a Service Mesh:
+As part of a Kick-Off meeting the Travel Agency stakeholders have stated the capabilities they would like to benefit from with the introduction of Service Mesh:
 
 . The _Development Team_ wants to be able to trace (every) request during development, and a sample of 20% of traffic in Production
 . The _Product Team_ wants to see metrics around performance/usage and storing them for up to 1 week
 . The _Security_ team wishes to enable mTLS in all service-to-service communications
 . The _Platform Team_ wants to centrally manage all security aspects
-. The _Development Teams_ want to implement some resiliency to make the overall application more stable and reliable.
+. The _Development Teams_ wants to implement some resiliency to make the overall application more stable and reliable.
 
 == User Governance Model
 
@@ -43,8 +54,6 @@ _Dev(Sec)Ops Methodology_::
 Whether the team have adopted link:https://www.redhat.com/en/topics/security/devsecops/approach[DevSecOps approaches] for application and cloud configuration delivery. DevSecOps approaches bring together development, security, and operations into a collaborative shared-responsibility paradigm. The goal is to break down barriers between roles, disciplines, and teams across an organization to encourage collaboration and work toward common goals. A DevSecOps approach encompasses people, processes, technology, and governance.
 
 For the purpose of the provided scenarios the Travel Agency has selected the following options determining the _Model of Operation_.
-
-
 
 [cols="2,4,4"]
 .Model of Operation
