@@ -55,8 +55,8 @@ Reading the following is totally optional and you are urged to move to _Part II_
 ** Deploy the Applications in `dev-travel-agency` namespaces
 
 2. As *cristina* (role: `Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_
-** Onboard namespaces `user$LAB_PARTICIPANT_ID-dev-travel-control` and `user$LAB_PARTICIPANT_ID-dev-travel-portal` to Service Mesh `user$LAB_PARTICIPANT_ID-dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in each namespace for `user$LAB_PARTICIPANT_ID-dev-basic` membership.
-** Deploy the Applications in `user$LAB_PARTICIPANT_ID-dev-travel-control`, `user$LAB_PARTICIPANT_ID-dev-travel-portal` namespaces and `Istio` configs to expose Service Mesh services.
+** Onboard namespaces `dev-travel-control` and `dev-travel-portal` to Service Mesh `dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in each namespace for `dev-basic` membership.
+** Deploy the Applications in `dev-travel-control`, `dev-travel-portal` namespaces and `Istio` configs to expose Service Mesh services.
 
 === Final Actions with role Mesh Operator
 
