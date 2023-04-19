@@ -96,11 +96,6 @@ In this task you will learn how you can find the URLs to the Observability Stack
 
 * Logged in via CLI (we have used user `cristina`/`cristina`) execute the following to retrieve the URLs of the `OSSM` Observability Stack (`Kiali`, `Jaeger`, `Prometheus`, `Grafana`) components. Open the links on a browser and use the preceeding `cristina`'s credentials to login.
 
-[NOTE]
-====
-Please ensure you have set LAB Participant Id by `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Participants Table]>`
-====
-
 [source, shell]
 ----
 ./lab-3/login-as.sh cristina
