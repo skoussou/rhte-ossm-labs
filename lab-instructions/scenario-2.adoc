@@ -8,6 +8,26 @@ In this lab scenario you wil look at the development environment in two parts:
 1. _The first_ part of the scenario (already pre-delivered) is setting up the development environment, creating the users, roles and rolebindings as well as installing the Service Mesh in the DEV environment.
 2. _The second part_ of the scenario is about verifying that everything has been correctly installed, familiarize with the Service Mesh observability stack and ensure all roles/permissions are working as expected.
 
+== User credentials
+[cols="5,5"]
+.Users credentials
+|===
+|username |password
+
+| emma | emma
+
+| cristina | cristina
+
+| farid | farid
+
+| john | john
+
+| mia | mia
+
+| mus | mus
+
+|===
+
 == Part I: Installing the Development environment
 
 [IMPORTANT]
@@ -15,7 +35,7 @@ In this lab scenario you wil look at the development environment in two parts:
 *You do not have to execute anything in this part of the lab* as lab instructors have *pre-setup all the required assets for the Travel Agency development environment*, including users, roles, namespaces, apps, service mesh etc. You will create the PROD environment step-by-step in the next scenario. You can inspect at the end of the lab the installation of the development environment by exploring the link:../setup/run-setup-scenario-1.sh[Install Script]
 ====
 
-We briefly, below, describe the steps the link:https://github.com/skoussou/rhte-ossm-labs/blob/main/lab-instructions/scenario-1.adoc#userrolepersona-mapping-for-the-dev-environment[_Travel Agency Enterprise Personas_] would have had to follow in order to deliver such a development environment:
+Reading the following is totally optional and you are urged to move to _Part II_ as soon as possible as we briefly, below, describe the steps the link:https://github.com/skoussou/rhte-ossm-labs/blob/main/lab-instructions/scenario-1.adoc#userrolepersona-mapping-for-the-dev-environment[_Travel Agency Enterprise Personas_] would have had to follow in order to deliver such a development environment:
 
 === Actions with role Cluster Admin
 
@@ -31,26 +51,12 @@ We briefly, below, describe the steps the link:https://github.com/skoussou/rhte-
 === Actions with role Mesh Developer
 
 1. As *farid* (role: `Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_
-** Onboard namespace `dev-travel-agency` to Service Mesh `dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in `dev-travel-agency`. See your DEV environment's already delivered `SMM` as follows:
-+
-----
-$ oc get smm -n user-$LAB_PARTICIPANT_ID-dev-travel-agency -o yaml
-
-apiVersion: maistra.io/v1
-kind: ServiceMeshMember
-metadata:
-  namespace: user-29-dev-travel-agency
-  name: default
-spec:
-  controlPlaneRef:
-    name: user-29-dev-basic
-    namespace: user-29-dev-istio-system
-----
+** Onboard namespace `dev-travel-agency` to Service Mesh `dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in `dev-travel-agency`.
 ** Deploy the Applications in `dev-travel-agency` namespaces
 
 2. As *cristina* (role: `Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_
-** Onboard namespaces `user-$LAB_PARTICIPANT_ID-dev-travel-control` and `user-$LAB_PARTICIPANT_ID-dev-travel-portal` to Service Mesh `user-$LAB_PARTICIPANT_ID-dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in each namespace for `user-$LAB_PARTICIPANT_ID-dev-basic` membership.
-** Deploy the Applications in `user-$LAB_PARTICIPANT_ID-dev-travel-control`, `user-$LAB_PARTICIPANT_ID-dev-travel-portal` namespaces and `Istio` configs to expose Service Mesh services.
+** Onboard namespaces `user$LAB_PARTICIPANT_ID-dev-travel-control` and `user$LAB_PARTICIPANT_ID-dev-travel-portal` to Service Mesh `user$LAB_PARTICIPANT_ID-dev-basic` by adding a `ServiceMeshMember` (`SMM`) resource in each namespace for `user$LAB_PARTICIPANT_ID-dev-basic` membership.
+** Deploy the Applications in `user$LAB_PARTICIPANT_ID-dev-travel-control`, `user$LAB_PARTICIPANT_ID-dev-travel-portal` namespaces and `Istio` configs to expose Service Mesh services.
 
 === Final Actions with role Mesh Operator
 
@@ -60,8 +66,19 @@ IMPORTANT: `OSSM` -like Istio- now offers the ability for the injection of an  *
 
 == Part II:  Development Environment Verification & Observability Usage
 
+[IMPORTANT]
+====
+First export the following in the terminal of your choice (see link:../README.adoc[Lab Information] for values)
+
+* export CLUSTER_CONSOLE=https://console-openshift-console.apps.<CLUSTER_NAME>.<DOMAIN_NAME>/
+* export CLUSTER_API=https://api.<CLUSTER_NAME>.<DOMAIN_NAME>:6443/
+* export LAB_PARTICIPANT_ID=<FROM 3rd column of THE TABLE below>
+* export OCP_DOMAIN=apps.<CLUSTER_NAME>.<DOMAIN_NAME>
+* export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
+====
+
 === Task 1: Access the Travel Control Dashboard
-* Log in via CLI with a user with access to `user-$LAB_PARTICIPANT_ID-dev-istio-system` (we use user `emma`), get the OCP `ROUTE` to the application and verify that you can reach the  *Travel Control Dashboard* in your Browser.
+* Log in via CLI with user `emma` who has access to `user$LAB_PARTICIPANT_ID-dev-istio-system` and get the OCP `ROUTE` to the application business dashboard to verify that you can reach the  *Travel Control Dashboard* in your Browser.
 
 [NOTE]
 ====
@@ -71,7 +88,7 @@ Please ensure you have already set in your command prompt the Lab User Id `expor
 [source, shell]
 ----
 ./lab-3/login-as.sh emma
-echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
 ----
 
 === Task 2: Access the Observability Stack
@@ -88,10 +105,10 @@ Please ensure you have set LAB Participant Id by `export LAB_PARTICIPANT_ID=<FRO
 [source, shell]
 ----
 ./lab-3/login-as.sh cristina
-echo "http://$(oc get route kiali -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
-echo "https://$(oc get route jaeger -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
-echo "https://$(oc get route prometheus -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
-echo "https://$(oc get route grafana -o jsonpath='{.spec.host}' -n user-$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "http://$(oc get route kiali -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route jaeger -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route prometheus -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route grafana -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
 ----
 
 * An alternate method to access some of the components is once you have logged into `Kiali` you can access the `Grafana` and `Jaeger` URLs by clicking on *?* next to your name (top-right KIALI corner), then *About* and you should have the URLs presented.
@@ -146,7 +163,7 @@ image::./assets/02-mus-view-config.png[400,800]
 
 * As the `Domain Owner` of the _Travel Services_ domain you have *view* access to
 ** _data plane_ namespace `dev-travel-agency` and the
-** _control plane_ `user-x-dev-istio-system` namespace.
+** _control plane_ `user$LAB_PARTICIPANT_ID-dev-istio-system` namespace.
 +
 image::./assets/02-travel-services-domain.png[400,1000]
 
@@ -164,11 +181,11 @@ image::./assets/02-hotels-prometheus-metrics.png[400,1000]
 image::./assets/02-workloads.png[400,1000]
 +
 5. See and modify Istio Configs for your domain. From the `Kiali` menu, in the left, go to `Istio Config`.
-** As *`farid`*/*`farid`* you will be able to see in `user-x-dev-istio-system` the configs but if you try to modify them you will not be able to as you don't have _write_ access in that namespace.
+** As *`farid`*/*`farid`* you will be able to see in `user$LAB_PARTICIPANT_ID-dev-istio-system` the configs but if you try to modify them you will not be able to as you don't have _write_ access in that namespace.
 +
 image::./assets/02-view-config-but-no-modify.png[400,1000]
 +
-** If you login in `Kiali` as *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `user-x-dev-travel-control` and apply some modification as those namespaces are part of your domain (*Warning:* Don't save any changes).
+** If you login in `Kiali` as *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `user$LAB_PARTICIPANT_ID-dev-travel-control` and apply some modification as those namespaces are part of your domain (*Warning:* Don't save any changes).
 +
 image::./assets/02-cristina-configs-change-1.png[400,1000]
 +
