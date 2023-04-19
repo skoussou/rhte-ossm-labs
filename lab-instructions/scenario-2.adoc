@@ -130,7 +130,7 @@ image::./assets/02-mus-kiali-inbound-metrics.png[400,800]
 *** `istio_requests_total{destination_workload="discounts-v1", app="discounts"}` to visualize requests towards `discounts-v1`
 *** `istio_request_duration_milliseconds_count{app="discounts"}`
 *** `istio_response_bytes_bucket`
-4. See the dashboards in grafana for the solution. Access the `Grafana` URL loggedin as *`mus`*/*`mus`* (role: `Application Viewer`, See above on how to find the URL)
+4. See the dashboards in grafana for the solution. Access the `Grafana` URL log with credentials *`mus`*/*`mus`* (role: `Application Viewer`, See above on how to find the URL)
 *** Check the 'status' of the overall Travel Agency solution *Dashboards -> Manage -> Istio -> Istio Mesh Dashboard*
 +
 image::./assets/02-grafana-istio-mesh-dashboard.png[400,1000]
