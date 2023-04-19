@@ -200,6 +200,8 @@ image::./assets/02-grafana-cars-workload-outbound-dashboard.png[400,1000]
 
 === Task 5: Test the Observability stack as Developer for the Travel-Portal or Travel-Services Domain
 
+Note: you can skip this section to save time
+
 1. Access `Kiali` URL with username/password *`mia`*/*`mia`* (role: `Application Viewer`)
 
 * As a `Developer` for the _Travel Services_ domain *mia* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-agency`. Therefore, access is given to that service mesh namespace while the _Travel Portal_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
@@ -208,8 +210,9 @@ image::./assets/02-mia-graph-restricted-view.png[400,1000]
 
 === Task 6: Test the Observability stack as Mesh Operator
 
-1. Access `Kiali` URL as with username/password *`emma`*/*`emma`* (role: `Mesh Operator`)
+Note: you can skip this section to save time
 
+1. Access `Kiali` URL with username/password *`emma`*/*`emma`* (role: `Mesh Operator`)
 * As the `Mesh Operator` you have *full* access to all 3 _data plane_ namespaces and the _control plane_.
 ** In `Kiali` go to *Graphs -> App Graph*, select from *Display* `Request Distribution`, `Namespace Boxes`, `Traffic Animation`, `Security` and see the Mesh Operator view
 ** In addition from the `Kiali` menu on the left to go to `Istio Config`. You should be able to access or modify any config as the administrator of this mesh
