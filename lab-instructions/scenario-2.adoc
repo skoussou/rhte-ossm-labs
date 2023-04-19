@@ -10,9 +10,9 @@ In this lab scenario you wil look at the development environment in two parts:
 
 == Installing the Development environment
 
-[NOTE]
+[IMPORTANT]
 ====
-For this Lab the instructors have *pre created all the required assets for the Travel Agency development environment*, including users, roles, namespaces, apps, service mesh etc. You will create the PROD environment step-by-step in the next scenario.
+*You do not have to execute anything in this part of the lab* as lab instructors have *pre-setup all the required assets for the Travel Agency development environment*, including users, roles, namespaces, apps, service mesh etc. You will create the PROD environment step-by-step in the next scenario.
 ====
 
 [NOTE]
