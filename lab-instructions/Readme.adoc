@@ -5,7 +5,7 @@
 
 For this lab you will need the following *CLI tools*. Please have them installed and configured before you get started with any of the scenarios.
 
-* OpenShift CLI: https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli[https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli]
+* OpenShift CLI: https://docs.openshift.com/container-platform/4.12/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli[https://docs.openshift.com/container-platform/4.12/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli]
 * Git: https://git-scm.com/downloads[https://git-scm.com/downloads]
 * curl: https://curl.se/download.html[https://curl.se/download.html]
 * OpenSSL: https://www.openssl.org/source/[https://www.openssl.org/source/]
@@ -24,11 +24,14 @@ export LAB_HOME="$(pwd)/rhte-ossm-labs"
 cd rhte-ossm-labs
 ----
 
-== In Openshift Console `Use` correct Namespaces
+== Use of correct Openshift Namespaces via *LAB_PARTICIPANT_ID*
 
-IMPORTANT: As we will be using a shared cluster and the users are also common with access to multiple namespaces it is very important each one of us uses their own namespaces. Very Important to use the correct *namespaces* based on the link:https://github.com/skoussou/rhte-ossm-labs#lab-information[*LAB_PARTICIPANT_ID* which you can find in this table]
+[IMPORTANT]
+====
+As we will be using a shared cluster and the Service Mesh users are also common with access to multiple namespaces it is very important each participant uses their allocated namespaces. In order to make use of the correct *namespaces* note your link:https://github.com/skoussou/rhte-ossm-labs#lab-information[*LAB_PARTICIPANT_ID* which you can find in this table]
 
-*Note:* This is an example ONLY for user who has been assigned *LAB_PARTICIPANT_ID=1*
+*eg.* This is an example ONLY for user who has been assigned *LAB_PARTICIPANT_ID=1*
+====
 
 == Introduction
 
