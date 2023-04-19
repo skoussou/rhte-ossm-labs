@@ -172,7 +172,7 @@ image::./assets/02-jaege-traces.png[400,1000]
 +
 image::./assets/02-hotels-prometheus-metrics.png[400,1000]
 
-4. See logs for the workloads in your domain. In `Kiali`, from the namespaces drop-down list select $LAB_PARTICIPANT_ID-dev-travel-agency, in the menu to the left go to `Workloads` and access one of the workloads, the tab `Logs` has both proxy and pod logs available
+4. See logs for the workloads in your domain. In `Kiali`, from the namespaces drop-down list select `$LAB_PARTICIPANT_ID-dev-travel-agency`, in the menu to the left go to `Workloads` and access one of the workloads, the tab `Logs` has both proxy and pod logs available
 +
 image::./assets/02-workloads.png[400,1000]
 +
