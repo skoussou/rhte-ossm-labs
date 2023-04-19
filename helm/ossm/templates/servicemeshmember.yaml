@@ -5,7 +5,7 @@ metadata:
   name: default
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   controlPlaneRef:
     name: {{ .Values.user }}-dev-basic
@@ -17,7 +17,7 @@ metadata:
   name: default
   namespace: {{ .Values.user }}-dev-travel-control
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   controlPlaneRef:
     name: {{ .Values.user }}-dev-basic
@@ -29,7 +29,7 @@ metadata:
   name: default
   namespace: {{ .Values.user }}-dev-travel-portal
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   controlPlaneRef:
     name: {{ .Values.user }}-dev-basic

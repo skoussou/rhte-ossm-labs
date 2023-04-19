@@ -5,7 +5,7 @@ metadata:
   name: voyages
   namespace: {{ .Values.user }}-dev-travel-portal
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   selector:
     matchLabels:
@@ -65,7 +65,7 @@ metadata:
   name: voyages
   namespace: {{ .Values.user }}-dev-travel-portal
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
   labels:
     app: voyages
 spec:
@@ -81,7 +81,7 @@ metadata:
   name: viaggi
   namespace: {{ .Values.user }}-dev-travel-portal
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   selector:
     matchLabels:
@@ -141,7 +141,7 @@ metadata:
   name: viaggi
   namespace: {{ .Values.user }}-dev-travel-portal
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
   labels:
     app: viaggi
 spec:
@@ -157,7 +157,7 @@ metadata:
   name: travels
   namespace: {{ .Values.user }}-dev-travel-portal
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   selector:
     matchLabels:
@@ -217,7 +217,7 @@ metadata:
   name: travels
   namespace: {{ .Values.user }}-dev-travel-portal
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
   labels:
     app: travels
 spec:
@@ -233,7 +233,7 @@ metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   selector:
     matchLabels:
@@ -267,7 +267,7 @@ metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
   labels:
     app: control
 spec:
@@ -283,7 +283,7 @@ metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   hosts:
     - istio-ingressgateway-{{ .Values.user }}-dev-istio-system.{{ .Values.domain }}
@@ -302,7 +302,7 @@ metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   host: control.{{ .Values.user }}-dev-travel-control.svc.cluster.local
   subsets:

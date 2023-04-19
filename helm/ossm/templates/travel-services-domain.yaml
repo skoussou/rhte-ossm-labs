@@ -5,7 +5,7 @@ metadata:
   name: mysql-credentials
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 type: Opaque
 data:
   rootpasswd: cGFzc3dvcmQ=
@@ -16,7 +16,7 @@ metadata:
   name: mysqldb
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: mysqldb
 spec:
@@ -32,7 +32,7 @@ metadata:
   name: mysqldb-v1
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: mysqldb
     version: v1
@@ -76,7 +76,7 @@ metadata:
   name: cars-v1
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   selector:
     matchLabels:
@@ -145,7 +145,7 @@ metadata:
   name: cars
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: cars
 spec:
@@ -161,7 +161,7 @@ metadata:
   name: discounts-v1
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   selector:
     matchLabels:
@@ -217,7 +217,7 @@ metadata:
   name: discounts
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: discounts
 spec:
@@ -233,7 +233,7 @@ metadata:
   name: flights-v1
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   selector:
     matchLabels:
@@ -302,7 +302,7 @@ metadata:
   name: flights
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: flights
 spec:
@@ -318,7 +318,7 @@ metadata:
   name: hotels-v1
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   selector:
     matchLabels:
@@ -387,7 +387,7 @@ metadata:
   name: hotels
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: hotels
 spec:
@@ -403,7 +403,7 @@ metadata:
   name: insurances-v1
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   selector:
     matchLabels:
@@ -454,7 +454,7 @@ metadata:
   name: insurances
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: insurances
 spec:
@@ -470,7 +470,7 @@ metadata:
   name: travels-v1
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   selector:
     matchLabels:
@@ -534,7 +534,7 @@ metadata:
   name: travels
   namespace: {{ .Values.user }}-dev-travel-agency
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app: travels
 spec:
