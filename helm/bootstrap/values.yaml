@@ -33,4 +33,4 @@ guides:
   repoRevision: main
   repoPath: chart
   namespace: guides
-  image: quay.io/juliaaano/summit-ossm-labs-guides:latest
+  image: ghcr.io/skoussou/summit-ossm-labs-guides:latest
