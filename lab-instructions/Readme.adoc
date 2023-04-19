@@ -35,7 +35,7 @@ As we will be using a shared cluster and the Service Mesh users are also common 
 
 == Introduction
 
-In this Lab we’ll walk through a Fictive Use Case of a Travel Agency company introducing a Service Mesh for their existing applications and heading to production.
+Throughout the following labs we will use a Fictive Use Case of a Travel Agency company introducing a Service Mesh for their existing applications and heading to production. Lets walk through the use case:
 
 == Understanding the existing application
 
