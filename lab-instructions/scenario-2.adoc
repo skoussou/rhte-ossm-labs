@@ -94,7 +94,7 @@ image::assets/01-travels-dashboard.png[]
 
 In this task you will learn how you can find the URLs to the Observability Stack components of the Service Mesh.
 
-* Logged in (as one of the users, we have selected `cristina`/`cristina`) execute the following to retrieve the URLs of the `OSSM` Observability Stack (`Kiali`, `Jaeger`, `Prometheus`, `Grafana`) components. Open the links on a browser and use the preceeding user to login.
+* Logged in via CLI (we have selected `cristina`/`cristina`) execute the following to retrieve the URLs of the `OSSM` Observability Stack (`Kiali`, `Jaeger`, `Prometheus`, `Grafana`) components. Open the links on a browser and use the preceeding `cristina`'s credentials to login.
 
 [NOTE]
 ====
