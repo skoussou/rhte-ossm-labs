@@ -72,13 +72,13 @@ First export the following in the terminal of your choice (see link:../README.ad
 
 * export CLUSTER_CONSOLE=https://console-openshift-console.apps.<CLUSTER_NAME>.<DOMAIN_NAME>/
 * export CLUSTER_API=https://api.<CLUSTER_NAME>.<DOMAIN_NAME>:6443/
-* export LAB_PARTICIPANT_ID=<FROM 3rd column of THE TABLE below>
+* export LAB_PARTICIPANT_ID=<FROM 2nd column of THE TABLE below `userx`>
 * export OCP_DOMAIN=apps.<CLUSTER_NAME>.<DOMAIN_NAME>
 * export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
 ====
 
 === Task 1: Access the Travel Control Dashboard
-* Log in via CLI with user `emma` who has access to `user$LAB_PARTICIPANT_ID-dev-istio-system` and get the OCP `ROUTE` to the application business dashboard to verify that you can reach the  *Travel Control Dashboard* in your Browser.
+* Log in via CLI with user `emma` who has access to `$LAB_PARTICIPANT_ID-dev-istio-system` and get the OCP `ROUTE` to the application business dashboard to verify that you can reach the  *Travel Control Dashboard* in your Browser.
 
 [NOTE]
 ====
@@ -88,7 +88,7 @@ Please ensure you have already set in your command prompt the Lab User Id `expor
 [source, shell]
 ----
 ./lab-3/login-as.sh emma
-echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n $LAB_PARTICIPANT_ID-dev-istio-system)"
 ----
 
 === Task 2: Access the Observability Stack
@@ -105,10 +105,10 @@ Please ensure you have set LAB Participant Id by `export LAB_PARTICIPANT_ID=<FRO
 [source, shell]
 ----
 ./lab-3/login-as.sh cristina
-echo "http://$(oc get route kiali -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
-echo "https://$(oc get route jaeger -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
-echo "https://$(oc get route prometheus -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
-echo "https://$(oc get route grafana -o jsonpath='{.spec.host}' -n user$LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "http://$(oc get route kiali -o jsonpath='{.spec.host}' -n $LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route jaeger -o jsonpath='{.spec.host}' -n $LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route prometheus -o jsonpath='{.spec.host}' -n $LAB_PARTICIPANT_ID-dev-istio-system)"
+echo "https://$(oc get route grafana -o jsonpath='{.spec.host}' -n $LAB_PARTICIPANT_ID-dev-istio-system)"
 ----
 
 * An alternate method to access some of the components is once you have logged into `Kiali` you can access the `Grafana` and `Jaeger` URLs by clicking on *?* next to your name (top-right KIALI corner), then *About* and you should have the URLs presented.
@@ -163,7 +163,7 @@ image::./assets/02-mus-view-config.png[400,800]
 
 * As the `Domain Owner` of the _Travel Services_ domain you have *view* access to
 ** _data plane_ namespace `dev-travel-agency` and the
-** _control plane_ `user$LAB_PARTICIPANT_ID-dev-istio-system` namespace.
+** _control plane_ `$LAB_PARTICIPANT_ID-dev-istio-system` namespace.
 +
 image::./assets/02-travel-services-domain.png[400,1000]
 
@@ -181,11 +181,11 @@ image::./assets/02-hotels-prometheus-metrics.png[400,1000]
 image::./assets/02-workloads.png[400,1000]
 +
 5. See and modify Istio Configs for your domain. From the `Kiali` menu, in the left, go to `Istio Config`.
-** As *`farid`*/*`farid`* you will be able to see in `user$LAB_PARTICIPANT_ID-dev-istio-system` the configs but if you try to modify them you will not be able to as you don't have _write_ access in that namespace.
+** As *`farid`*/*`farid`* you will be able to see in `$LAB_PARTICIPANT_ID-dev-istio-system` the configs but if you try to modify them you will not be able to as you don't have _write_ access in that namespace.
 +
 image::./assets/02-view-config-but-no-modify.png[400,1000]
 +
-** If you login in `Kiali` as *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `user$LAB_PARTICIPANT_ID-dev-travel-control` and apply some modification as those namespaces are part of your domain (*Warning:* Don't save any changes).
+** If you login in `Kiali` as *`cristina`*/*`cristina`* you should be able to access the configs for the control `VirtualService` and `DestinationRule` in `$LAB_PARTICIPANT_ID-dev-travel-control` and apply some modification as those namespaces are part of your domain (*Warning:* Don't save any changes).
 +
 image::./assets/02-cristina-configs-change-1.png[400,1000]
 +
