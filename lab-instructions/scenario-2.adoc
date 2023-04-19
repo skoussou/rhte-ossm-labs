@@ -164,7 +164,7 @@ image::./assets/02-mus-view-config.png[400,800]
 image::./assets/02-travel-services-domain.png[400,1000]
 
 * You are also allowed to:
-2. See traces for the overall solution. From `Kiali` menu, in the left, go to `Distributed Tracing` and login with *`farid`* credentials to view the tracing console.
+2. See traces for the overall solution. From `Kiali` menu, on the left, go to `Distributed Tracing` and login with *`farid`* credentials to view the tracing console (select `istio-ingressgateway.$LAB_PARTICIPANT_ID-dev-istio-system` from the service drop down menu).
 +
 image::./assets/02-jaege-traces.png[400,1000]
 
