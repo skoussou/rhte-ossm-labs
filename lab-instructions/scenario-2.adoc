@@ -78,18 +78,17 @@ First export the following in the terminal of your choice (see link:../README.ad
 ====
 
 === Task 1: Access the Travel Control Dashboard
-* Log in via CLI with user `emma` who has access to `$LAB_PARTICIPANT_ID-dev-istio-system` and get the OCP `ROUTE` to the application business dashboard to verify that you can reach the  *Travel Control Dashboard* in your Browser.
-
-[NOTE]
-====
-Please ensure you have already set in your command prompt the Lab User Id `export LAB_PARTICIPANT_ID=<FROM 3rd column of link:../README.adoc[Participants Table]>`
-====
+* Log in via CLI with user `emma` who has access to `$LAB_PARTICIPANT_ID-dev-istio-system` and get the URL to the application business dashboard. Paste the URL in a Browser to verify that you can reach the *Travel Control Dashboard* .
 
 [source, shell]
 ----
 ./lab-3/login-as.sh emma
 echo "http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n $LAB_PARTICIPANT_ID-dev-istio-system)"
 ----
+
+* The result should look like
+
+image::assets/01-travels-dashboard.png[]
 
 === Task 2: Access the Observability Stack
 
