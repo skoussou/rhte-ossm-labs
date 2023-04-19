@@ -41,13 +41,13 @@ Throughout the following labs we will use a Fictive Use Case of a Travel Agency 
 
 (Note: The sample application we use in this Lab is the _Kiali Travel Demo Tutorial_: https://kiali.io/docs/tutorials/travels/[https://kiali.io/docs/tutorials/travels/])
 
-=== Travel Portal namespace
+=== Travel Portal Domain namespace
 
 The Travel Demo application simulates two business domains organized in different namespaces.
 In a first namespace called `travel-portal` there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance. The shop applications can behave differently based on request characteristics like channel (web or mobile) or user (new or existing). +
 These workloads may generate different types of traffic to imitate different real scenarios. All the portals consume a service called `travels` deployed in the `travel-agency` namespace.
 
-=== Travel Agency namespace
+=== Travel Agency Services Domain namespace
 
 A second namespace called `travel-agency` will host a set of services created to provide quotes for travel. +
 A main `travels` service will be the business entry point for the travel agency. It receives a destination city and a user as parameters and it calculates all elements that compose a travel budget: airfare, lodging, car reservation and travel insurance. +
