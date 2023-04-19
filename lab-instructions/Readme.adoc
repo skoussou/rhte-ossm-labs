@@ -38,7 +38,7 @@ As we will be using a shared cluster and the Service Mesh users are also common 
 Throughout the following labs we will use a Fictive Use Case of a Travel Agency company introducing a Service Mesh for their existing applications and heading to production. Lets walk through the use case:
 
 ifdef::env-github[]
-image:https://img.youtube.com/vi/USrTSixYd80/maxresdefault.jpg[link=https://youtu.be/j9ONtiZjiac]
+image:https://img.youtube.com/vi/j9ONtiZjiac/maxresdefault.jpg[link=https://youtu.be/j9ONtiZjiac]
 endif::[]
 
 .A walkthrough of the labs use case
