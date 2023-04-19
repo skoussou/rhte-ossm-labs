@@ -4,6 +4,8 @@ kind: ServiceMeshControlPlane
 metadata:
   name: {{ .Values.user }}-dev-basic
   namespace: {{ .Values.user }}-dev-istio-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   security:
     controlPlane:

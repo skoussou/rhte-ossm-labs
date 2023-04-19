@@ -5,7 +5,7 @@ metadata:
   name: control-gateway
   namespace: {{ .Values.user }}-dev-istio-system
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   servers:
     - hosts:

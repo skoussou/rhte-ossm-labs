@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: voyages
   namespace: {{ .Values.user }}-dev-travel-portal
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -62,6 +64,8 @@ kind: Service
 metadata:
   name: voyages
   namespace: {{ .Values.user }}-dev-travel-portal
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: voyages
 spec:
@@ -76,6 +80,8 @@ kind: Deployment
 metadata:
   name: viaggi
   namespace: {{ .Values.user }}-dev-travel-portal
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -134,6 +140,8 @@ kind: Service
 metadata:
   name: viaggi
   namespace: {{ .Values.user }}-dev-travel-portal
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: viaggi
 spec:
@@ -148,6 +156,8 @@ kind: Deployment
 metadata:
   name: travels
   namespace: {{ .Values.user }}-dev-travel-portal
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -206,6 +216,8 @@ kind: Service
 metadata:
   name: travels
   namespace: {{ .Values.user }}-dev-travel-portal
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: travels
 spec:
@@ -220,6 +232,8 @@ kind: Deployment
 metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -252,6 +266,8 @@ kind: Service
 metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: control
 spec:
@@ -267,7 +283,7 @@ metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   hosts:
     - istio-ingressgateway-{{ .Values.user }}-dev-istio-system.{{ .Values.domain }}
@@ -286,7 +302,7 @@ metadata:
   name: control
   namespace: {{ .Values.user }}-dev-travel-control
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   host: control.{{ .Values.user }}-dev-travel-control.svc.cluster.local
   subsets:

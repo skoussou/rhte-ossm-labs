@@ -4,6 +4,8 @@ kind: ServiceMeshMember
 metadata:
   name: default
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   controlPlaneRef:
     name: {{ .Values.user }}-dev-basic
@@ -14,6 +16,8 @@ kind: ServiceMeshMember
 metadata:
   name: default
   namespace: {{ .Values.user }}-dev-travel-control
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   controlPlaneRef:
     name: {{ .Values.user }}-dev-basic
@@ -24,6 +28,8 @@ kind: ServiceMeshMember
 metadata:
   name: default
   namespace: {{ .Values.user }}-dev-travel-portal
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   controlPlaneRef:
     name: {{ .Values.user }}-dev-basic

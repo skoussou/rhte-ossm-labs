@@ -4,6 +4,8 @@ kind: Secret
 metadata:
   name: mysql-credentials
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 type: Opaque
 data:
   rootpasswd: cGFzc3dvcmQ=
@@ -13,6 +15,8 @@ kind: Service
 metadata:
   name: mysqldb
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: mysqldb
 spec:
@@ -27,6 +31,8 @@ kind: Deployment
 metadata:
   name: mysqldb-v1
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: mysqldb
     version: v1
@@ -69,6 +75,8 @@ kind: Deployment
 metadata:
   name: cars-v1
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -136,6 +144,8 @@ kind: Service
 metadata:
   name: cars
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: cars
 spec:
@@ -150,6 +160,8 @@ kind: Deployment
 metadata:
   name: discounts-v1
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -204,6 +216,8 @@ kind: Service
 metadata:
   name: discounts
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: discounts
 spec:
@@ -218,6 +232,8 @@ kind: Deployment
 metadata:
   name: flights-v1
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -285,6 +301,8 @@ kind: Service
 metadata:
   name: flights
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: flights
 spec:
@@ -299,6 +317,8 @@ kind: Deployment
 metadata:
   name: hotels-v1
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -366,6 +386,8 @@ kind: Service
 metadata:
   name: hotels
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: hotels
 spec:
@@ -380,6 +402,8 @@ kind: Deployment
 metadata:
   name: insurances-v1
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -429,6 +453,8 @@ kind: Service
 metadata:
   name: insurances
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: insurances
 spec:
@@ -443,6 +469,8 @@ kind: Deployment
 metadata:
   name: travels-v1
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector:
     matchLabels:
@@ -505,6 +533,8 @@ kind: Service
 metadata:
   name: travels
   namespace: {{ .Values.user }}-dev-travel-agency
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: travels
 spec:
