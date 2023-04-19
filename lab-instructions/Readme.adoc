@@ -37,6 +37,15 @@ As we will be using a shared cluster and the Service Mesh users are also common 
 
 Throughout the following labs we will use a Fictive Use Case of a Travel Agency company introducing a Service Mesh for their existing applications and heading to production. Lets walk through the use case:
 
+ifdef::env-github[]
+image:https://img.youtube.com/vi/USrTSixYd80/maxresdefault.jpg[link=https://youtu.be/j9ONtiZjiac]
+endif::[]
+
+.A walkthrough of the labs use case
+ifndef::env-github[]
+video::j9ONtiZjiac[youtube,list=PLZjCciga0z5w6PiJKl2P8UJKdG0cEXKcz]
+endif::[]
+
 == Understanding the existing application
 
 (Note: The sample application we use in this Lab is the _Kiali Travel Demo Tutorial_: https://kiali.io/docs/tutorials/travels/[https://kiali.io/docs/tutorials/travels/])
