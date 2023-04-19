@@ -45,7 +45,7 @@ Throughout the following labs we will use a Fictive Use Case of a Travel Agency 
 
 The Travel Demo application simulates two business domains organized in different namespaces.
 In a first namespace called `travel-portal` there will be deployed several travel shops, where users can search for and book flights, hotels, cars or insurance. The shop applications can behave differently based on request characteristics like channel (web or mobile) or user (new or existing). +
-These workloads may generate different types of traffic to imitate different real scenarios. All the portals consume a service called _travels_ deployed in the _travel-agency_ namespace.
+These workloads may generate different types of traffic to imitate different real scenarios. All the portals consume a service called `travels` deployed in the `travel-agency` namespace.
 
 === Travel Agency namespace
 
