@@ -138,6 +138,9 @@ spec:
         inbound: {}
         outbound:
           policy: REGISTRY_ONLY
+  gateways:
+    openshiftRoute:
+      enabled: false
   policy:
     type: Istiod
   addons:
@@ -184,6 +187,9 @@ spec:
         inbound: {}
         outbound:
           policy: REGISTRY_ONLY
+  gateways:
+    openshiftRoute:
+      enabled: false
   policy:
     type: Istiod
   addons:

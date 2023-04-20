@@ -329,3 +329,11 @@ oc wait --for condition=Ready -n $SM_CP_NS smcp/$SM_TENANT_NAME --timeout=300s
 echo
 echo
 oc -n $SM_CP_NS  get smcp/$SM_TENANT_NAME
+
+travelurl=https://$(oc get route travel -o jsonpath='{.spec.host}' -n $SM_CP_NS)
+kialiurl=https://$(oc get route kiali -o jsonpath='{.spec.host}' -n $SM_CP_NS)
+
+echo "=============================================================================================================================="
+echo "Check that the Travel Dashboard is accessible at the secured $travelurl"
+echo "Login at $kialiurl as emma/emma and verify the App Graph shows traffic via travel gateway"
+echo "=============================================================================================================================="

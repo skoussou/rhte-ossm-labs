@@ -4,9 +4,9 @@ SM_CP_NS_ORIGINAL=$1
 DOMAIN_NAME=$2
 PARTICIPANTID=$3
 
-SM_CP_NS=user-$PARTICIPANTID-$SM_CP_NS_ORIGINAL
+SM_CP_NS=$PARTICIPANTID-$SM_CP_NS_ORIGINAL
 ISTIO_INGRESS_ROUTE_URL=$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n $SM_CP_NS)
-PREFIX=travel-user-$PARTICIPANTID
+PREFIX=travel-$PARTICIPANTID
 
 
 echo '---------------------------------------------------------------------------'
