@@ -43,8 +43,7 @@ For the purpose of managing, monitoring and troubleshooting the Production envir
 
 [IMPORTANT]
 ====
-As this is a multi-tenant cluster you should restrict use for this lab to the following namespaces associated with your user $LAB_PARTICIPANT_ID-prod-istio-system, $LAB_PARTICIPANT_ID-prod-travel-control, $LAB_PARTICIPANT_ID-prod-travel-portal
-$LAB_PARTICIPANT_ID-prod-travel-agency
+As this is a multi-tenant cluster you should restrict use for this lab to the following namespaces associated with your user *`$LAB_PARTICIPANT_ID-prod-istio-system`*, *`$LAB_PARTICIPANT_ID-prod-travel-control`*, *`$LAB_PARTICIPANT_ID-prod-travel-portal`*, *`$LAB_PARTICIPANT_ID-prod-travel-agency`*
 
 Now export the following in the terminal of your choice (see link:../README.adoc[Lab Information] for values)
 
