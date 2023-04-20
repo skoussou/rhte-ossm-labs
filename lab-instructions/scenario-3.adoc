@@ -118,8 +118,8 @@ The applied `Jaeger` setup will ensure that:
 ** *(6)* Resource for the node will be both requested and limited
 ** *(7)* Since a single node is setup redundancy of the indices will be set to `ZeroRedundancy`
 
-+
-This is the SMCP Resource that is configured to use the external Jaeger instance:
+
+* This is the SMCP Resource that is configured to use the external Jaeger instance:
 +
 ----
 apiVersion: maistra.io/v2
@@ -169,6 +169,7 @@ spec:
     type: Istiod"
 ----
 +
+
 The applied `ServiceMeshControlPlane` Resource ensures that:
 
 ** *(1)* 20% of all traces (as requested by the developers) will be collected,
