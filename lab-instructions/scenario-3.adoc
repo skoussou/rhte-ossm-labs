@@ -243,7 +243,7 @@ The result of this command should look similar to this (you may need to retry a 
 ./deploy-travel-services-domain.sh prod prod-istio-system $LAB_PARTICIPANT_ID
 ----
 +
-You can also login as `farid/farid` in the Openshift Console and verify the applications created in your `$LAB_PARTICIPANT_ID-prod-travel-agency` namespace (navigate to *`Administrator`* -> *`Workloads`* -> *`Pods`*). It should look like:
+You can also login as `farid/farid` in the Openshift Console and verify the application PODs have started in your `$LAB_PARTICIPANT_ID-prod-travel-agency` namespace (navigate to *`Administrator`* -> *`Workloads`* -> *`Pods`*). It should look like:
 +
 image::assets/03-travel-agency-expected-3-container-pods.png[500,10000]
 
