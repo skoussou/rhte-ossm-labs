@@ -178,7 +178,7 @@ The applied `ServiceMeshControlPlane` Resource ensures that:
 ** *(4)* It will utilize Elastic Search for persistence of traces (unlike  in the `dev-istio-system` namespace where `memory` is utilized)
 ** *(5)* The `jaeger-small-production` external `Jaeger` Resource is integrated by and utilized in the `Service Mesh`.
 
-Login to the Openshift console with Mesh Operator credentials `emma/emma` and navigate *`Administrator`* -> *`Workloads`* -> *`Pods`*  in namespace `$LAB_PARTICIPANT_ID-prod-istio-system` namespace. Verify all deployments and pods are running.
+Login to the Openshift console with Mesh Operator credentials `emma/emma` and navigate to *`Administrator`* -> *`Workloads`* -> *`Pods`*  in namespace `$LAB_PARTICIPANT_ID-prod-istio-system` namespace. Verify all deployments and pods are running.
 
 image::assets/03-prod-istio-system.png[500,10000]
 
@@ -186,7 +186,7 @@ NOTE: The configs came from link:../lab-3/create-prod-smcp-1-tracing.sh[create-p
 
 == Task 3: Add the Application Namespaces to the Production Mesh and create the Deployments
 
-In this task we add the application namespaces to our newly created Service Mesh by specifying ServiceMeshMember resources and deploy the corresponding applications for production. We also configure the applications for the usage within the Service Mesh by specifying two `sidecar` containers:
+In this task you will add the application namespaces to our newly created Service Mesh by specifying `ServiceMeshMember` resources and deploying the corresponding applications for production. You will also configure the applications for the usage within the Service Mesh by specifying two `sidecar` containers:
 
 1. `istio-proxy` sidecar container: used to proxy all communications in/out of the main application container and apply `Service Mesh` configurations
 2. `jaeger-agent` sidecar container: The `Service Mesh` documentation link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#distr-tracing-deployment-best-practices_jaeger-config-reference[Jaeger Agent Deployment Best Practices] mentions the options of deploying `jaeger-agent` as sidecar or as `DaemonSet`. We have selected the former in order to allow `multi-tenancy` in the Openshift cluster.
@@ -199,12 +199,12 @@ oc patch deployment/voyages -p '{"spec":{"template":{"metadata":{"annotations":{
 
 Now let's get started.
 
-* First we login as Mesh Developer with `farid/farid` who is responsible for the Travel Agency services and we check the Labels for the `user-$LAB_PARTICIPANT_ID-prod-travel-agency` application namespace
+* Login as Mesh Developer (credentials `farid/farid`) who is responsible for the Travel Agency services and check the Labels for the `$LAB_PARTICIPANT_ID-prod-travel-agency` application namespace
 +
 [source,shell]
 ----
 ./login-as.sh farid
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
+./check-project-labels.sh $LAB_PARTICIPANT_ID-prod-travel-agency
 ----
 +
 The result of this command should look similar to this:
@@ -216,16 +216,16 @@ The result of this command should look similar to this:
 }
 ----
 
-* Next we add the application namespaces to our Production Service Mesh Tenant and check the Labels again
+* Next add the application namespaces to the Production Service Mesh Tenant and check the Labels again
 +
 [source,shell]
 ----
-./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-agency
+./create-membership.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production $LAB_PARTICIPANT_ID-prod-travel-agency
 
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-agency
+./check-project-labels.sh $LAB_PARTICIPANT_ID-prod-travel-agency
 ----
 +
-The result of this command should look similar to this (may need to retry a few times until all labels are applied):
+The result of this command should look similar to this (you may need to retry a few times until all labels are applied):
 +
 [source,shell]
 ----
@@ -236,58 +236,58 @@ The result of this command should look similar to this (may need to retry a few 
 }
 ----
 
-* Now we deploy the Travel Agency Services applications and inject the sidecar containers.
+* Next you will deploy the Travel Agency Services applications and inject the sidecar containers.
 +
 [source,shell]
 ----
 ./deploy-travel-services-domain.sh prod prod-istio-system $LAB_PARTICIPANT_ID
 ----
 +
-You can also login with `farid/farid` in the Openshift Console and verify the applications created in your `user-$LAB_PARTICIPANT_ID-prod-travel-agency` namespace. It should look like:
+You can also login as `farid/farid` in the Openshift Console and verify the applications created in your `$LAB_PARTICIPANT_ID-prod-travel-agency` namespace (navigate to *`Administrator`* -> *`Workloads`* -> *`Pods`*). It should look like:
 +
 image::assets/03-travel-agency-expected-3-container-pods.png[500,10000]
 
 
-* In the next step we install the second part of our applications, the Travel Control and Travel Portal apps, with the responsible user `cristina/cristina`
+* In the next step you will install the second set of applications, the Travel Control and Travel Portal apps, with the responsible user `cristina/cristina`
 +
 [source,shell]
 ----
 ./login-as.sh cristina
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-portal
+./check-project-labels.sh $LAB_PARTICIPANT_ID-prod-travel-control
+./check-project-labels.sh $LAB_PARTICIPANT_ID-prod-travel-portal
 ----
 
-* Now we add the `user-$LAB_PARTICIPANT_ID-prod-travel-control` application namespace to the Mesh
+* Add the `$LAB_PARTICIPANT_ID-prod-travel-control` application namespace to the Mesh
 +
 [source,shell]
 ----
-./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-control
+./create-membership.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production $LAB_PARTICIPANT_ID-prod-travel-control
 
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-control
+./check-project-labels.sh $LAB_PARTICIPANT_ID-prod-travel-control
 ----
 
-* Now we add the `user-$LAB_PARTICIPANT_ID-prod-travel-portal` application namespace to the Mesh
+* Add the `$LAB_PARTICIPANT_ID-prod-travel-portal` application namespace to the Mesh
 +
 [source,shell]
 ----
-./create-membership.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production user-$LAB_PARTICIPANT_ID-prod-travel-portal
+./create-membership.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production $LAB_PARTICIPANT_ID-prod-travel-portal
 
-./check-project-labels.sh user-$LAB_PARTICIPANT_ID-prod-travel-portal
+./check-project-labels.sh $LAB_PARTICIPANT_ID-prod-travel-portal
 ----
 
-* In the next step we are deploying the Travel Portal and Travel Control applications and injecting the sidecars.
+* Next you will deploy the Travel Portal and Travel Control applications and inject the sidecars.
 +
 [source,shell]
 ----
 ./deploy-travel-portal-domain.sh prod prod-istio-system $OCP_DOMAIN $LAB_PARTICIPANT_ID
 ----
 
-* We can login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces:
-** `user-$LAB_PARTICIPANT_ID-prod-travel-control`
+* Login with `cristina/cristina` in the Openshift Console and verify that the applications have been created and are running in the two namespaces:
+** `$LAB_PARTICIPANT_ID-prod-travel-control`
 +
 image::assets/03-travel-control-expected-3-container-pods.png[300,700]
 
-** `user-$LAB_PARTICIPANT_ID-prod-travel-portal`
+** `$LAB_PARTICIPANT_ID-prod-travel-portal`
 +
 image::assets/03-travel-portal-expected-3-container-pods.png[300,700]
 
