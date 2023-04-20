@@ -346,7 +346,7 @@ For the purpose of this lab we will deliver *Option 1* in the production setup. 
 [source,shell]
 ----
 ./login-as.sh emma
-./update-prod-smcp-2-prometheus.sh user-$LAB_PARTICIPANT_ID-prod-istio-system
+./update-prod-smcp-2-prometheus.sh $LAB_PARTICIPANT_ID-prod-istio-system
 ----
 
 NOTE: The configs come from link:../lab-3/update-prod-smcp-2-prometheus.sh[update-prod-smcp-2-prometheus.sh] script which you can inspect for details.
