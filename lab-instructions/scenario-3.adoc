@@ -305,7 +305,7 @@ In order to achieve that,
 +
 image::./assets/03-no-gw-for-travel-control-ui-vs.png[400,800]
 
-Login as Mesh Operator (credentials `emma/emma`) and execute the following, at the end of the script use the URL to ensure the Travel Business Dashboard is now exposed via https.
+Login as Mesh Operator (credentials `emma/emma`) and execute the following.
 
 [source,shell]
 ----
@@ -316,7 +316,7 @@ Login as Mesh Operator (credentials `emma/emma`) and execute the following, at t
 NOTE: The configs come from link:../lab-3/create-https-ingress-gateway.sh[create-https-ingress-gateway.sh] script which you can inspect for details.
 
 After finishing, the script above, you'll get the exposed URL Route and the `Travel Control Dashboard` should be accessible (look at the end of the script log for the URL) eg.:
-https://travel-user-x.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the `Kiali` error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs.png[`VirtualService` should also show as resolved].
+https://travel-$LAB_PARTICIPANT_ID.apps.cluster-vjzhs.vjzhs.sandbox1672.opentlc.com and the `Kiali` error on the link:./assets/03-corrected-gw-for-travel-control-ui-vs.png[`VirtualService` should also show as resolved].
 
 image::assets/03-Travel-Control-Dashboard-https.png[Travel Control Dashboard]
 
