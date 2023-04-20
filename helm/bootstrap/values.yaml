@@ -6,7 +6,8 @@ user:
   count: 2
   prefix: user
 
-domain: apps.cluster-guid.sandbox.opentlc.com
+agnosticd:
+  domain: apps.cluster-guid.sandbox.opentlc.com
 
 ossm:
   git:
