@@ -380,7 +380,7 @@ We login as Mesh operator with 'emma/emma' and execute the final update script (
 [source,shell]
 ----
 ./login-as.sh emma
-./update-prod-smcp-3-final.sh user-$LAB_PARTICIPANT_ID-prod-istio-system user-$LAB_PARTICIPANT_ID-production
+./update-prod-smcp-3-final.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production
 ----
 
 NOTE: The configs come from link:../lab-3/update-prod-smcp-3-final.sh[update-prod-smcp-3-final.sh] script which you can inspect for details.
