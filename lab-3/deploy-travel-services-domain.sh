@@ -17,12 +17,12 @@ echo '--------------------------------------------------------------------------
 
 sleep 10
 
-                
+
 echo
 echo "Create deployments"
 echo "-------------------------------------------------"
-echo 
-echo "Deploy Travel Services Domain"                
+echo
+echo "Deploy Travel Services Domain"
 
 echo "##################################################################################################"
 echo "# Mysql db services"
@@ -449,7 +449,7 @@ spec:
   selector:
     app: travels"|oc apply -n $ENV-travel-agency -f -
 
-echo 
+echo
 echo "Add Deployments in the mesh by injecting Jaeger Tracing and Jaeger Agent  sidecars to components"
 echo "---------------------------------------------------------------------------------"
 echo
@@ -489,3 +489,9 @@ oc patch deployment/travels-v1 -p '{"metadata":{"annotations":{"sidecar.jaegertr
 oc rollout resume deployment/travels-v1 -n $ENV-travel-agency
 oc patch deployment/travels-v1 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject": "true"}}}}}' -n $ENV-travel-agency
 
+echo
+echo
+echo
+sleep 5
+
+oc get pods -n $ENV-travel-agency

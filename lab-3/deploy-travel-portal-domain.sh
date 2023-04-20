@@ -326,5 +326,15 @@ spec:
     - labels:
         version: v1
       name: v1"|oc apply -f -       
+echo
+echo
+echo
+
+sleep 5
 
 
+oc get pods -n $ENV-travel-control
+echo
+echo "----------------------------------------------"
+echo
+oc get pods -n $ENV-travel-portal

@@ -305,7 +305,7 @@ In order to achieve that,
 +
 image::./assets/03-no-gw-for-travel-control-ui-vs.png[400,800]
 
-Now let's login as Mesh Operator with `emma/emma` and execute the described steps.
+Login as Mesh Operator (credentials `emma/emma`) and execute the following, at the end of the script use the URL to ensure the Travel Business Dashboard is now exposed via https.
 
 [source,shell]
 ----
