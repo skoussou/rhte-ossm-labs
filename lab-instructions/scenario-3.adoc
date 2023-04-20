@@ -375,7 +375,7 @@ Therefore, based on these rules and guidelines we will apply to the final `PROD`
 * _Istio Ingress/Egress Gateways:_  (scale up to 2 instances)
 * _Istiod Controlplane_ (scale up to 2 instances)
 
-We login as Mesh operator with 'emma/emma' and execute the final update script (on a separate command prompt execute `oc get pods -w -n user-$LAB_PARTICIPANT_ID-prod-istio-system` to follow the POD scalings).
+Login as Mesh operator (credentials 'emma/emma') and execute the final update script (on a separate command prompt execute `oc get pods -w -n $LAB_PARTICIPANT_ID-prod-istio-system` to follow the POD scalings).
 
 [source,shell]
 ----
