@@ -178,9 +178,9 @@ The applied `ServiceMeshControlPlane` Resource ensures that:
 ** *(4)* It will utilize Elastic Search for persistence of traces (unlike  in the `dev-istio-system` namespace where `memory` is utilized)
 ** *(5)* The `jaeger-small-production` external `Jaeger` Resource is integrated by and utilized in the `Service Mesh`.
 
-Login to the Openshift console with Mesh Operator credentials `emma/emma` and navigate to `user-$LAB_PARTICIPANT_ID-prod-istio-system` namespace. Verify all deployments and pods are running.
+Login to the Openshift console with Mesh Operator credentials `emma/emma` and navigate *`Administrator`* -> *`Workloads`* -> *`Pods`*  in namespace `$LAB_PARTICIPANT_ID-prod-istio-system` namespace. Verify all deployments and pods are running.
 
-image::assets/03-travel-agency-expected-3-container-pods.png[500,10000]
+image::assets/03-prod-istio-system.png[500,10000]
 
 NOTE: The configs came from link:../lab-3/create-prod-smcp-1-tracing.sh[create-prod-smcp-1-tracing.sh] script which you can inspect for details.
 
