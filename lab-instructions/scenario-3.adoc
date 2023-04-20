@@ -41,6 +41,21 @@ For the purpose of managing, monitoring and troubleshooting the Production envir
 
 == Task 1: Export your variables
 
+[IMPORTANT]
+====
+As this is a multi-tenant cluster you should restrict use for this lab to the following namespaces associated with your user $LAB_PARTICIPANT_ID-prod-istio-system, $LAB_PARTICIPANT_ID-prod-travel-control, $LAB_PARTICIPANT_ID-prod-travel-portal
+$LAB_PARTICIPANT_ID-prod-travel-agency
+
+Now export the following in the terminal of your choice (see link:../README.adoc[Lab Information] for values)
+
+* export CLUSTER_CONSOLE=https://console-openshift-console.apps.<CLUSTER_NAME>.<DOMAIN_NAME>/
+* export CLUSTER_API=https://api.<CLUSTER_NAME>.<DOMAIN_NAME>:6443/
+* export LAB_PARTICIPANT_ID=<FROM 2nd column of THE TABLE below `userx`>
+* export OCP_DOMAIN=apps.<CLUSTER_NAME>.<DOMAIN_NAME>
+* export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
+====
+
+
 First export the `CLUSTER_API`, the `OCP_DOMAIN` and your Lab User Id `LAB_PARTICIPANT_ID` (link:../README.adoc[3rd column from TABLE here]):
 
 * Get link:https://github.com/skoussou/rhte-ossm-labs#lab-information[all exports from here]
