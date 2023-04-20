@@ -1,43 +1,41 @@
 = Scenario 3 - Setup `ServiceMeshControlPlane` for Production
 :toc:
 
-The Travel Agency company has a running development environment. Now the company is heading to production. In this scenario we are going to set up Openshift Service Mesh in a production environment, deploy the travel applications in the Mesh, exposing the application for external access with TLS and fine tune some Mesh parameters for production.
+The Travel Agency company has a running development environment. Now the company is heading to production. In this scenario you are going to set up Openshift Service Mesh for production use, deploy the travel applications in the Mesh, exposing the application for external access with TLS and fine tune parameters for production.
 
 [NOTE]
 ====
-The Lab Instructor has already created all prod namespaces for all lab users as well as the Openshift users, roles and rolebindings for the production environment. You will now proceed to create the Prod Service Mesh Setup.
+The Lab Instructors have already created all production namespaces for your user as well as the Openshift users that will interact with the mesh (including roles and rolebindings) for the production environment. You will now proceed to create the Prod Service Mesh Setup.
 ====
 
 == Production Requirements
 
-Let us recall the initial requirements for production, which we've discussed in scenario 1:
+Let us recall the initial requirements for production, which we discussed in scenario 1:
 
 1. The _Development Team_ wants to be able to trace (every) request during development, and a sample of `20%` of traffic in Production
-2. The _Product Team_ wants to see metrics around performance/usage (storing them for up to 1 week)
-3. The _Security_ team wishes to enable mTLS in all _intramesh_ and _intermesh_ communications
-4. The _Platform Team_ wants to centrally manage security
-5. The _Development Teams_ wants to implement some resiliency to make the overall application more stable and reliable.
+2. The _Development Teams_ wants to implement some resiliency to make the overall application more stable and reliable.
+3. The _Product Team_ wants to see metrics around performance/usage (storing them for up to 1 week)
+4. The _Security_ team wishes to enable mTLS in all _intramesh_ and _intermesh_ communications
+5. The _Platform Team_ wants to centrally manage security
 
 == User/Roles Mapping for the Production environment
 
 For the purpose of managing, monitoring and troubleshooting the Production environment we need specific Enterprise Personas.
 
-[cols="1,3,1,4"]
+[cols="1,1,3,4"]
 .Users created in `PROD` Environment
 |===
-| Name | Enterprise Persona | Role | Namespace
+| Username | Password | Enterprise Persona |  Responsible for Namespace
 
-| phillip | Platform Admin | `Cluster Admin` | `prod-istio-system`
+| emma | emma | Mesh Operator | `prod-istio-system`
 
-| emma | Mesh Operator | `Mesh Operator` | `prod-istio-system`
+| cristina | cristina | Travel Portal Domain Owner (Tech Lead)  | `prod-travel-portal`, `prod-travel-control`
 
-| cristina | Travel Portal Domain Owner (Tech Lead)  | `Mesh Developer`  | `prod-travel-portal`, `prod-travel-control`
+| farid | farid | Travel Services Domain Owner (Tech Lead)  | `prod-travel-agency`
 
-| farid | Travel Services Domain Owner (Tech Lead)  | `Mesh Developer` | `prod-travel-agency`
+| craig | craig | Platform (Application Ops) Team  | `prod-travel-portal`, `prod-travel-control`, `prod-travel-agency`
 
-| craig | Platform (Application Ops) Team  | `Mesh Developer` | `prod-travel-portal`, `prod-travel-control`)
-
-| mus | Product Owner | `Mesh Application Viewer` | `prod-travel-portal`, `prod-travel-control`, `prod-travel-agency`
+| mus | mus | Product Owner | `Mesh Application Viewer` | `prod-travel-portal`, `prod-travel-control`, `prod-travel-agency`
 
 |===
 
