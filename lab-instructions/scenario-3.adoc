@@ -35,7 +35,7 @@ For the purpose of managing, monitoring and troubleshooting the Production envir
 
 | craig | craig | Platform (Application Ops) Team  | `prod-travel-portal`, `prod-travel-control`, `prod-travel-agency`
 
-| mus | mus | Product Owner | `Mesh Application Viewer` | `prod-travel-portal`, `prod-travel-control`, `prod-travel-agency`
+| mus | mus | Product Owner | `prod-travel-portal`, `prod-travel-control`, `prod-travel-agency`
 
 |===
 
