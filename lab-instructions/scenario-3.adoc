@@ -54,14 +54,9 @@ Now export the following in the terminal of your choice (see link:../README.adoc
 * export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
 ====
 
-
-First export the `CLUSTER_API`, the `OCP_DOMAIN` and your Lab User Id `LAB_PARTICIPANT_ID` (link:../README.adoc[3rd column from TABLE here]):
-
-* Get link:https://github.com/skoussou/rhte-ossm-labs#lab-information[all exports from here]
-
 [NOTE]
 ====
-If you runout of time and you wish to complete the following lab sections in a single step execute
+If you are running out of time and wish to complete the following lab sections in a single step execute
 ----
 cd lab-3
 ./complete-lab-3.sh $OCP_DOMAIN $LAB_PARTICIPANT_ID
