@@ -67,11 +67,12 @@ cd lab-3
 
 You are going to create a basic Service Mesh Control Plane for production. Regarding the Tracing configuration, `Red Hat Openshift Service Mesh (OSSM)` makes the following 2 suggestions on setting up tracing for the production environment. We will select `Option 2`, the _fully customized_ option for the production setup.
 
-* Option 1: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-deploy-production.html#ossm-smcp-prod_ossm-architecture[Production distributed tracing platform deployment (minimal) -  via SMCP Resource]
-* Option 2: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#ossm-deploying-jaeger-production_jaeger-config-reference[Production distributed tracing platform deployment (fully customized)]
+- Option 1: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-deploy-production.html#ossm-smcp-prod_ossm-architecture[Production distributed tracing platform deployment (minimal) -  via SMCP Resource]
+- Option 2: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#ossm-deploying-jaeger-production_jaeger-config-reference[Production distributed tracing platform deployment (fully customized)]
 
-1. Login as Mesh Operator (credentials: `emma/emma`) and run the `create-prod-smcp-1-tracing.sh` script. This will deploy the production `SMCP` resource *`$LAB_PARTICIPANT_ID-production`* and an external fully customized `Jaeger` instance in your lab user's Service Mesh controlplane namespace *`$LAB_PARTICIPANT_ID-prod-istio-system`*.
-+
+
+Login as Mesh Operator (credentials: `emma/emma`) and run the `create-prod-smcp-1-tracing.sh` script. This will deploy the production `SMCP` resource *`$LAB_PARTICIPANT_ID-production`* and an external fully customized `Jaeger` instance in your lab user's Service Mesh controlplane namespace *`$LAB_PARTICIPANT_ID-prod-istio-system`*.
+
 [source,shell]
 ----
 cd lab-3
