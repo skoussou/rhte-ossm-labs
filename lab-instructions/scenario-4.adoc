@@ -128,7 +128,7 @@ ls -ltr
 -rw-r--r--@ 1 oschneid  staff  1497 Dec 19 11:04 curl-client.crt
 ----
 
-You can navigate in Kiali to `Istio Config` and check the `travel-api-gateway` resource.
+To verify what has been applied you can navigate in Kiali to `Istio Config` and check the `travel-api-gateway` resource.
 
 image::assets/04-Kiali-Gateway.png[300,700]
 
