@@ -67,7 +67,7 @@ First lets verify that by default the _Service Mesh_ authorization policies allo
 
 |===
 
-Let us verify the default communication paths described in the table above. Login as Mesh Operator with `emma/emma` and execute the following script:
+Verify the default communication paths described in the table above. Login as Mesh Operator (credentials `emma/emma`) and execute the following script:
 
 [source,shell]
 ----
