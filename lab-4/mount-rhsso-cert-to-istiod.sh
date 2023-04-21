@@ -35,8 +35,8 @@ sleep 2
 
 echo
 echo
-echo "Check connection to RHSSO without the CA"
+echo "Check router CA certificate has been loaded in istiod"
 
-echo "oc -n $SM_CP_NS exec $podname -- cat /cacerts/extra.pem
+echo "oc -n $SM_CP_NS exec $podname -- cat /cacerts/extra.pem"
 sleep 7
 oc -n $SM_CP_NS exec $podname -- cat /cacerts/extra.pem

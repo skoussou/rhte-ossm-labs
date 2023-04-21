@@ -5,8 +5,8 @@ OCP_DOMAIN=$2 #apps.cluster-w4h2j.w4h2j.sandbox2385.opentlc.com
 LAB_PARTICIPANT_ID=$3
 
 
-SM_TENANT_NAME=user-$LAB_PARTICIPANT_ID-production
-SM_CP_NS=user-$LAB_PARTICIPANT_ID-prod-istio-system
+SM_TENANT_NAME=$LAB_PARTICIPANT_ID-production
+SM_CP_NS=$LAB_PARTICIPANT_ID-prod-istio-system
 
 echo
 echo "---Values Used-----------------------------------------------"
@@ -17,6 +17,7 @@ echo "SM_CP_NS:              $SM_CP_NS"
 echo "-------------------------------------------------------------"
 set -e
 
+oc project $SM_CP_NS
 sleep 5
 
 echo
@@ -66,7 +67,7 @@ spec:
           policy: REGISTRY_ONLY
   gateways:
     additionalIngress:
-      gto-user-$LAB_PARTICIPANT_ID-ingressgateway:
+      gto-$LAB_PARTICIPANT_ID-ingressgateway:
         enabled: true
         runtime:
           deployment:
@@ -75,9 +76,9 @@ spec:
         service:
           metadata:
             labels:
-              app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+              app: gto-$LAB_PARTICIPANT_ID-ingressgateway
           selector:
-            app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+            app: gto-$LAB_PARTICIPANT_ID-ingressgateway
     egress:
       enabled: true
       runtime:
@@ -189,7 +190,7 @@ spec:
           policy: REGISTRY_ONLY
   gateways:
     additionalIngress:
-      gto-user-$LAB_PARTICIPANT_ID-ingressgateway:
+      gto-$LAB_PARTICIPANT_ID-ingressgateway:
         enabled: true
         runtime:
           deployment:
@@ -198,9 +199,9 @@ spec:
         service:
           metadata:
             labels:
-              app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+              app: gto-$LAB_PARTICIPANT_ID-ingressgateway
           selector:
-            app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+            app: gto-$LAB_PARTICIPANT_ID-ingressgateway
     egress:
       enabled: true
       runtime:
@@ -294,10 +295,10 @@ echo
 
 echo "############# Verify the creation of the additional gateway gto in SM Tenant [$SM_TENANT_NAME] in Namespace [$SM_CP_NS ] #############"
 
-oc get pods -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep gto
+oc get pods -n $LAB_PARTICIPANT_ID-prod-istio-system |grep gto
 sleep 3
 echo
-oc get routes -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep "gto"
+oc get routes -n $LAB_PARTICIPANT_ID-prod-istio-system |grep "gto"
 sleep 3
 
 echo
@@ -319,7 +320,7 @@ echo "      and travels. "
 echo "#############"
 sleep 3
 ./login-as.sh farid
-./deploy-external-travel-api-mtls-vs.sh user-$LAB_PARTICIPANT_ID-prod user-$LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID
+./deploy-external-travel-api-mtls-vs.sh $LAB_PARTICIPANT_ID-prod $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID
 
 sleep 10
 
@@ -336,16 +337,25 @@ echo
 sleep 3
 ./login-as.sh emma
 
-echo "-------------TOKEN VERIFICATION--------------------------------------"
+echo
+echo
+echo "############# Mount RHSSO certificate into istiod PODs #############"
+echo "./mount-rhsso-cert-to-istiod.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production $OCP_DOMAIN"
+./mount-rhsso-cert-to-istiod.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production $OCP_DOMAIN
+echo
+echo
+sleep 15
+
+echo "-------------ENCFORCING TOKEN PRESENCE--------------------------------------"
 echo "apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
  name: jwt-rhsso-gto-external
- namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+ namespace: $LAB_PARTICIPANT_ID-prod-istio-system
 spec:
  selector:
    matchLabels:
-     app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+     app: gto-$LAB_PARTICIPANT_ID-ingressgateway
  jwtRules:
    - issuer: >-
        https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab
@@ -358,11 +368,11 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
  name: jwt-rhsso-gto-external
- namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+ namespace: $LAB_PARTICIPANT_ID-prod-istio-system
 spec:
  selector:
    matchLabels:
-     app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+     app: gto-$LAB_PARTICIPANT_ID-ingressgateway
  jwtRules:
    - issuer: >-
        https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab
@@ -377,11 +387,11 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: authpolicy-gto-external
-  namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+  namespace: $LAB_PARTICIPANT_ID-prod-istio-system
 spec:
   selector:
     matchLabels:
-      app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+      app: gto-$LAB_PARTICIPANT_ID-ingressgateway
   action: ALLOW
   rules:
   - from:
@@ -398,11 +408,11 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: authpolicy-gto-external
-  namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+  namespace: $LAB_PARTICIPANT_ID-prod-istio-system
 spec:
   selector:
     matchLabels:
-      app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+      app: gto-$LAB_PARTICIPANT_ID-ingressgateway
   action: ALLOW
   rules:
   - from:
@@ -427,7 +437,7 @@ echo
 sleep 3
 ./login-as.sh emma
 
-export GATEWAY_URL=$(oc -n user-$LAB_PARTICIPANT_ID-prod-istio-system get route gto-user-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}')
+export GATEWAY_URL=$(oc -n $LAB_PARTICIPANT_ID-prod-istio-system get route gto-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}')
 echo $GATEWAY_URL
 
 echo "-------------TESTS WITHOUT TOKEN EXPECTED TO FAIL (403: RBAC: ACCESS DENIED)--------------------------------------"
@@ -448,7 +458,7 @@ echo
 sleep 3
 
 
-TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-user-$LAB_PARTICIPANT_ID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
+TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-$LAB_PARTICIPANT_ID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
 
 echo
 echo "----- TOKEN RECEIVED FOR GTO USER BEFORE AUTHZ TESTS-----"
@@ -456,4 +466,4 @@ echo $TOKEN
 echo "---------------------------------------------------------"
 sleep 2
 
-./call-via-mtls-and-jwt-travel-agency-api.sh user-$LAB_PARTICIPANT_ID-prod-istio-system gto-user-$LAB_PARTICIPANT_ID $TOKEN
+./call-via-mtls-and-jwt-travel-agency-api.sh $LAB_PARTICIPANT_ID-prod-istio-system gto-$LAB_PARTICIPANT_ID $TOKEN
