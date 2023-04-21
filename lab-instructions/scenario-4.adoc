@@ -242,7 +242,7 @@ spec:
 
 == Task 4: Test Authn / Authz with JWT
 
-Now we test the external access by sending a request to the cars and travels API services without a JWT Token. This gives as a HTTP 403 Response (RBAC / Access Denied):
+You are ready to test if the external access is secured by sending a request to the _/cars_ and _/travels_ APIs without a JWT Token. This gives as a HTTP 403 Response (RBAC / Access Denied):
 
 [source, shell]
 ----
