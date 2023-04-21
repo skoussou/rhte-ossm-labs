@@ -387,8 +387,6 @@ NOTE: The configs come from link:../lab-3/update-prod-smcp-3-final.sh[update-pro
 
 == Next Steps
 
-IMPORTANT: *Before you move to Lab Scenario-4* inform the instructors you have completed this lab scenario as they will need to prepare the environment for the next lab.
-
-Congratulations! You have helped the Travel Agency setup a production environment. You deserve a *5 minute break*! before moving to the next scenario.
+Congratulations! You have helped the Travel Agency setup a production environment.
 
 link:scenario-4.adoc[Getting started with Scenario 4]
