@@ -198,11 +198,16 @@ curl -k https://travel-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
 
 === Step 5 - Apply fine grained business Authz policies for service to service communications
 
-In this last step, we'll create policies which will allow access
+In this last step, you will create authorisation policies which will allow access:
 
-* from the gto-external-ingressgateway towards travels.prod-travel-agency, hotels.prod-travel-agency, cars.prod-travel-agency, insurances.prod-travel-agency, flights.prod-travel-agency in order to enable external partner requests
-* for intra prod-travel-agency communications
-* from prod-travel-portal to prod-travel-agency
+* from `gto-$LAB_PARTICIPANT_ID-ingressgateway` towards
+** `travels.$LAB_PARTICIPANT_ID-prod-travel-agency`,
+** `hotels.$LAB_PARTICIPANT_ID-prod-travel-agency`,
+** `cars.$LAB_PARTICIPANT_ID-prod-travel-agency`,
+** `insurances.$LAB_PARTICIPANT_ID-prod-travel-agency`,
+** `flights.$LAB_PARTICIPANT_ID-prod-travel-agency` in order to enable external partner requests
+* for intra `$LAB_PARTICIPANT_ID-prod-travel-agency` communications
+* from `$LAB_PARTICIPANT_ID-prod-travel-portal` to `$LAB_PARTICIPANT_ID-prod-travel-agency`
 
 Login as Mesh Developer with `farid/farid` and create the following AuthorizationPolicy:
 
@@ -224,7 +229,7 @@ spec:
 
 ----
 
-Now let's login as Mesh Operator with `emma/emma` and verify the communication:
+Verify all communications meet the fine-grained authorization targets set by the Travel Agency
 
 [source,shell]
 ----
