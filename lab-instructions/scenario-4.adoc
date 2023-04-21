@@ -177,7 +177,7 @@ As the communication between RHSSO and `istiod` is secured with a router-ca cert
 [source, shell]
 ----
 ./login-as.sh emma
-./mount-rhsso-cert-to-istiod.sh $LABPARTICIPANT_ID-prod-istio-system $LABPARTICIPANT_ID-production $OCP_DOMAIN
+./mount-rhsso-cert-to-istiod.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production $OCP_DOMAIN
 ----
 
 We login as Mesh Operator with `emma/emma` and create a RequestAuthentication resource.
