@@ -126,6 +126,9 @@ To verify what has been applied you can navigate in Kiali to `Istio Config` and 
 
 image::assets/04-Kiali-Gateway.png[300,700]
 
+NOTE: The configs came from link:../lab-4/create-external-mtls-https-ingress-gateway.sh[create-external-mtls-https-ingress-gateway.sh] script which you can inspect for details.
+
+
 === Step 3 - Configuration to allow Traffic flow via new Gateway
 
 As the Travel Services Domain Owner (Tech Lead) you can now enable Istio routing to your services via the new gateway (previously only possible via `$LAB_PARTICIPANT_ID-prod-travel-portal` namespace). Login with credentials `farid/farid` and deploy the Istio Configs in your `$LAB_PARTICIPANT_ID-prod-travel-agency` namespace to allow requests via the above defined Gateway to reach the required services cars, insurances, flights, hotels and travels.
@@ -143,6 +146,9 @@ image::assets/04-MTLS-reqs.png[300,700]
 You can now go to the Kiali Dashboard (Graph section) and observe the traffic entering the Mesh through the MTLS enabled Gateway.
 
 image::assets/04-gto-external-ingressgateway.png[300,700]
+
+NOTE: The configs came from link:../lab-4/deploy-external-travel-api-mtls-vs.sh[deploy-external-travel-api-mtls-vs.sh] script which you can inspect for details.
+
 
 == Task 3: Configure Authn and Authz with JWT Tokens
 
@@ -173,7 +179,7 @@ The intended final authentication workflow (in addition to the mTLS handshake) f
 
 === Step 1 - Define Authentication and Authorization with valid RHSSO JWT Token
 
-As the communication between RHSSO and `istiod` is secured with a router-ca certificate you first have to load the certificate to istiod. This is performed by the following script
+As the communications between RHSSO and `istiod` are secured with a router-ca certificate you first have to load the certificate to `istiod`. This is performed by the following script:
 
 [source, shell]
 ----
@@ -181,13 +187,12 @@ As the communication between RHSSO and `istiod` is secured with a router-ca cert
 ./mount-rhsso-cert-to-istiod.sh $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID-production $OCP_DOMAIN
 ----
 
-We login as Mesh Operator with `emma/emma` and create a RequestAuthentication resource.
+The `RequestAuthentication` enables JWT validation on the Istio ingress gateway so that the validated JWT claims can later be used in i.e. the `VirtualService` for routing purposes. The request authentication is applied on the ingress gateway because the JWT claim based routing is *only* supported on ingress gateways. As the current Travel Agency decision is to have a producer/consumer model for their Service Mesh these changes are performed as Mesh Operator (`emma/emma`) in the controlplane namespace based gateway `gto-$LAB_PARTICIPANT_ID-ingressgateway`.
 
-The request authentication enables JWT validation on the Istio ingress gateway so that the validated JWT claims can later be used in i.e. the virtual service for routing purposes. The request authentication is applied on the ingress gateway because the JWT claim based routing is *only* supported on ingress gateways.
 
 [NOTE]
 ====
-The request authentication will only check the JWT if it exists in the request. To make the JWT required and reject the request if it does not include JWT, apply an authorization policy.
+The `RequestAuthentication` will only check the JWT if it exists in the request. To make the JWT required and reject the request if it does not include JWT, apply an authorization policy.
 ====
 
 [source, shell]
