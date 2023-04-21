@@ -325,7 +325,7 @@ oc exec "$(oc get pod -l app=travels -n $LAB_PARTICIPANT_ID-prod-travel-agency -
 
 === Step 4 - Clean-up
 
-Clean up the PeerAuthentication.
+Clean up the `PeerAuthentication` and re-run the above command to verify the mTLS configuration has been reinstated.
 
 [source,shell]
 ----
