@@ -266,19 +266,19 @@ echo $TOKEN
 ----
 
 * Now you can start sending requests with the JWT Token to the additional Ingress Gateway by using MTLS:
-
++
 [source, shell]
 ----
 ./call-via-mtls-and-jwt-travel-agency-api.sh $LAB_PARTICIPANT_ID-prod-istio-system gto-$LAB_PARTICIPANT_ID $TOKEN
 ----
 
-Please login to Kiali and verify the traffic is successfully entering the mesh.
+Login to Kiali and verify the traffic is successfully entering the mesh.
 
 image::assets/04-gto-external-ingressgateway-jtw.png[300,700]
 
 == Next Steps
 
 Congratulations!!
-You have completed Scenario 4.
+You have completed Scenario 4. You are on a roll!
 
 link:scenario-5.adoc[Getting started with Scenario 5]
