@@ -341,7 +341,7 @@ This option assumes that another tool like Datadog is used by the Operations tea
 a. For `controlplane` components metrics collection, the tool needs to be part of the control plane namespace or a `NetworkPolicy` to allow it visibility to those components is required.
 b. For `dataplane` metrics the same approach described, previously, in _Option 3_ is to be followed.
 
-For the purpose of this lab we will deliver *Option 1* in the production setup. Login as `Mesh Operator` with `emma/emma`, create a PVC for Prometheus and update the Prometheus configuration.
+For the purpose of this lab we will deliver *Option 1* in the production setup. Login as `Mesh Operator` (credentials `emma/emma`), the script below will help you create a `PVC` for Prometheus and update the Prometheus configuration to utilize it and extend metrics retention to `168h`.
 
 [source,shell]
 ----
