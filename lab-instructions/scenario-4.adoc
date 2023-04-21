@@ -134,7 +134,7 @@ image::assets/04-Kiali-Gateway.png[300,700]
 
 === Step 3 - Configuration to allow Traffic flow via new Gateway
 
-As Mesh Developer and Travel Services Domain Owner (Tech Lead) login with `farid/farid` and deploy the Istio Configs in your prod-travel-agency namespace to allow requests via the above defined Gateway to reach the required services cars, insurances, flights, hotels and travels.
+As the Travel Services Domain Owner (Tech Lead) you can now enable Istio routing to your services via the new gateway (previously only possible via `$LAB_PARTICIPANT_ID-prod-travel-portal` namespace). Login with credentials `farid/farid` and deploy the Istio Configs in your `$LAB_PARTICIPANT_ID-prod-travel-agency` namespace to allow requests via the above defined Gateway to reach the required services cars, insurances, flights, hotels and travels.
 
 [source, shell]
 ----
