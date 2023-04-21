@@ -242,8 +242,8 @@ spec:
 
 == Task 4: Test Authn / Authz with JWT
 
-You are ready to test if the external access is secured by sending a request to the _/cars_ and _/travels_ APIs without a JWT Token. The following should now result in a `HTTP 403` Response (RBAC / Access Denied):
-
+* You are ready to test if the external access is secured by sending a request to the _/cars_ and _/travels_ APIs without a JWT Token. The following should now result in a `HTTP 403` Response (RBAC / Access Denied):
++
 [source, shell]
 ----
 ./login-as.sh emma
@@ -256,8 +256,8 @@ curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt
 curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/travels/Tallinn |jq
 ----
 
-We authenticate against the RH-SSO instance and retrieve a JWT Access Token:
-
+* Next, Authenticate against the RH-SSO instance and retrieve a JWT Access Token:
++
 [source, shell]
 ----
 TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-$LAB_PARTICIPANT_ID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
@@ -265,7 +265,7 @@ TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&c
 echo $TOKEN
 ----
 
-Now we start sending requests with the JWT Token to the additional Ingress Gateway by using MTLS:
+* Now you can start sending requests with the JWT Token to the additional Ingress Gateway by using MTLS:
 
 [source, shell]
 ----
