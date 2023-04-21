@@ -4,8 +4,8 @@ SM_CP_NS_ORIGINAL=$1
 DOMAIN_NAME=$2
 PARTICIPANTID=$3
 
-PREFIX=gto-user-$PARTICIPANTID
-SM_CP_NS=user-$PARTICIPANTID-$SM_CP_NS_ORIGINAL
+PREFIX=gto-$PARTICIPANTID
+SM_CP_NS=$PARTICIPANTID-$SM_CP_NS_ORIGINAL
 
 echo '---------------------------------------------------------------------------'
 echo 'ServiceMesh Control Plane Namespace        : '$SM_CP_NS

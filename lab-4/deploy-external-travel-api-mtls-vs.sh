@@ -4,7 +4,7 @@ ENV=$1
 SM_CP_NS=$2
 PARTICIPANTID=$3
 
-PREFIX=gto-user-$PARTICIPANTID
+PREFIX=gto-$PARTICIPANTID
 
 
 https_mutual_route=$(oc get route $PREFIX -o jsonpath='{.spec.host}' -n $SM_CP_NS)
