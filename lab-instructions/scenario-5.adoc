@@ -41,7 +41,7 @@ cd lab-5
 
 == Task 2: Applying default authorization policies
 
-The Travel Agency company, like any other business, requires fine-grained _authorization_ policies for its systems. Openshift Service Mesh provides the capability to externalize this policies from the actual service code and the _Travel Agency_ `Mesh Operator` will implement them restricting access based on known _Best Practices_ and business requirements.
+The Travel Agency company, like any other business, requires fine-grained _authorization_ policies for its systems. Openshift Service Mesh provides the capability to externalize these policies from the actual service code and the _Travel Agency_ `Mesh Operator` will implement them restricting access based on known _Best Practices_ and business requirements.
 
 Further authorization capabilities are described in the `Istio` link:https://istio.io/latest/docs/tasks/security/authorization/[authorization documentation].
 
