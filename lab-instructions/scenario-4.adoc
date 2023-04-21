@@ -56,13 +56,13 @@ In this task we are going to create:
 * Verify the MTLS connection
 
 === Step 1 - Create additionalIngress Gateway in SMCP
-Login as Mesh Operator with `emma/emma` and modify the SMCP resource. You can also do this within the Openshift Console.
+Login as Mesh Operator (credentials `emma/emma`) and modify the SMCP resource. You can also do this within the Openshift Console.
 
 [source, shell]
 ----
 cd lab-4
 ./login-as.sh emma
-oc edit smcp/user-$LAB_PARTICIPANT_ID-production -n user-$LAB_PARTICIPANT_ID-prod-istio-system
+oc edit smcp/$LAB_PARTICIPANT_ID-production -n $LAB_PARTICIPANT_ID-prod-istio-system
 ----
 
 Navigate to the gateway section and add an additional gateway as follows:
@@ -70,7 +70,7 @@ Navigate to the gateway section and add an additional gateway as follows:
 ====
   gateways:
     additionalIngress:
-      gto-user-$LAB_PARTICIPANT_ID-ingressgateway:
+      gto-$LAB_PARTICIPANT_ID-ingressgateway:
         enabled: true
         runtime:
           deployment:
@@ -79,18 +79,18 @@ Navigate to the gateway section and add an additional gateway as follows:
         service:
           metadata:
             labels:
-              app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+              app: gto-$LAB_PARTICIPANT_ID-ingressgateway
           selector:
-            app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+            app: gto-$LAB_PARTICIPANT_ID-ingressgateway
 ====
 
 We can verify the creation of the additional gateway either in the OCP Console or with the CLI:
 
 [source, shell]
 ----
-oc get pods -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep gto
+oc get pods -n $LAB_PARTICIPANT_ID-prod-istio-system |grep gto
 
-oc get routes -n user-$LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
+oc get routes -n $LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
 ----
 
 === Step 2 - Expose and secure via MTLS host on new Gateway
@@ -115,11 +115,11 @@ ls -ltr
 
 -rw-r--r--@ 1 oschneid  staff  3272 Dec 19 11:04 ca-root.key
 -rw-r--r--@ 1 oschneid  staff  1944 Dec 19 11:04 ca-root.crt
--rw-r--r--@ 1 oschneid  staff   523 Dec 19 11:04 gto-user-1.conf
--rw-r--r--@ 1 oschneid  staff  1704 Dec 19 11:04 gto-user-1-app.key
--rw-r--r--@ 1 oschneid  staff  1045 Dec 19 11:04 gto-user-1-app.csr
+-rw-r--r--@ 1 oschneid  staff   523 Dec 19 11:04 gto-user1.conf
+-rw-r--r--@ 1 oschneid  staff  1704 Dec 19 11:04 gto-user1-app.key
+-rw-r--r--@ 1 oschneid  staff  1045 Dec 19 11:04 gto-user1-app.csr
 -rw-r--r--@ 1 oschneid  staff    17 Dec 19 11:04 ca-root.srl
--rw-r--r--@ 1 oschneid  staff  1614 Dec 19 11:04 gto-user-1-app.crt
+-rw-r--r--@ 1 oschneid  staff  1614 Dec 19 11:04 gto-user1-app.crt
 -rw-r--r--@ 1 oschneid  staff  1704 Dec 19 11:04 curl-client.key
 -rw-r--r--@ 1 oschneid  staff   940 Dec 19 11:04 curl-client.csr
 -rw-r--r--@ 1 oschneid  staff  1497 Dec 19 11:04 curl-client.crt
@@ -136,7 +136,7 @@ As Mesh Developer and Travel Services Domain Owner (Tech Lead) login with `farid
 [source, shell]
 ----
 ./login-as.sh farid
-./deploy-external-travel-api-mtls-vs.sh user-$LAB_PARTICIPANT_ID-prod user-$LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID
+./deploy-external-travel-api-mtls-vs.sh $LAB_PARTICIPANT_ID-prod $LAB_PARTICIPANT_ID-prod-istio-system $LAB_PARTICIPANT_ID
 ----
 
 The script will also run some example requests and if MTLS handshake works you should see something similar to this:
@@ -186,11 +186,11 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
  name: jwt-rhsso-gto-external
- namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+ namespace: $LAB_PARTICIPANT_ID-prod-istio-system
 spec:
  selector:
    matchLabels:
-     app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+     app: gto-$LAB_PARTICIPANT_ID-ingressgateway
  jwtRules:
    - issuer: >-
        https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab
@@ -206,11 +206,11 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: authpolicy-gto-external
-  namespace: user-$LAB_PARTICIPANT_ID-prod-istio-system
+  namespace: $LAB_PARTICIPANT_ID-prod-istio-system
 spec:
   selector:
     matchLabels:
-      app: gto-user-$LAB_PARTICIPANT_ID-ingressgateway
+      app: gto-$LAB_PARTICIPANT_ID-ingressgateway
   action: ALLOW
   rules:
   - from:
@@ -229,7 +229,7 @@ Now we test the external access by sending a request to the cars and travels API
 ----
 ./login-as.sh emma
 
-export GATEWAY_URL=$(oc -n user-$LAB_PARTICIPANT_ID-prod-istio-system get route gto-user-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}')
+export GATEWAY_URL=$(oc -n $LAB_PARTICIPANT_ID-prod-istio-system get route gto-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}')
 echo $GATEWAY_URL
 
 curl -v -X GET --cacert ca-root.crt --key curl-client.key --cert curl-client.crt https://$GATEWAY_URL/cars/Tallinn |jq
@@ -241,7 +241,7 @@ We authenticate against the RH-SSO instance and retrieve a JWT Access Token:
 
 [source, shell]
 ----
-TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-user-$LAB_PARTICIPANT_ID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
+TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-$LAB_PARTICIPANT_ID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
 
 echo $TOKEN
 ----
@@ -250,7 +250,7 @@ Now we start sending requests with the JWT Token to the additional Ingress Gatew
 
 [source, shell]
 ----
-./call-via-mtls-and-jwt-travel-agency-api.sh user-$LAB_PARTICIPANT_ID-prod-istio-system gto-user-$LAB_PARTICIPANT_ID $TOKEN
+./call-via-mtls-and-jwt-travel-agency-api.sh $LAB_PARTICIPANT_ID-prod-istio-system gto-$LAB_PARTICIPANT_ID $TOKEN
 ----
 
 Please login to Kiali and verify the traffic is successfully entering the mesh.
