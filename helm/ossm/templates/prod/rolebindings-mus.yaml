@@ -1,0 +1,56 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-app-viewer-mus
+  namespace: {{ .Values.user }}-prod-istio-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-app-viewer
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: mus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-app-viewer-mus
+  namespace: {{ .Values.user }}-prod-travel-agency
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-app-viewer
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: mus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-app-viewer-mus
+  namespace: {{ .Values.user }}-prod-travel-control
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-app-viewer
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: mus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servicemesh-app-viewer-mus
+  namespace: {{ .Values.user }}-prod-travel-portal
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: servicemesh-app-viewer
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: mus

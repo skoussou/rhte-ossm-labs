@@ -1,0 +1,26 @@
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: jaeger-small-production
+  namespace: {{ .Values.user }}-prod-istio-system  
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"  
+spec:
+  strategy: production
+  storage:
+    type: elasticsearch
+    esIndexCleaner:
+      enabled: true
+      numberOfDays: 7
+      schedule: '55 23 * * *'
+    elasticsearch:
+      nodeCount: 1
+      storage:
+        size: 1Gi
+      resources:
+        requests:
+          cpu: 200m
+          memory: 1Gi
+        limits:
+          memory: 1500Mi
+      redundancyPolicy: ZeroRedundancy

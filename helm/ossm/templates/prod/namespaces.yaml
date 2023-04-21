@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.user }}-prod-travel-control
+  annotations:
+    openshift.io/description: "Travel Control Production Namespace"
+    openshift.io/display-name: "Travel Control Production Namespace"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.user }}-prod-travel-portal
+  annotations:
+    openshift.io/description: "Travel Portal Production Namespace"
+    openshift.io/display-name: "Travel Portal Production Namespace"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.user }}-prod-travel-agency
+  annotations:
+    openshift.io/description: "Travel Agency Production Namespace"
+    openshift.io/display-name: "Travel Agency Production Namespace"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.user }}-prod-istio-system
+  annotations:
+    openshift.io/description: "Istio System Production Namespace"
+    openshift.io/display-name: "Istio System Production Namespace"
