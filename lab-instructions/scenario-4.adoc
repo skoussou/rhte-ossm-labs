@@ -28,7 +28,7 @@ image::assets/04-gto.png[300,700]
 ====
 As this is a multi-tenant cluster you should restrict use for this lab to the following namespaces associated with your user *`$LAB_PARTICIPANT_ID-prod-istio-system`*, *`$LAB_PARTICIPANT_ID-prod-travel-control`*, *`$LAB_PARTICIPANT_ID-prod-travel-portal`*, *`$LAB_PARTICIPANT_ID-prod-travel-agency`*
 
-Now export the following in the terminal of your choice (see link:../README.adoc[Lab Information] for values)
+Export the following in the terminal of your choice (see link:../README.adoc[Lab Information] for values)
 
 * export CLUSTER_CONSOLE=https://console-openshift-console.apps.<CLUSTER_NAME>.<DOMAIN_NAME>/
 * export CLUSTER_API=https://api.<CLUSTER_NAME>.<DOMAIN_NAME>:6443/
@@ -56,7 +56,8 @@ In this task we are going to create:
 * Verify the MTLS connection
 
 === Step 1 - Create additionalIngress Gateway in SMCP
-Login as Mesh Operator (credentials `emma/emma`) and modify the SMCP resource. You can also do this within the Openshift Console.
+
+Login as Mesh Operator (credentials `emma/emma`) and modify the SMCP resource. You can also do this from within the Openshift Console.
 
 [source, shell]
 ----
@@ -84,13 +85,15 @@ Navigate to the gateway section and add an additional gateway as follows:
             app: gto-$LAB_PARTICIPANT_ID-ingressgateway
 ====
 
-We can verify the creation of the additional gateway either in the OCP Console or with the CLI:
+You can verify the creation of the additional gateway either in the OCP Console or with the CLI:
 
 [source, shell]
 ----
-oc get pods -n $LAB_PARTICIPANT_ID-prod-istio-system |grep gto
+$ oc get pods -n $LAB_PARTICIPANT_ID-prod-istio-system |grep gto
+gto-user1-ingressgateway-5c87989fb7-r9grv
 
-oc get routes -n $LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
+$ oc get routes -n $LAB_PARTICIPANT_ID-prod-istio-system |grep "ingress"
+gto-user1-ingressgateway   gto-user1-ingressgateway-user1-prod-istio-system.apps.cluster-xvsnq.sandbox2004.opentlc.com          gto-user1-ingressgateway        8080                               None
 ----
 
 === Step 2 - Expose and secure via MTLS host on new Gateway
