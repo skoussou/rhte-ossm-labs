@@ -172,6 +172,14 @@ The intended final authentication workflow for external requests with a `JWT` to
 
 === Step 1 - Define Authentication and Authorization with valid RHSSO JWT Token
 
+As the communication between RHSSO and `istiod` is secured with a router-ca certificate you first have to load the certificate to istiod. This is performed by the following script
+
+[source, shell]
+----
+./login-as.sh emma
+./mount-rhsso-cert-to-istiod.sh $LABPARTICIPANT_ID-prod-istio-system $LABPARTICIPANT_ID-production $OCP_DOMAIN
+----
+
 We login as Mesh Operator with `emma/emma` and create a RequestAuthentication resource.
 
 The request authentication enables JWT validation on the Istio ingress gateway so that the validated JWT claims can later be used in i.e. the virtual service for routing purposes. The request authentication is applied on the ingress gateway because the JWT claim based routing is *only* supported on ingress gateways.
