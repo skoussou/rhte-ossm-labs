@@ -354,7 +354,7 @@ NOTE: The configs come from link:../lab-3/update-prod-smcp-2-prometheus.sh[updat
 
 == Task 6: Final Production Configuration
 
-The following *Purpose* and *Principals* have been finalized with the `Travel Agency` architects and proposed `Service Mesh` configurations have been accepted based on these:
+The following *Purpose* and *Principals* have been finalized with the `Travel Agency` architects and final tuned `Service Mesh` configurations have been accepted based on these:
 
 * *Purpose:*
 ** Secure service-to-service communications.
