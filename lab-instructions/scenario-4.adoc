@@ -22,16 +22,24 @@ The Lab Instructors have created a RH-SSO Identity Provider, a `Realm` for Servi
 
 image::assets/04-gto.png[300,700]
 
-== Task 1: Export your variables
+== Task 1: Export Environment variables
 
-First export the `CLUSTER_API`, `OCP_DOMAIN`, the `SSO_CLIENT_SECRET` and your Lab User Id `LAB_PARTICIPANT_ID` (link:../README.adoc[3rd column from TABLE here]):
+[IMPORTANT]
+====
+As this is a multi-tenant cluster you should restrict use for this lab to the following namespaces associated with your user *`$LAB_PARTICIPANT_ID-prod-istio-system`*, *`$LAB_PARTICIPANT_ID-prod-travel-control`*, *`$LAB_PARTICIPANT_ID-prod-travel-portal`*, *`$LAB_PARTICIPANT_ID-prod-travel-agency`*
 
-* Get link:https://github.com/skoussou/rhte-ossm-labs#lab-information[all exports from here]
+Now export the following in the terminal of your choice (see link:../README.adoc[Lab Information] for values)
 
+* export CLUSTER_CONSOLE=https://console-openshift-console.apps.<CLUSTER_NAME>.<DOMAIN_NAME>/
+* export CLUSTER_API=https://api.<CLUSTER_NAME>.<DOMAIN_NAME>:6443/
+* export LAB_PARTICIPANT_ID=<FROM 2nd column of THE TABLE below `userx`>
+* export OCP_DOMAIN=apps.<CLUSTER_NAME>.<DOMAIN_NAME>
+* export SSO_CLIENT_SECRET=bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
+====
 
 [NOTE]
 ====
-If you run out of time and you wish to complete the following lab sections in a single step execute
+If you are running out of time and wish to complete the following lab sections in a single step execute
 ----
 cd lab-4
 ./complete-lab-4.sh $SSO_CLIENT_SECRET $OCP_DOMAIN $LAB_PARTICIPANT_ID
