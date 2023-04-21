@@ -151,7 +151,7 @@ The Travel Agency has exposed their API services with MTLS through an additional
 
 [IMPORTANT]
 ====
-The Lab Instructors have created an RH-SSO Identity Provider, a `Realm` for Service Mesh and have also created a client configuration (`istio-$LAB_PARTICIPANT_ID-production`) for your $LAB_PARTICIPANT_ID-production Service Mesh control plane. You will now use this setup.
+The Lab Instructors have created an RH-SSO Identity Provider, a `Realm` for Service Mesh and have also created a client configuration (`istio-$LAB_PARTICIPANT_ID-production`) for your `$LAB_PARTICIPANT_ID-production` Service Mesh control plane. You will now use this setup.
 
 ====
 
