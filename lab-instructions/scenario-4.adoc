@@ -179,7 +179,7 @@ The intended final authentication workflow (in addition to the mTLS handshake) f
 
 === Step 1 - Define Authentication and Authorization with valid RHSSO JWT Token
 
-As the communications between RHSSO and `istiod` are secured with a router-ca certificate you first have to load the certificate to `istiod`. This is performed by the following script:
+As the communications between RHSSO and `istiod` are secured with a router certificate the Mesh Operator first have to load the certificate to `istiod`. This is performed by the following script:
 
 [source, shell]
 ----
