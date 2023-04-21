@@ -73,7 +73,7 @@ Verify the default communication paths described in the table above. Login as Me
 ----
 ./login-as.sh emma
 
-./check-authz-all.sh ALLOW user-$LAB_PARTICIPANT_ID-prod-istio-system $OCP_DOMAIN $SSO_CLIENT_SECRET $LAB_PARTICIPANT_ID
+./check-authz-all.sh ALLOW $LAB_PARTICIPANT_ID-prod-istio-system $OCP_DOMAIN $SSO_CLIENT_SECRET $LAB_PARTICIPANT_ID
 ----
 
 === Step 2 - Apply best practice security pattern to `DENY` all
@@ -88,7 +88,7 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: allow-nothing
-  namespace: user-$LAB_PARTICIPANT_ID-prod-travel-agency
+  namespace: $LAB_PARTICIPANT_ID-prod-travel-agency
 spec:
   {}" | oc apply -f -
 ----
@@ -101,7 +101,7 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: allow-nothing
-  namespace: user-$LAB_PARTICIPANT_ID-prod-travel-control
+  namespace: $LAB_PARTICIPANT_ID-prod-travel-control
 spec:
   {}  " | oc apply -f -
 ----
@@ -131,7 +131,7 @@ Let us check the communication paths again:
 
 [source,shell]
 ----
-./check-authz-all.sh DENY user-$LAB_PARTICIPANT_ID-prod-istio-system $OCP_DOMAIN $SSO_CLIENT_SECRET $LAB_PARTICIPANT_ID
+./check-authz-all.sh DENY $LAB_PARTICIPANT_ID-prod-istio-system $OCP_DOMAIN $SSO_CLIENT_SECRET $LAB_PARTICIPANT_ID
 ----
 
 We can also login to Kiali and verify the traffic in the Dashboard:
@@ -148,7 +148,7 @@ Let us first login as Mesh Operator with `emma/emma` and check if we can access 
 ----
 ./login-as.sh emma
 
-curl -k https://travel-user-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
+curl -k https://travel-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
 
 RBAC: access denied
 ----
@@ -161,7 +161,7 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: authpolicy-istio-ingressgateway
-  namespace: user-${LAB_PARTICIPANT_ID}-prod-istio-system
+  namespace: ${LAB_PARTICIPANT_ID}-prod-istio-system
 spec:
   selector:
     matchLabels:
@@ -180,7 +180,7 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: allow-selective-principals-travel-control
-  namespace: user-$LAB_PARTICIPANT_ID-prod-travel-control
+  namespace: $LAB_PARTICIPANT_ID-prod-travel-control
 spec:
   action: ALLOW
   rules:
@@ -193,7 +193,7 @@ Please verify the access to the Travel Dashboard again. It should be accessible 
 
 [source,shell]
 ----
-curl -k https://travel-user-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
+curl -k https://travel-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
 ----
 
 === Step 5 - Apply fine grained business Authz policies for service to service communications
@@ -214,13 +214,13 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
  name: allow-selective-principals-travel-agency
- namespace: user-$LAB_PARTICIPANT_ID-prod-travel-agency
+ namespace: $LAB_PARTICIPANT_ID-prod-travel-agency
 spec:
  action: ALLOW
  rules:
    - from:
        - source:
-           principals: [\"cluster.local/ns/user-$LAB_PARTICIPANT_ID-prod-istio-system/sa/gto-user-$LAB_PARTICIPANT_ID-ingressgateway-service-account\",\"cluster.local/ns/user-$LAB_PARTICIPANT_ID-prod-travel-agency/sa/default\",\"cluster.local/ns/user-$LAB_PARTICIPANT_ID-prod-travel-portal/sa/default\"]" |oc apply -f -
+           principals: [\"cluster.local/ns/$LAB_PARTICIPANT_ID-prod-istio-system/sa/gto-$LAB_PARTICIPANT_ID-ingressgateway-service-account\",\"cluster.local/ns/$LAB_PARTICIPANT_ID-prod-travel-agency/sa/default\",\"cluster.local/ns/$LAB_PARTICIPANT_ID-prod-travel-portal/sa/default\"]" |oc apply -f -
 
 ----
 
@@ -230,7 +230,7 @@ Now let's login as Mesh Operator with `emma/emma` and verify the communication:
 ----
 ./login-as.sh emma
 
-./check-authz-all.sh 'ALLOW intra' user-$LAB_PARTICIPANT_ID-prod-istio-system $OCP_DOMAIN $SSO_CLIENT_SECRET $LAB_PARTICIPANT_ID
+./check-authz-all.sh 'ALLOW intra' $LAB_PARTICIPANT_ID-prod-istio-system $OCP_DOMAIN $SSO_CLIENT_SECRET $LAB_PARTICIPANT_ID
 ----
 
 Please also login to Kiali and observe the communication flows:
@@ -272,7 +272,7 @@ cd lab-5
 
 ./login-as.sh farid
 
-oc get peerauthentication -n user-$LAB_PARTICIPANT_ID-prod-istio-system
+oc get peerauthentication -n $LAB_PARTICIPANT_ID-prod-istio-system
 
 NAME                            MODE         AGE
 default                         STRICT       4d1h
@@ -290,7 +290,7 @@ echo "apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: cars-mtls-disable
-  namespace: user-$LAB_PARTICIPANT_ID-prod-travel-agency
+  namespace: $LAB_PARTICIPANT_ID-prod-travel-agency
 spec:
   selector:
     matchLabels:
@@ -303,7 +303,7 @@ Check the applied resource
 
 [source,shell]
 ----
-oc get peerauthentication -n user-$LAB_PARTICIPANT_ID-prod-travel-agency
+oc get peerauthentication -n $LAB_PARTICIPANT_ID-prod-travel-agency
 
 NAME                MODE      AGE
 cars-mtls-disable   DISABLE   47s
@@ -315,7 +315,7 @@ Validate no mTLS handshaking is taking place, by connecting to the cars service.
 
 [source,shell]
 ----
-oc exec "$(oc get pod -l app=travels -n user-$LAB_PARTICIPANT_ID-prod-travel-agency -o jsonpath={.items..metadata.name})" -c istio-proxy -n user-$LAB_PARTICIPANT_ID-prod-travel-agency -- openssl s_client -showcerts -connect $(oc -n user-$LAB_PARTICIPANT_ID-prod-travel-agency get svc cars -o jsonpath={.spec.clusterIP}):8000
+oc exec "$(oc get pod -l app=travels -n $LAB_PARTICIPANT_ID-prod-travel-agency -o jsonpath={.items..metadata.name})" -c istio-proxy -n $LAB_PARTICIPANT_ID-prod-travel-agency -- openssl s_client -showcerts -connect $(oc -n $LAB_PARTICIPANT_ID-prod-travel-agency get svc cars -o jsonpath={.spec.clusterIP}):8000
 ----
 
 === Step 4 - Clean-up
@@ -324,7 +324,7 @@ Clean up the PeerAuthentication.
 
 [source,shell]
 ----
-oc delete peerauthentication cars-mtls-disable -n user-$LAB_PARTICIPANT_ID-prod-travel-agency
+oc delete peerauthentication cars-mtls-disable -n $LAB_PARTICIPANT_ID-prod-travel-agency
 ----
 
 == Task 4 (Optional): Use a custom Certificate Authority (CA)
