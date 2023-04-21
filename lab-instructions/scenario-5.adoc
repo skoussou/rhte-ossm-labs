@@ -186,7 +186,7 @@ spec:
   rules:
     - from:
         - source:
-            principals: [\"cluster.local/ns/user-$LAB_PARTICIPANT_ID-prod-istio-system/sa/istio-ingressgateway-service-account\"]"|oc apply -f -
+            principals: [\"cluster.local/ns/$LAB_PARTICIPANT_ID-prod-istio-system/sa/istio-ingressgateway-service-account\"]"|oc apply -f -
 ----
 
 Please verify the access to the Travel Dashboard again. It should be accessible right now. You can also open the URL in your Browser:
