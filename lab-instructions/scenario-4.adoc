@@ -217,7 +217,7 @@ spec:
        https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/certs" | oc apply -f -
 ----
 
-Next add an `AuthorizationPolicy` Resource where we specify to only allow requests from a specific user when the token was issued by the specified RH-SSO.
+Next add an `AuthorizationPolicy` Resource which specifies to only allow requests from a user when the token was issued by the specified RH-SSO.
 
 [source, shell]
 ----
