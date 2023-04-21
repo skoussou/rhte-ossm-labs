@@ -39,33 +39,7 @@ cd lab-5
 ----
 ====
 
-== Task 2: Disable STRICT MTLS for specific services
-
-The Service Mesh of the Travel Agency company is configured to automatically use mTLS:
-
-[source,yaml]
-.Excerpt from the SMCP
-----
-spec:
-  security:
-    dataPlane:
-      automtls: true
-      mtls: true
-----
-
-but sometimes there is the requirement to exclude specific services from `OSSM` *mTLS*, i.e. if workloads offer their own mTLS certificates (see KAFKA, Elastic Search).
-
-In addition if the SMCP configuration doesn't actually enforce mTLS, this can be done by configuring a `PeerAuthentication` resource.
-
-[NOTE]
-====
-A `PeerAuthentication` resource defines how traffic will be tunneled (or not) to the sidecar proxy.
-====
-
-Although, it is not necessary for our use case to do so if at the end of the lab there is still time left you can try to `DISABLE`/`RE-ENABLE` the MTLS setting in the mesh for the `cars` service by following the instruction at link:scenario-5-optional.adoc[scenario-5-optional] in order to become familiar with this capability.
-
-
-== Task 3: Applying default authorization policies
+== Task 2: Applying default authorization policies
 
 The Travel Agency company like any other business requires fine-grained _authorization_ policies to be applied. Openshift Service Mesh provides the capability to externalize this policies from the actual service code and the _Travel Agency_ `Mesh Operator` will implement them restricting access based on known _Best Practices_ and business requirements.
 
@@ -263,6 +237,95 @@ Please also login to Kiali and observe the communication flows:
 
 image::assets/05-access-restored-with-authz-policies.png[300,700]
 
+== Task 3(Optional): Disable STRICT MTLS for specific services
+
+The Service Mesh of the Travel Agency company is configured to automatically use mTLS:
+
+[source,yaml]
+.Excerpt from the SMCP
+----
+spec:
+  security:
+    dataPlane:
+      automtls: true
+      mtls: true
+----
+
+but sometimes there is the requirement to exclude specific services from `OSSM` *mTLS*, i.e. if workloads offer their own mTLS certificates (see KAFKA, Elastic Search).
+
+In addition if the SMCP configuration doesn't actually enforce mTLS, this can be done by configuring a `PeerAuthentication` resource.
+
+[NOTE]
+====
+A `PeerAuthentication` resource defines how traffic will be tunneled (or not) to the sidecar proxy.
+====
+
+Although, it is not necessary for our use case to do so if at the end of the lab there is still time left you can try to `DISABLE`/`RE-ENABLE` the MTLS setting in the mesh for the `cars` service by following the instruction at link:scenario-5-optional.adoc[scenario-5-optional] in order to become familiar with this capability.
+
+=== Step 1 - Verify Production `ServiceMeshControlPlane` strict MTLS setting
+
+First we login as Mesh Developer with `farid/farid` and check the global mTLS configurations in the control plane namespace:
+
+[source,shell]
+----
+cd lab-5
+
+./login-as.sh farid
+
+oc get peerauthentication -n user-$LAB_PARTICIPANT_ID-prod-istio-system
+
+NAME                            MODE         AGE
+default                         STRICT       4d1h
+disable-mtls-jaeger-collector   DISABLE      4d1h
+grafana-ports-mtls-disabled     PERMISSIVE   4d1h
+----
+
+=== Step 2 - How to disable strict MTLS for a service?
+
+Then we disable strict MTLS for the cars service by applying a PeerAuthentication resource in the applications namespace:
+
+[source,shell]
+----
+echo "apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: cars-mtls-disable
+  namespace: user-$LAB_PARTICIPANT_ID-prod-travel-agency
+spec:
+  selector:
+    matchLabels:
+      app: cars
+  mtls:
+    mode: DISABLE"|oc apply -f -
+----
+
+Check the applied resource
+
+[source,shell]
+----
+oc get peerauthentication -n user-$LAB_PARTICIPANT_ID-prod-travel-agency
+
+NAME                MODE      AGE
+cars-mtls-disable   DISABLE   47s
+----
+
+=== Step 3 - Validate no MTLS activity
+
+Validate no mTLS handshaking is taking place, by connecting to the cars service.
+
+[source,shell]
+----
+oc exec "$(oc get pod -l app=travels -n user-$LAB_PARTICIPANT_ID-prod-travel-agency -o jsonpath={.items..metadata.name})" -c istio-proxy -n user-$LAB_PARTICIPANT_ID-prod-travel-agency -- openssl s_client -showcerts -connect $(oc -n user-$LAB_PARTICIPANT_ID-prod-travel-agency get svc cars -o jsonpath={.spec.clusterIP}):8000
+----
+
+=== Step 4 - Clean-up
+
+Clean up the PeerAuthentication.
+
+[source,shell]
+----
+oc delete peerauthentication cars-mtls-disable -n user-$LAB_PARTICIPANT_ID-prod-travel-agency
+----
 
 == Task 4 (Optional): Use a custom Certificate Authority (CA)
 
