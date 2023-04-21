@@ -98,11 +98,11 @@ gto-user1-ingressgateway   gto-user1-ingressgateway-user1-prod-istio-system.apps
 
 === Step 2 - Expose and secure via MTLS host on new Gateway
 
-In the next step you will expose the new 'Gateway' and in order to do this the script provided will:
+In the next step you will expose the new `Gateway` and in order to do this the script provided will:
 
-* create the CA and certs for the exposure of the TLS based Gateway,
+* create the CA and certs for the exposure of the TLS based `Gateway`,
 * an Openshift passthrough route,
-* the Istio Gateway configuration
+* the Istio `Gateway` configuration
 * create the client certificates based on the same CA for the curl client (in order to test MTLS):
 
 [source, shell]
