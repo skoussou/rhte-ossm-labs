@@ -36,4 +36,4 @@ diff -s /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
 echo
 echo "5. Verify the certificate chain from the root certificate to the workload certificate:"
 echo "------------------------------------------------------" 
-openssl verify -CAfile <(cat ./certs-resources/intermediate/certs/intermediate.cert.pem ../certs-resources/certs/ca.cert.pem) ./proxy-cert-1.pem
+openssl verify -CAfile <(cat ./certs-resources/intermediate/certs/intermediate.cert.pem ./certs-resources/certs/ca.cert.pem) ./proxy-cert-1.pem
