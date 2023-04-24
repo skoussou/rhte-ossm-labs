@@ -5,7 +5,7 @@ NS_PREFIX=$1
 echo "###########################"
 echo "CERTS CHECK ON CONTROLPLANE"
 echo "###########################"
-podname=$(oc get pods -n $SM_CP_NS | grep istiod-$SM_TENANT_NAME | awk '{print $1}' | sed '1d')
+#podname=$(oc get pods -n $SM_CP_NS | grep istiod-$SM_TENANT_NAME | awk '{print $1}' | sed '1d')
 echo
 echo "1. Get the ceritificates used between istio-ingressgateway and istiod"
 oc exec "$(oc get pod -l app=istio-ingressgateway -n $NS_PREFIX-prod-istio-system -o jsonpath={.items..metadata.name}  | awk '{print $1}')" -c istio-proxy -n $NS_PREFIX-prod-istio-system -- openssl s_client -showcerts -connect $(oc get svc istiod-$NS_PREFIX-production -o jsonpath={.spec.clusterIP}):15012 > istiod-cert.txt
