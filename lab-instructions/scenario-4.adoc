@@ -272,7 +272,7 @@ echo $TOKEN
 ./call-via-mtls-and-jwt-travel-agency-api.sh $LAB_PARTICIPANT_ID-prod-istio-system gto-$LAB_PARTICIPANT_ID $TOKEN
 ----
 
-Login to Kiali and verify the traffic is successfully entering the mesh.
+Login to Kiali, go to menu `Graph`, select only namespace `$LAB_PARTICIPANT_ID-prod-istio-system` and verify the traffic is successfully entering the mesh.
 
 image::assets/04-gto-external-ingressgateway-jtw.png[300,700]
 
