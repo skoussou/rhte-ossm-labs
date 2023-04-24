@@ -367,7 +367,7 @@ Subject: C = GB, ST = England, O = Travel Agency Ltd, OU = Intermediate Certific
 
 === Step 2 - Verify the current controlplane and dataplane used certificates
 
-The current _controlplane_ and _dataplane_ certificates should be are issued by `Issuer: O = cluster.local`. Verify this with the following commands:
+The current _controlplane_ and _dataplane_ certificates are issued by default `Issuer: O = cluster.local`. Verify this with the following commands:
 
 * Check the issuer of the default service mesh certificate (it should be something like `Issuer: O = cluster.local`)
 +
