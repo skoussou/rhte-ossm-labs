@@ -57,7 +57,7 @@ First lets verify that by default the _Service Mesh_ authorization policies allo
 
 | ALLOW all | `prod-istio-system` -> `prod-travel-control` | Browser | `control.prod-travel-control`
 
-| ALLOW all | `prod-istio-system` -> `prod-travel-agency` | `gto-external-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
+| ALLOW all | `prod-istio-system` -> `prod-travel-agency` | `gto-$LAB_PARTICIPANT_ID-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
 | ALLOW all | `prod-travel-control` -> `prod-travel-agency` | `control.prod-travel-control` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
@@ -78,7 +78,7 @@ Verify the default communication paths described in the table above. Login as Me
 
 === Step 2 - Apply best practice security pattern to `DENY` all
 
-In the previous link:scenario-4.adoc[scenario-4] we applied an `AuthorizationPolicy` resource which allowed requests via the `gto-external-ingressgateway`. Now, we will utilize the `default-deny` pattern to DENY requests unless there is a specific `AuthorizationPolicy` allowing it.
+In the previous link:scenario-4.adoc[scenario-4] we applied an `AuthorizationPolicy` resource which allowed requests via the `gto-$LAB_PARTICIPANT_ID-ingressgateway`. Now, we will utilize the `default-deny` pattern to DENY requests unless there is a specific `AuthorizationPolicy` allowing it.
 
 As Mesh Operator with `emma/emma`  we apply the `default-deny` pattern to the prod-travel-agency namespace
 
@@ -117,7 +117,7 @@ Now we can verify that no communications from the _Service Mesh_ are authorizate
 
 | DENY all | `prod-istio-system` -> `prod-travel-control` | Browser | `https://travel-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/`
 
-| DENY all | `prod-istio-system` -> `prod-travel-agency` | `gto-external-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
+| DENY all | `prod-istio-system` -> `prod-travel-agency` | `gto-$LAB_PARTICIPANT_ID-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
 | DENY all | `prod-travel-control` -> `prod-travel-agency` | `control.prod-travel-control` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
