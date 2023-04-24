@@ -433,7 +433,7 @@ oc edit smcp/$LAB_PARTICIPANT_ID-production -n $LAB_PARTICIPANT_ID-prod-istio-sy
 ** After adding the corporate the certificates, the control plane istiod and gateway pods must be restarted so the changes go into effect. Use the following command to restart the pods(The Operator will automatically recreate the pods after they have been deleted):
 +
 ----
-oc -n $LAB_PARTICIPANT_ID-prod-istio-system delete pods -l 'app in (istiod,istio-ingressgateway, istio-egressgateway,gto-$LAB_PARTICIPANT_ID-ingressgateway)'
+oc -n $LAB_PARTICIPANT_ID-prod-istio-system delete pods -l "app in (istiod,istio-ingressgateway, istio-egressgateway,gto-$LAB_PARTICIPANT_ID-ingressgateway)"
 oc -n $LAB_PARTICIPANT_ID-prod-istio-system get -w pods
 ----
 ** Restart the _dataplane_ pods to expedite the sidecar proxies picking up the secret changes.
