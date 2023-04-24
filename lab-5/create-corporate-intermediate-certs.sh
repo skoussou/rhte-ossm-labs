@@ -17,7 +17,7 @@ cd $BASE_DIR/certs-resources
 echo
 echo
 echo "=========================================================================================================="
-echo " Creating openssl.cnf for ROOT CA (<BASE_DIR>/certs-resources/intermediate/openssl.cnf)                   "
+echo " Creating openssl.cnf for ROOT CA (<BASE_DIR>/certs-resources/openssl.cnf)                   "
 echo "=========================================================================================================="
 echo
 
@@ -155,7 +155,6 @@ authorityKeyIdentifier = keyid,issuer
 keyUsage = critical, digitalSignature
 extendedKeyUsage = critical, OCSPSigning' > openssl.cnf
 
-echo
 echo
 echo "=========================================================================================================="
 echo " Creating openssl.cnf for INTERMEDIATE CA (<BASE_DIR>/certs-resources/intermediate/openssl.cnf)           "
@@ -301,9 +300,8 @@ extendedKeyUsage = critical, OCSPSigning' > openssl.cnf
 
 cd ..
 
-echo "find . -type f -name *.cnf |xargs sed -i 's@<BASE_DIR>@$BASE_DIR@g'"
+#echo "find . -type f -name *.cnf |xargs sed -i 's@<BASE_DIR>@$BASE_DIR@g'"
 find . -type f -name "*.cnf" |xargs sed -i "s@<BASE_DIR>@$BASE_DIR@g"
-
 
 
 while true; do
@@ -319,7 +317,6 @@ case $yn in
 esac
 done
 
-echo
 echo
 echo
 echo
