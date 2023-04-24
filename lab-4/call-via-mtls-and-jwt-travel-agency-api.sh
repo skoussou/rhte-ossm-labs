@@ -12,21 +12,33 @@ sleep 3
 for i in {1..1}
 do
 
+echo
+echo "Travel to Tallinn"
+echo "---------------------------------------------------"
+sleep 1
 curl -v --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/cars/Tallinn |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/travels/Tallinn |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/flights/Tallinn |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/insurances/Tallinn |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/hotels/Tallinn |jq
 
+echo
+echo "Travel to Brussels"
+echo "---------------------------------------------------"
+sleep 1
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/cars/Brussels |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/travels/Brussels |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/flights/Brussels |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/insurances/Brussels |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/hotels/Brussels |jq
 
+echo
+echo "Travel to London"
+echo "---------------------------------------------------"
+sleep 1
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/cars/London |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/travels/London |jq
-curl -s--cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/flights/London |jq
+curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/flights/London |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/insurances/London |jq
 curl -s --cacert ca-root.crt --key curl-client.key --cert curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/hotels/London |jq
 
