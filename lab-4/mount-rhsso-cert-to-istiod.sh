@@ -36,7 +36,8 @@ sleep 2
 echo
 echo
 echo "Check router CA certificate has been loaded in istiod"
-
+echo "-----------------------------------------------------------------------------"
+git
 echo "oc -n $SM_CP_NS exec $podname -- cat /cacerts/extra.pem"
 sleep 7
 oc -n $SM_CP_NS exec $podname -- cat /cacerts/extra.pem

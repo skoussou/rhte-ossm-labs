@@ -440,6 +440,8 @@ sleep 3
 export GATEWAY_URL=$(oc -n $LAB_PARTICIPANT_ID-prod-istio-system get route gto-$LAB_PARTICIPANT_ID -o jsonpath='{.spec.host}')
 echo $GATEWAY_URL
 
++echo
++echo
 echo "-------------TESTS WITHOUT TOKEN EXPECTED TO FAIL (403: RBAC: ACCESS DENIED)--------------------------------------"
 echo
 sleep 3
