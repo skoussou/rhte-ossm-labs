@@ -111,15 +111,15 @@ image::./assets/02-about.png[200,200]
 
 === Task 3: Test the Observability stack as Product Owner for the Travel-Agency Solution
 
-Access the `Kiali` URL and login with username/password *`mus`*/*`mus`* (role: `Application Viewer`)
+Access the `Kiali` URL (see the CLI output) and login with username/password *`mus`*/*`mus`* (role: `Application Viewer`)
 
-As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace.
+Follow the menu to the left to _Graph_ and as the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace.
 
 image::./assets/02-mus-kiali-view.png[200,500]
 
 You are allowed to:
 
-1. See traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials (`mus/mus`) to view the tracing console
+1. See traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your Openshift credentials (`mus/mus`) to view the tracing console (Authorize Access). Finally, select from the Service drop-down list `istio-ingressgateway`.
 2. See metrics for the overall solution. Go to `Workloads` in `Kiali` and select `cars-v1` application workload. Use the `inbound` or `outbound` metrics.
 +
 image::./assets/02-mus-kiali-metrics.png[400,800]
@@ -153,7 +153,7 @@ image::./assets/02-mus-view-config.png[400,800]
 +
 `Failed to fetch workload logs: pods "cars-v1-7b85d9b99b-l4hjg" is forbidden: User "mus" cannot get resource "pods/log" in API group "" in the namespace "userx-dev-travel-agency"`
 
-=== Task 4: Test the Observability stack as an App/Domain Owner for the Travel-Portal or Travel-Services Domain
+=== Task 4 (Optional): Test the Observability stack as an App/Domain Owner for the Travel-Portal or Travel-Services Domain
 
 1. Access `Kiali` URL with username/password *`farid`*/*`farid`* (role: `Mesh Developer`)
 
@@ -198,7 +198,7 @@ image::./assets/02-grafana-cars-istio-service-dashboard.png[400,1000]
 +
 image::./assets/02-grafana-cars-workload-outbound-dashboard.png[400,1000]
 
-=== Task 5: Test the Observability stack as Developer for the Travel-Portal or Travel-Services Domain
+=== Task 5 (Optional): Test the Observability stack as Developer for the Travel-Portal or Travel-Services Domain
 
 Note: you can skip this section to save time
 
@@ -208,7 +208,7 @@ Note: you can skip this section to save time
 +
 image::./assets/02-mia-graph-restricted-view.png[400,1000]
 
-=== Task 6: Test the Observability stack as Mesh Operator
+=== Task 6 (Optional): Test the Observability stack as Mesh Operator
 
 Note: you can skip this section to save time
 
