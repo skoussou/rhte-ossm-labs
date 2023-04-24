@@ -470,3 +470,13 @@ case $yn in
 	* ) echo invalid response;;
 esac
 done
+
+echo
+echo
+echo "================================================================"
+echo "5-Create the certificate chain file"
+echo "================================================================"
+echo
+sleep 2
+cat intermediate/certs/intermediate.cert.pem certs/ca.cert.pem > intermediate/certs/ca-chain.cert.pem
+chmod 444 intermediate/certs/ca-chain.cert.pem
