@@ -11,7 +11,7 @@ oc project $SM_CP_NS
 
 echo "####################################################################"
 echo "#                                                                  #"
-echo "#           CHECKING $POLICY ALL AUTHZ DEFAULT POLICY                #"
+echo "#           CHECKING $POLICY ALL AUTHZ DEFAULT POLICY              #"
 echo "#                                                                  #"
 echo "####################################################################"
 
@@ -20,7 +20,7 @@ GATEWAY_URL=$(oc get route gto-$PARTICIPANTID -o jsonpath='{.spec.host}' -n $SM_
 echo GATEWAY_URL:  $GATEWAY_URL
 echo
 TOKEN=$(curl -sLk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-$PARTICIPANTID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
-echo TOKEN: $TOKEN
+#echo TOKEN: $TOKEN
 echo "---------------------------------------------------------------------------------------"
 echo
 sleep 4
@@ -71,10 +71,10 @@ echo "Authorization $PARTICIPANTID-prod-travel-control --> $PARTICIPANTID-prod-t
 echo "-------------------------------------------------------------------"
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 travels=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
-sleep 2
+#sleep 2
 if [[ travels -eq 200 ]]
 then
   echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> travels.$PARTICIPANTID-prod-travel-agency"
@@ -84,10 +84,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 cars=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
-sleep 2
+#sleep 2
 if [[ cars -eq 200 ]]
 then
   echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> cars.prod-travel-agency"
@@ -97,10 +97,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 flights=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
-sleep 2
+#sleep 2
 if [[ flights -eq 200 ]]
 then
   echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> flights.prod-travel-agency"
@@ -123,10 +123,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 hotels=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
-sleep 2
+#sleep 2
 if [[ hotels -eq 200 ]]
 then
   echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> hotels.prod-travel-agency"
@@ -140,10 +140,10 @@ echo "-------------------------------------------------------------------"
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 travels=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
-sleep 2
+#sleep 2
 if [[ travels -eq 200 ]]
 then
   echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> travels.$PARTICIPANTID-prod-travel-agency"
@@ -153,10 +153,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 cars=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
-sleep 2
+#sleep 2
 if [[ cars -eq 200 ]]
 then
   echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> cars.$PARTICIPANTID-prod-travel-agency"
@@ -166,10 +166,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 flights=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
-sleep 2
+#sleep 2
 if [[ flights -eq 200 ]]
 then
   echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> flights.$PARTICIPANTID-prod-travel-agency"
@@ -179,10 +179,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 insurances=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
-sleep 2
+#sleep 2
 if [[ insurances -eq 200 ]]
 then
   echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> insurances.$PARTICIPANTID-prod-travel-agency"
@@ -192,10 +192,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 hotels=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
-sleep 2
+#sleep 2
 if [[ hotels -eq 200 ]]
 then
   echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> hotels.$PARTICIPANTID-prod-travel-agency"
@@ -210,10 +210,10 @@ echo "-------------------------------------------------------------------"
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 travels=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
-sleep 2
+#sleep 2
 if [[ travels -eq 200 ]]
 then
   echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> discounts.$PARTICIPANTID-prod-travel-agency"
@@ -223,10 +223,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 cars=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
-sleep 2
+#sleep 2
 if [[ cars -eq 200 ]]
 then
   echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> cars.$PARTICIPANTID-prod-travel-agency"
@@ -236,10 +236,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 flights=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
-sleep 2
+#sleep 2
 if [[ flights -eq 200 ]]
 then
   echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> flights.$PARTICIPANTID-prod-travel-agency"
@@ -249,10 +249,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 insurances=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
-sleep 2
+#sleep 2
 if [[ insurances -eq 200 ]]
 then
   echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> insurances.$PARTICIPANTID-prod-travel-agency"
@@ -262,10 +262,10 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 1
+#sleep 1
 hotels=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
-sleep 2
+#sleep 2
 if [[ hotels -eq 200 ]]
 then
   echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> hotels.$PARTICIPANTID-prod-travel-agency"

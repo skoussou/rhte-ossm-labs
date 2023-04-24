@@ -200,7 +200,7 @@ curl -k https://travel-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/
 
 In this last step, you will create authorisation policies which will allow access:
 
-* from `gto-$LAB_PARTICIPANT_ID-ingressgateway` towards
+* from `gto-$LAB_PARTICIPANT_ID` gateway towards
 ** `travels.$LAB_PARTICIPANT_ID-prod-travel-agency`,
 ** `hotels.$LAB_PARTICIPANT_ID-prod-travel-agency`,
 ** `cars.$LAB_PARTICIPANT_ID-prod-travel-agency`,
