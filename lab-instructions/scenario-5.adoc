@@ -115,7 +115,7 @@ Now we can verify that no communications from the _Service Mesh_ are authorizate
 |===
 | Type of Policy | Namespaces | Client | Target
 
-| DENY all | `prod-istio-system` -> `prod-travel-control` | Browser | `https://travel-prod-istio-system.apps.ocp4.rhlab.de/`
+| DENY all | `prod-istio-system` -> `prod-travel-control` | Browser | `https://travel-$LAB_PARTICIPANT_ID.$OCP_DOMAIN/`
 
 | DENY all | `prod-istio-system` -> `prod-travel-agency` | `gto-external-ingressgateway` | `travels.prod-travel-agency`, `flights.prod-travel-agency`, `hotels.prod-travel-agency`, `insurances.prod-travel-agency`, `cars.prod-travel-agency`
 
