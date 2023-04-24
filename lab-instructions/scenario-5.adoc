@@ -334,13 +334,17 @@ oc delete peerauthentication cars-mtls-disable -n $LAB_PARTICIPANT_ID-prod-trave
 
 == Task 4 (Optional): Use a custom Certificate Authority (CA)
 
+This section is optional and you can also use for your own understanding of the procedure to provide custom CA certs.
+
 === Step 1 - Create a custom CA and Intermediate CA Cert
 
 Firstly you will create a custom CA and then with it an Intermediate CA (normally these will be provided).
 
-* You must be in the directory of *_lab-5_* and provide to the following script the full path for this directory in your local system
+* You must be in the directory of *_lab-5_* and provide to the following script the full path for this directory in your local system:
 +
+----
 ./create-corporate-intermediate-certs.sh /<YOUR-PATH>/lab-5
+----
 
 * In the verification parts. Verify that:
 ** a) The 2 `openssl.cnf` files have been created correctly with *`dir`* variable the path you provided:
