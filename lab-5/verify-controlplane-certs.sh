@@ -15,7 +15,7 @@ awk 'BEGIN {counter=0;} /BEGIN CERT/{counter++} { print > "proxy-cp-cert-" count
 echo
 echo "2. Verify the root certificate used in the istiod handshake is the same as the one specified by the OSSM administrator:"
 echo "------------------------------------------------------" 
-openssl x509 -in ../certs-resources/certs/ca.cert.pem -text -noout > /tmp/root-cert.crt.txt
+openssl x509 -in ./certs-resources/certs/ca.cert.pem -text -noout > /tmp/root-cert.crt.txt
 openssl x509 -in ./proxy-cp-cert-3.pem -text -noout > /tmp/pod-root-cp-cert.crt.txt
 diff -s /tmp/root-cert.crt.txt /tmp/pod-root-cp-cert.crt.txt
 
@@ -23,12 +23,12 @@ diff -s /tmp/root-cert.crt.txt /tmp/pod-root-cp-cert.crt.txt
 echo
 echo "4. Verify the Intermediate CA certificate used in the istiod handshake is the same as the one specified by the OSSM administrator:"
 echo "------------------------------------------------------" 
-openssl x509 -in ../certs-resources/intermediate/certs/intermediate.cert.pem -text -noout > /tmp/ca-cert.crt.txt
+openssl x509 -in ./certs-resources/intermediate/certs/intermediate.cert.pem -text -noout > /tmp/ca-cert.crt.txt
 openssl x509 -in ./proxy-cp-cert-2.pem -text -noout > /tmp/pod-cert-cp-chain-ca.crt.txt
 diff -s /tmp/ca-cert.crt.txt /tmp/pod-cert-cp-chain-ca.crt.txt
 
 echo
 echo "5. Verify the certificate chain from the root certificate to the workload certificate:"
 echo "------------------------------------------------------" 
-openssl verify -CAfile <(cat ../certs-resources/intermediate/certs/intermediate.cert.pem ../certs-resources/certs/ca.cert.pem) ./proxy-cp-cert-1.pem
+openssl verify -CAfile <(cat ./certs-resources/intermediate/certs/intermediate.cert.pem ./certs-resources/certs/ca.cert.pem) ./proxy-cp-cert-1.pem
 
