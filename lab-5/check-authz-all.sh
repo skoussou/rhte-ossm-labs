@@ -71,7 +71,7 @@ echo "Authorization $PARTICIPANTID-prod-travel-control --> $PARTICIPANTID-prod-t
 echo "-------------------------------------------------------------------"
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 travels=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
 sleep 2
@@ -84,7 +84,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 cars=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
 sleep 2
@@ -97,7 +97,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 flights=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
 sleep 2
@@ -110,7 +110,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 insurances=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
 sleep 2
@@ -123,7 +123,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 hotels=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
 sleep 2
@@ -140,7 +140,7 @@ echo "-------------------------------------------------------------------"
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 travels=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
 sleep 2
@@ -153,7 +153,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 cars=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
 sleep 2
@@ -166,7 +166,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 flights=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
 sleep 2
@@ -179,7 +179,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 insurances=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
 sleep 2
@@ -192,7 +192,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 hotels=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
 sleep 2
@@ -210,7 +210,7 @@ echo "-------------------------------------------------------------------"
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 travels=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
 sleep 2
@@ -223,7 +223,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 cars=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
 sleep 2
@@ -236,7 +236,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 flights=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
 sleep 2
@@ -249,7 +249,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 insurances=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
 sleep 2
@@ -262,7 +262,7 @@ fi
 
 podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
-sleep 3
+sleep 1
 hotels=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
 sleep 2
