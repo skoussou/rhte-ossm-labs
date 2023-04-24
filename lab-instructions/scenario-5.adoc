@@ -412,7 +412,7 @@ oc get  secret istio-ca-secret -n $LAB_PARTICIPANT_ID-prod-istio-system -o yaml 
 oc delete secret istio-ca-secret -n $LAB_PARTICIPANT_ID-prod-istio-system
 ----
 
-* Logged in as `Mesh Operator` (credentials `emma`\`emma`) add to the `ServiceMeshControlPlane` resource `production` under `certificateAuthority` field as shown in the following example. Service Mesh reads the certificates and key from the secret-mount files.
+* Logged in as `Mesh Operator` (credentials `emma`/`emma`) add to the `ServiceMeshControlPlane` resource `production` under `certificateAuthority` field as shown in the following example. Service Mesh reads the certificates and key from the secret-mount files.
 +
 ----
 ./login-as.sh emma
