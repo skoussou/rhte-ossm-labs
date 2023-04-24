@@ -447,7 +447,7 @@ oc -n $LAB_PARTICIPANT_ID-prod-istio-system get -w pods
 ** Identify the `cacerts` Issuer (it should be `Issuer: C = GB, ST = England, L = London, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Root CA`)
 +
 ----
-oc get -o yaml secret cacerts -n prod-istio-system | grep ca-cert | awk '{print $2}' | base64 -d | openssl x509 -noout -text
+oc get -o yaml secret cacerts -n $LAB_PARTICIPANT_ID-prod-istio-system | grep ca-cert | awk '{print $2}' | base64 -d | openssl x509 -noout -text
 ----
 ** Verify the _dataplane_ communications are secured with the new corporate certificates
 +
