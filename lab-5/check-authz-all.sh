@@ -7,6 +7,7 @@ SSO_CLIENT_SECRET=$4
 PARTICIPANTID=$5
 CERTS_LOCATION=../lab-4
 
+oc project $SM_CP_NS
 
 echo "####################################################################"
 echo "#                                                                  #"
@@ -15,10 +16,10 @@ echo "#                                                                  #"
 echo "####################################################################"
 
 echo "---------------------------------------------------------------------------------------"
-GATEWAY_URL=$(oc get route gto-user-$PARTICIPANTID -o jsonpath='{.spec.host}' -n $SM_CP_NS)
+GATEWAY_URL=$(oc get route gto-$PARTICIPANTID -o jsonpath='{.spec.host}' -n $SM_CP_NS)
 echo GATEWAY_URL:  $GATEWAY_URL
 echo
-TOKEN=$(curl -sLk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-user-$PARTICIPANTID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
+TOKEN=$(curl -sLk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio-$PARTICIPANTID&client_secret=$SSO_CLIENT_SECRET" https://keycloak-rhsso.$OCP_DOMAIN/auth/realms/servicemesh-lab/protocol/openid-connect/token | jq .access_token)
 echo TOKEN: $TOKEN
 echo "---------------------------------------------------------------------------------------"
 echo
@@ -30,244 +31,244 @@ flights=$(curl -s -o /dev/null -w "%{http_code}" -X GET --cacert $CERTS_LOCATION
 insurances=$(curl -s -o /dev/null -w "%{http_code}" -X GET --cacert $CERTS_LOCATION/ca-root.crt --key $CERTS_LOCATION/curl-client.key --cert $CERTS_LOCATION/curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/insurances/Tallinn |jq)
 hotels=$(curl -s -o /dev/null -w "%{http_code}" -X GET --cacert $CERTS_LOCATION/ca-root.crt --key $CERTS_LOCATION/curl-client.key --cert $CERTS_LOCATION/curl-client.crt -H "Authorization: Bearer $TOKEN" https://$GATEWAY_URL/hotels/Tallinn |jq)
 
-echo "Authorization $SM_CP_NS --> user-$PARTICIPANTID-prod-travel-agency"
+echo "Authorization $SM_CP_NS --> $PARTICIPANTID-prod-travel-agency"
 echo "-------------------------------------------------------------------"
 
 if [[ $travels -eq 200 ]]
 then
-  echo "[ALLOW] gto-user-$PARTICIPANTID --> travels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] gto-$PARTICIPANTID --> travels.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] gto-user-$PARTICIPANTID --> travels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] gto-$PARTICIPANTID --> travels.$PARTICIPANTID-prod-travel-agency"
 fi
 if [[ cars -eq 200 ]]
 then
-  echo "[ALLOW] gto-user-$PARTICIPANTID --> cars.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] gto-$PARTICIPANTID --> cars.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] gto-user-$PARTICIPANTID --> cars.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] gto-$PARTICIPANTID --> cars.$PARTICIPANTID-prod-travel-agency"
 fi
 if [[ flights -eq 200 ]]
 then
-  echo "[ALLOW] gto-user-$PARTICIPANTID --> flights.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] gto-$PARTICIPANTID --> flights.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] gto-user-$PARTICIPANTID --> flights.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] gto-$PARTICIPANTID --> flights.$PARTICIPANTID-prod-travel-agency"
 fi
 if [[ insurances -eq 200 ]]
 then
-  echo "[ALLOW] gto-user-$PARTICIPANTID --> insurances.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] gto-$PARTICIPANTID --> insurances.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] gto-user-$PARTICIPANTID --> insurances.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] gto-$PARTICIPANTID --> insurances.$PARTICIPANTID-prod-travel-agency"
 fi
 if [[ hotels -eq 200 ]]
 then
-  echo "[ALLOW] gto-user-$PARTICIPANTID --> hotels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] gto-$PARTICIPANTID --> hotels.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] gto-user-$PARTICIPANTID --> hotels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] gto-$PARTICIPANTID --> hotels.$PARTICIPANTID-prod-travel-agency"
 fi
 
 
 echo
-echo "Authorization user-$PARTICIPANTID-prod-travel-control --> user-$PARTICIPANTID-prod-travel-agency"
+echo "Authorization $PARTICIPANTID-prod-travel-control --> $PARTICIPANTID-prod-travel-agency"
 echo "-------------------------------------------------------------------"
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
 sleep 3
-travels=$(oc -n user-$PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
+travels=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
 sleep 5
 if [[ travels -eq 200 ]]
 then
-  echo "[ALLOW] control.user-$PARTICIPANTID-prod-travel-control --> travels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> travels.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] control.user-$PARTICIPANTID-prod-travel-control --> travels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] control.$PARTICIPANTID-prod-travel-control --> travels.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
 sleep 3
-cars=$(oc -n user-$PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
+cars=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
 sleep 5
 if [[ cars -eq 200 ]]
 then
-  echo "[ALLOW] control.user-$PARTICIPANTID-prod-travel-control --> cars.prod-travel-agency"
+  echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> cars.prod-travel-agency"
 else
-  echo "[DENY] control.user-$PARTICIPANTID-prod-travel-control --> cars.prod-travel-agency"
+  echo "[DENY] control.$PARTICIPANTID-prod-travel-control --> cars.prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
 sleep 3
-flights=$(oc -n user-$PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
+flights=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
 sleep 5
 if [[ flights -eq 200 ]]
 then
-  echo "[ALLOW] control.user-$PARTICIPANTID-prod-travel-control --> flights.prod-travel-agency"
+  echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> flights.prod-travel-agency"
 else
-  echo "[DENY] control.user-$PARTICIPANTID-prod-travel-control --> flights.prod-travel-agency"
+  echo "[DENY] control.$PARTICIPANTID-prod-travel-control --> flights.prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
 sleep 3
-insurances=$(oc -n user-$PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
+insurances=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
 sleep 5
 if [[ insurances -eq 200 ]]
 then
-  echo "[ALLOW] control.user-$PARTICIPANTID-prod-travel-control --> insurances.prod-travel-agency"
+  echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> insurances.prod-travel-agency"
 else
-  echo "[DENY] control.user-$PARTICIPANTID-prod-travel-control --> insurances.prod-travel-agency"
+  echo "[DENY] control.$PARTICIPANTID-prod-travel-control --> insurances.prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-control | grep control | awk '{print $1}')
 #echo $podname
 sleep 3
-hotels=$(oc -n user-$PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
+hotels=$(oc -n $PARTICIPANTID-prod-travel-control -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
 sleep 5
 if [[ hotels -eq 200 ]]
 then
-  echo "[ALLOW] control.user-$PARTICIPANTID-prod-travel-control --> hotels.prod-travel-agency"
+  echo "[ALLOW] control.$PARTICIPANTID-prod-travel-control --> hotels.prod-travel-agency"
 else
-  echo "[DENY] control.user-$PARTICIPANTID-prod-travel-control --> hotels.prod-travel-agency"
+  echo "[DENY] control.$PARTICIPANTID-prod-travel-control --> hotels.prod-travel-agency"
 fi
 
 echo
-echo "Authorization user-$PARTICIPANTID-prod-travel-portal --> user-$PARTICIPANTID-prod-travel-agency"
+echo "Authorization $PARTICIPANTID-prod-travel-portal --> $PARTICIPANTID-prod-travel-agency"
 echo "-------------------------------------------------------------------"
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
 sleep 3
-travels=$(oc -n user-$PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
+travels=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
 sleep 5
 if [[ travels -eq 200 ]]
 then
-  echo "[ALLOW] viaggi.user-$PARTICIPANTID-prod-travel-portal --> travels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> travels.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] viaggi.user-$PARTICIPANTID-prod-travel-portal --> travels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] viaggi.$PARTICIPANTID-prod-travel-portal --> travels.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
 sleep 3
-cars=$(oc -n user-$PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
+cars=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
 sleep 5
 if [[ cars -eq 200 ]]
 then
-  echo "[ALLOW] viaggi.user-$PARTICIPANTID-prod-travel-portal --> cars.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> cars.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] viaggi.user-$PARTICIPANTID-prod-travel-portal --> cars.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] viaggi.$PARTICIPANTID-prod-travel-portal --> cars.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
 sleep 3
-flights=$(oc -n user-$PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
+flights=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
 sleep 5
 if [[ flights -eq 200 ]]
 then
-  echo "[ALLOW] viaggi.user-$PARTICIPANTID-prod-travel-portal --> flights.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> flights.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] viaggi.user-$PARTICIPANTID-prod-travel-portal --> flights.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] viaggi.$PARTICIPANTID-prod-travel-portal --> flights.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
 sleep 3
-insurances=$(oc -n user-$PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
+insurances=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
 sleep 5
 if [[ insurances -eq 200 ]]
 then
-  echo "[ALLOW] viaggi.user-$PARTICIPANTID-prod-travel-portal --> insurances.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> insurances.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] viaggi.user-$PARTICIPANTID-prod-travel-portal --> insurances.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] viaggi.$PARTICIPANTID-prod-travel-portal --> insurances.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-portal | grep viaggi | awk '{print $1}')
 #echo $podname
 sleep 3
-hotels=$(oc -n user-$PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
+hotels=$(oc -n $PARTICIPANTID-prod-travel-portal -c control exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
 sleep 5
 if [[ hotels -eq 200 ]]
 then
-  echo "[ALLOW] viaggi.user-$PARTICIPANTID-prod-travel-portal --> hotels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] viaggi.$PARTICIPANTID-prod-travel-portal --> hotels.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] viaggi.user-$PARTICIPANTID-prod-travel-portal --> hotels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] viaggi.$PARTICIPANTID-prod-travel-portal --> hotels.$PARTICIPANTID-prod-travel-agency"
 fi
 
 
 echo
-echo "Authorization user-$PARTICIPANTID-prod-travel-agency --> user-$PARTICIPANTID-prod-travel-agency"
+echo "Authorization $PARTICIPANTID-prod-travel-agency --> $PARTICIPANTID-prod-travel-agency"
 echo "-------------------------------------------------------------------"
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
 sleep 3
-travels=$(oc -n user-$PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
+travels=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET travels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/travels/Tallinn)
 #echo travels
 sleep 5
 if [[ travels -eq 200 ]]
 then
-  echo "[ALLOW] travels.user-$PARTICIPANTID-prod-travel-portal --> discounts.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> discounts.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] travels.user-$PARTICIPANTID-prod-travel-portal --> discounts.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] travels.$PARTICIPANTID-prod-travel-portal --> discounts.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
 sleep 3
-cars=$(oc -n user-$PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
+cars=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET cars.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/cars/Tallinn)
 #echo cars
 sleep 5
 if [[ cars -eq 200 ]]
 then
-  echo "[ALLOW] travels.user-$PARTICIPANTID-prod-travel-portal --> cars.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> cars.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] travels.user-$PARTICIPANTID-prod-travel-portal --> cars.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] travels.$PARTICIPANTID-prod-travel-portal --> cars.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
 sleep 3
-flights=$(oc -n user-$PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
+flights=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET flights.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/flights/Tallinn)
 #echo flights
 sleep 5
 if [[ flights -eq 200 ]]
 then
-  echo "[ALLOW] travels.user-$PARTICIPANTID-prod-travel-portal --> flights.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> flights.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] travelsuser-$PARTICIPANTID-.prod-travel-portal --> flights.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] travels$PARTICIPANTID-.prod-travel-portal --> flights.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
 sleep 3
-insurances=$(oc -n user-$PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
+insurances=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET insurances.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/insurances/Tallinn)
 #echo insurances
 sleep 5
 if [[ insurances -eq 200 ]]
 then
-  echo "[ALLOW] travels.user-$PARTICIPANTID-prod-travel-portal --> insurances.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> insurances.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] travels.user-$PARTICIPANTID-prod-travel-portal --> insurances.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] travels.$PARTICIPANTID-prod-travel-portal --> insurances.$PARTICIPANTID-prod-travel-agency"
 fi
 
-podname=$(oc get pods -n user-$PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
+podname=$(oc get pods -n $PARTICIPANTID-prod-travel-agency | grep travels | awk '{print $1}')
 #echo $podname
 sleep 3
-hotels=$(oc -n user-$PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.user-$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
+hotels=$(oc -n $PARTICIPANTID-prod-travel-agency -c travels exec $podname -- curl -s -o /dev/null -w "%{http_code}" -X GET hotels.$PARTICIPANTID-prod-travel-agency.svc.cluster.local:8000/hotels/Tallinn)
 #echo $hotels
 sleep 5
 if [[ hotels -eq 200 ]]
 then
-  echo "[ALLOW] travels.user-$PARTICIPANTID-prod-travel-portal --> hotels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[ALLOW] travels.$PARTICIPANTID-prod-travel-portal --> hotels.$PARTICIPANTID-prod-travel-agency"
 else
-  echo "[DENY] travels.user-$PARTICIPANTID-prod-travel-portal --> hotels.user-$PARTICIPANTID-prod-travel-agency"
+  echo "[DENY] travels.$PARTICIPANTID-prod-travel-portal --> hotels.$PARTICIPANTID-prod-travel-agency"
 fi
