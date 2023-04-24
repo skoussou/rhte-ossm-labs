@@ -334,7 +334,193 @@ oc delete peerauthentication cars-mtls-disable -n $LAB_PARTICIPANT_ID-prod-trave
 
 == Task 4 (Optional): Use a custom Certificate Authority (CA)
 
-In the Handbook
+=== Step 1 - Create a custom CA and Intermediate CA Cert
+
+Firstly you will create a custom CA and then with it an Intermediate CA (normally these will be provided).
+
+* You must be in the directory of *_lab-5_* and provide to the following script the full path for this directory in your local system
++
+./create-corporate-intermediate-certs.sh /<YOUR-PATH>/lab-5
+
+* In the verification parts. Verify that:
+** a) The 2 `openssl.cnf` files have been created correctly with *`dir`* variable the path you provided:
+** b) `4a-index.txt` has content
++
+----
+V	330421081250Z		1000	unknown	/C=GB/ST=England/O=Travel Agency Ltd/OU=Intermmediate Certificate Authority/CN=www.travelagency.com/emailAddress=ca@www.travelagency.com
+----
+** c) _Verify the intermediate certificate_ has
+*** Issuer the custom _Certificate Authority_:
++
+----
+Issuer: C = GB, ST = England, L = London, O = Travel Agency Ltd, OU = Certificate Authority, CN = www.travelagency.com, emailAddress = ca@www.travelagency.com
+----
+*** Subject is the _Intermediate Certificate Authority_:
++
+----
+Subject: C = GB, ST = England, O = Travel Agency Ltd, OU = Intermediate Certificate Authority, CN = www.travelagency.com, emailAddress = ca@www.travelagency.com
+----
+
+=== Step 2 - Verify the current controlplane and dataplane used certificates
+
+The current _controlplane_ and _dataplane_ certificates should be are issued by `Issuer: O = cluster.local`. Verify this with the following commands:
+
+* Check the issuer of the default service mesh certificate (it should be something like `Issuer: O = cluster.local`)
++
+----
+./login-as.sh emma
+oc get -o yaml secret istio-ca-secret -n $LAB_PARTICIPANT_ID-prod-istio-system | grep ca-cert | awk '{print $2}' | base64 -d | openssl x509 -noout -text
+----
+
+* Check the certificates used in the communication with `istiod`, the Issuer is again `Issuer=O = cluster.local`
++
+----
+oc exec "$(oc get pod -l app=istio-ingressgateway -n $LAB_PARTICIPANT_ID-prod-istio-system -o jsonpath={.items..metadata.name} | awk '{print $1}')" -c istio-proxy -n $LAB_PARTICIPANT_ID-prod-istio-system -- openssl s_client -showcerts -connect $(oc get svc istiod-$LAB_PARTICIPANT_ID-production -o jsonpath={.spec.clusterIP}):15012
+----
+
+* Checking the certificates used in the POD to POD communications, the Issuer is again `Issuer=O = cluster.local`
++
+----
+oc exec "$(oc get pod -l app=travels -n $LAB_PARTICIPANT_ID-prod-travel-agency -o jsonpath={.items..metadata.name})" -c istio-proxy -n $LAB_PARTICIPANT_ID-prod-travel-agency -- openssl s_client -showcerts -connect $(oc -n $LAB_PARTICIPANT_ID-prod-travel-agency get svc cars -o jsonpath={.spec.clusterIP}):8000
+----
+
+=== Step 3: Modify the `production` SMCP tenant to use the corporate based CA, Intermediate CA and chain certificates
+
+The link:https://docs.openshift.com/container-platform/4.12/service_mesh/v2x/ossm-security.html#ossm-cert-manage-add-cert-key_ossm-security[documentation] instructs to create a secret named `cacert` that includes the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`. Based on the files you generated the equivalent are:
+
+* `intermediate.cert.pem` (`ca-cert.pem`). the certificate for the intermediate ca
+* `intermediate.key.pem` (`ca-key.pem`). the key for the intermediate ca certificate
+* `ca.cert.pem` (`root-cert.pem`): the root ca certificate
+* `ca-chain.cert.pem` (`cert-chain.pem`)the certificate chain that includes both certificates
++
+----
+oc create secret generic cacerts -n $LAB_PARTICIPANT_ID-prod-istio-system \
+--from-file=ca-cert.pem=certs-resources/intermediate/certs/intermediate.cert.pem \
+--from-file=ca-key.pem=certs-resources/intermediate/private/intermediate.key.pem \
+--from-file=root-cert.pem=certs-resources/certs/ca.cert.pem \
+--from-file=cert-chain.pem=certs-resources/intermediate/certs/ca-chain.cert.pem
+----
+
+* Remove the `istio-system-ca` secret created as default CA by OSSM as we have found it interferes with the istiod correctly picking the enterprise certificates from the newly created `cacerts` secret
++
+----
+oc get  secret istio-ca-secret -n $LAB_PARTICIPANT_ID-prod-istio-system -o yaml > istio-ca-secret-default.yaml
+oc delete secret istio-ca-secret -n $LAB_PARTICIPANT_ID-prod-istio-system
+----
+
+* Logged in as `Mesh Operator` (credentials `emma`\`emma`) add to the `ServiceMeshControlPlane` resource `production` under `certificateAuthority` field as shown in the following example. Service Mesh reads the certificates and key from the secret-mount files.
++
+----
+./login-as.sh emma
+oc edit smcp/$LAB_PARTICIPANT_ID-production -n $LAB_PARTICIPANT_ID-prod-istio-system
+
+# Add in production SMCP under the existing _security_ section the followng:
+
+  security:
+    certificateAuthority:
+      type: Istiod
+      istiod:
+        type: PrivateKey
+        privateKey:
+          rootCADir: /etc/cacerts
+----
+
+* Restart _controlplane_ and _dataplane_ resources to force new certificate utilization
+** After adding the corporate the certificates, the control plane istiod and gateway pods must be restarted so the changes go into effect. Use the following command to restart the pods(The Operator will automatically recreate the pods after they have been deleted):
++
+----
+oc -n $LAB_PARTICIPANT_ID-prod-istio-system delete pods -l 'app in (istiod,istio-ingressgateway, istio-egressgateway,gto-$LAB_PARTICIPANT_ID-ingressgateway)'
+oc -n $LAB_PARTICIPANT_ID-prod-istio-system get -w pods
+----
+** Restart the _dataplane_ pods to expedite the sidecar proxies picking up the secret changes.
+
+    oc -n $LAB_PARTICIPANT_ID-prod-travel-control delete pods --all
+    oc -n $LAB_PARTICIPANT_ID-prod-travel-agency delete pods --all
+    oc -n $LAB_PARTICIPANT_ID-prod-travel-portal delete pods --all
+
+
+* Finally, perform some verifications of the new certificates being in effect
+** Identify the `cacerts` Issuer (it should be `Issuer: C = GB, ST = England, L = London, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Root CA`)
++
+----
+oc get -o yaml secret cacerts -n prod-istio-system | grep ca-cert | awk '{print $2}' | base64 -d | openssl x509 -noout -text
+----
+** Verify the _dataplane_ communications are secured with the new corporate certificates
++
+----
+./login-as.sh emma
+./verify-dataplane-certs.sh $LAB_PARTICIPANT_ID
+
+
+###########################
+ CERTS CHECK ON DATAPLANE
+###########################
+
+1. Sleep 20 seconds for the mTLS policy to take effect before retrieving the certificate chain of cars POD. As the CA certificate used in this example is self-signed, the verify error:num=19:self signed certificate in certificate chain error returned by the openssl command is expected.
+------------------------------------------------------
+Can't use SSL_get_servername
+depth=2 C = GB, ST = England, L = London, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Root CA
+verify error:num=19:self signed certificate in certificate chain
+verify return:1
+depth=2 C = GB, ST = England, L = London, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Root CA
+verify return:1
+depth=1 C = GB, ST = England, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Intermediate CA
+verify return:1
+depth=0
+verify return:1
+DONE
+
+
+2. Parse the certificates on the certificate chain.
+------------------------------------------------------
+
+3. Verify the root certificate used in the POD handshake is the same as the one specified by the OSSM administrator:
+------------------------------------------------------
+Files /tmp/root-cert.crt.txt and /tmp/pod-root-cert.crt.txt are identical
+
+4. Verify the Intermediate CA certificate used in the POD handshake is the same as the one specified by the OSSM administrator:
+------------------------------------------------------
+Files /tmp/ca-cert.crt.txt and /tmp/pod-cert-chain-ca.crt.txt are identical
+
+5. Verify the certificate chain from the root certificate to the workload certificate:
+------------------------------------------------------
+./proxy-cert-1.pem: OK
+----
+** Verify the _controlplane_ communications are secured with the new corporate certificates
++
+----
+./verify-controlplane-certs.sh $LAB_PARTICIPANT_ID
+
+
+###########################
+CERTS CHECK ON CONTROLPLANE
+###########################
+
+1. Get the ceritificates used between istio-ingressgateway and istiod
+Can't use SSL_get_servername
+depth=2 C = GB, ST = England, L = London, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Root CA
+verify error:num=19:self signed certificate in certificate chain
+verify return:1
+depth=2 C = GB, ST = England, L = London, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Root CA
+verify return:1
+depth=1 C = GB, ST = England, O = Travel Agency Ltd, OU = Travel Agency Ltd Certificate Authority, CN = Travel Agency Ltd Intermediate CA
+verify return:1
+depth=0
+verify return:1
+DONE
+
+2. Verify the root certificate used in the istiod handshake is the same as the one specified by the OSSM administrator:
+------------------------------------------------------
+Files /tmp/root-cert.crt.txt and /tmp/pod-root-cp-cert.crt.txt are identical
+
+4. Verify the Intermediate CA certificate used in the istiod handshake is the same as the one specified by the OSSM administrator:
+------------------------------------------------------
+Files /tmp/ca-cert.crt.txt and /tmp/pod-cert-cp-chain-ca.crt.txt are identical
+
+5. Verify the certificate chain from the root certificate to the workload certificate:
+------------------------------------------------------
+./proxy-cp-cert-1.pem: OK
+----
 
 == Next Steps
 
